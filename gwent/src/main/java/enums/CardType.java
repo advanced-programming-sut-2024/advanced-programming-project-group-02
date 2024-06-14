@@ -1,6 +1,10 @@
 package enums;
 
 public enum CardType {
-
-    specialCard , unit ;
+    Spell,
+    CloseCombatUnit,
+    RangedUnit,
+    SiegeUnit,
+    AgileUnit,
+    Weather
 }

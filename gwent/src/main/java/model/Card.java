@@ -3,28 +3,33 @@ package model;
 import enums.Ability;
 import enums.CardType;
 import enums.Place;
+import javafx.scene.image.Image;
 
 import java.util.ArrayList;
 
 public class Card {
     private static ArrayList<Card> cards = new ArrayList<>();
+    private String name;
     private int ID;
     private int power;
     private int countOfCard;
     private boolean isHero;
-    private Ability ability;
+    private ArrayList<Ability> abilities;
     private CardType cardType;
     private Place place;
+    private Image image;
 
-    public Card(int ID, int power, int countOfCard, boolean isHero, Ability ability, CardType cardType, Place place) {
+    public Card(String name, int ID, int power, int countOfCard, boolean isHero, ArrayList<Ability> abilities, CardType cardType, Place place, Image image) {
         cards.add(this);
+        this.name = name;
         this.ID = ID;
         this.power = power;
         this.countOfCard = countOfCard;
         this.isHero = isHero;
-        this.ability = ability;
+        this.abilities = abilities;
         this.cardType = cardType;
         this.place = place;
+        this.image = image;
     }
 
     public static ArrayList<Card> getCards() {
@@ -47,8 +52,8 @@ public class Card {
         return isHero;
     }
 
-    public Ability getAbility() {
-        return ability;
+    public ArrayList<Ability> getAbility() {
+        return abilities;
     }
 
     public CardType getCardType() {
@@ -62,6 +67,8 @@ public class Card {
     public static void addToCards(Card card) {
         cards.add(card);
     }
+
+    public Image getImage() {return image;}
 
 //    @Override
 //    public String toString() {
