@@ -27,7 +27,7 @@
             <Accordion layoutX="106.0" layoutY="215.0" />
             <TitledPane layoutX="298.0" layoutY="275.0" prefHeight="71.0" prefWidth="200.0" text="Don't have an account?">
                <content>
-                  <Button alignment="CENTER" mnemonicParsing="false" style="-fx-background-color: #bbbec9;" text="Register now!" textAlignment="CENTER" textFill="#328f8b" />
+                  <Button alignment="CENTER" mnemonicParsing="false" style="-fx-background-color: #bbbec9;" text="Register now!" textAlignment="CENTER" textFill="#328f8b" onMouseClicked="#goToRegisterMenu" />
                </content>
             </TitledPane>
          </children>

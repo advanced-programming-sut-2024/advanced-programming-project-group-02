@@ -8,7 +8,9 @@ public class User {
     private static ArrayList<Game> games = new ArrayList<>();
     private static User loggedInUser;
     private HashMap<Card, Integer> deck = new HashMap<>();
-    private Question question = new Question();
+    private String Answer;
+    private int AnswerNumber;
+
     private Faction faction;
     private Card leader;
     private String username;
@@ -36,6 +38,22 @@ public class User {
             if (user.getUsername().equals(name)) return true;
         }
         return false;
+    }
+
+    public int getAnswerNumber() {
+        return AnswerNumber;
+    }
+
+    public void setAnswerNumber(int answerNumber) {
+        AnswerNumber = answerNumber;
+    }
+
+    public String getAnswer() {
+        return Answer;
+    }
+
+    public void setAnswer(String answer) {
+        Answer = answer;
     }
 
     public static User getUserWithName(String name) {
@@ -128,14 +146,6 @@ public class User {
 
     public void setDeck(HashMap<Card, Integer> deck) {
         this.deck = deck;
-    }
-
-    public Question getQuestion() {
-        return question;
-    }
-
-    public void setQuestion(Question question) {
-        this.question = question;
     }
 
     public Faction getFaction() {
