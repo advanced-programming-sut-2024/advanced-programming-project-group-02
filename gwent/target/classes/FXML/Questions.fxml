@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="450.0" prefWidth="780.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.QuestionsController">
+    <children>
+        <AnchorPane prefHeight="450.0" prefWidth="780.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <ImageView fitHeight="450.0" fitWidth="780.0">
+                    <image>
+                        <Image url="@../images/MenusBackground.jpg" />
+                    </image>
+                </ImageView>
+                <TextField fx:id="answerField" layoutX="315.0" layoutY="150.0" promptText="Answer" />
+                <Button layoutX="372.0" layoutY="214.0" onMouseClicked="#handleSubmit" text="Submit" />
+              <ComboBox fx:id="questionsComboBox" layoutX="253.0" layoutY="229.0" />
+            </children>
+        </AnchorPane>
+        <Label layoutX="188.0" layoutY="99.0" text="Security Questions" />
+    </children>
+</AnchorPane>
