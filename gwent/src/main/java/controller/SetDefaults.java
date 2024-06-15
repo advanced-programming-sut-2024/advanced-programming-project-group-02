@@ -238,6 +238,115 @@ public class SetDefaults {
                 true, abilities, CardType.CloseCombatUnit, Place.closeCombat,
                 new Image(SetDefaults.class.getResourceAsStream("images/cards/scoiatael/scoiatael_isengrim.jpg")));
         abilities.clear();
+
+
+
+
+
+        new Card("Ballista", 301, 6, 2,
+                false, abilities, CardType.SiegeUnit, Place.siege,
+                new Image(SetDefaults.class.getResourceAsStream("images/cards/northernRealms/realms_ballista.jpg")));
+
+        abilities.add(Ability.TightBond);
+        new Card("Catapult", 302, 8, 2,
+                false, abilities, CardType.SiegeUnit, Place.siege,
+                new Image(SetDefaults.class.getResourceAsStream("images/cards/northernRealms/realms_catapult.jpg")));
+        abilities.clear();
+
+        abilities.add(Ability.TightBond);
+        new Card("DragonHunter", 303, 5, 3,
+                false, abilities, CardType.RangedUnit, Place.rangedCombat,
+                new Image(SetDefaults.class.getResourceAsStream("images/cards/northernRealms/realms_dragon_hunter.jpg")));
+        abilities.clear();
+
+        abilities.add(Ability.Medic);
+        new Card("DunBannerMedic", 304, 5, 1,
+                false, abilities, CardType.SiegeUnit, Place.siege,
+                new Image(SetDefaults.class.getResourceAsStream("images/cards/northernRealms/realms_dun_banner_medic.jpg")));
+        abilities.clear();
+
+        abilities.add(Ability.Hero);
+        new Card("esteradThyssen", 305, 10, 1,
+                true, abilities, CardType.CloseCombatUnit, Place.closeCombat,
+                new Image(SetDefaults.class.getResourceAsStream("images/cards/northernRealms/realms_esterad.jpg")));
+        abilities.clear();
+
+        abilities.add(Ability.Hero);
+        new Card("JohnNatalis", 306, 10, 1,
+                true, abilities, CardType.CloseCombatUnit, Place.closeCombat,
+                new Image(SetDefaults.class.getResourceAsStream("images/cards/northernRealms/realms_natalis.jpg")));
+        abilities.clear();
+
+        abilities.add(Ability.MoralBoost);
+        new Card("KaedweniSiegeExpert", 307, 1, 3,
+                false, abilities, CardType.SiegeUnit, Place.siege,
+                new Image(SetDefaults.class.getResourceAsStream("images/cards/northernRealms/realms_kaedwen_siege.jpg")));
+        abilities.clear();
+
+        abilities.add(Ability.Hero);
+        new Card("PhillipaEirhart", 308, 10, 1,
+                true, abilities, CardType.RangedUnit, Place.rangedCombat,
+                new Image(SetDefaults.class.getResourceAsStream("images/cards/northernRealms/realms_philippa.jpg")));
+        abilities.clear();
+
+        abilities.add(Ability.TightBond);
+        new Card("PoorFuckingInfantry", 309, 1, 4,
+                false, abilities, CardType.CloseCombatUnit, Place.closeCombat,
+                new Image(SetDefaults.class.getResourceAsStream("images/cards/northernRealms/realms_poor_infantry.jpg")));
+        abilities.clear();
+
+        abilities.add(Ability.Spy);
+        new Card("PrinceStennis", 310, 5, 1,
+                false, abilities, CardType.CloseCombatUnit, Place.closeCombat,
+                new Image(SetDefaults.class.getResourceAsStream("images/cards/northernRealms/realms_stennis.jpg")));
+        abilities.clear();
+
+        new Card("RedanianFootSoldier", 311, 1, 2,
+                false, abilities, CardType.CloseCombatUnit, Place.closeCombat,
+                new Image(SetDefaults.class.getResourceAsStream("images/cards/northernRealms/realms_redania.jpg")));
+
+        new Card("SabrinaGlevissing", 312, 4, 1,
+                false, abilities, CardType.RangedUnit, Place.rangedCombat,
+                new Image(SetDefaults.class.getResourceAsStream("images/cards/northernRealms/realms_sabrina.jpg")));
+
+        new Card("SiegeTower", 313, 6, 1,
+                false, abilities, CardType.SiegeUnit, Place.siege,
+                new Image(SetDefaults.class.getResourceAsStream("images/cards/northernRealms/realms_siege_tower.jpg")));
+
+        new Card("SiegfriedOfDenesle", 314, 5, 1,
+                false, abilities, CardType.CloseCombatUnit, Place.closeCombat,
+                new Image(SetDefaults.class.getResourceAsStream("images/cards/northernRealms/realms_siegfried.jpg")));
+
+        abilities.add(Ability.Spy);
+        new Card("SigismundDijkstra", 315, 4, 1,
+                false, abilities, CardType.CloseCombatUnit, Place.closeCombat,
+                new Image(SetDefaults.class.getResourceAsStream("images/cards/northernRealms/realms_dijkstra.jpg")));
+        abilities.clear();
+
+        new Card("SileDeTansarville", 316, 5, 1,
+                false, abilities, CardType.RangedUnit, Place.rangedCombat,
+                new Image(SetDefaults.class.getResourceAsStream("images/cards/northernRealms/realms_sile_de_tansarville.jpg")));
+
+        abilities.add(Ability.Spy);
+        new Card("Thaler", 317, 1, 1,
+                false, abilities, CardType.SiegeUnit, Place.siege,
+                new Image(SetDefaults.class.getResourceAsStream("images/cards/northernRealms/realms_thaler.jpg")));
+        abilities.clear();
+
+        abilities.add(Ability.Hero);
+        new Card("VernonRoche", 318, 10, 1,
+                true, abilities, CardType.CloseCombatUnit, Place.closeCombat,
+                new Image(SetDefaults.class.getResourceAsStream("images/cards/northernRealms/realms_vernon.jpg")));
+        abilities.clear();
+
+        new Card("Ves", 319, 5, 1,
+                false, abilities, CardType.RangedUnit, Place.rangedCombat,
+                new Image(SetDefaults.class.getResourceAsStream("images/cards/northernRealms/realms_ves.jpg")));
+
+        new Card("YarpenZirgrin", 320, 2, 1,
+                false, abilities, CardType.RangedUnit, Place.rangedCombat,
+                new Image(SetDefaults.class.getResourceAsStream("images/cards/northernRealms/realms_yarpen.jpg")));
+
     }
 
     public static void setFaction () {
