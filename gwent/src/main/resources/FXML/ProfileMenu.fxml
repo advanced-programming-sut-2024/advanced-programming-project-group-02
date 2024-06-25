@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.image.Image?>
-<AnchorPane prefHeight="450.0" prefWidth="780.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ProfileMenuController">
+<AnchorPane prefHeight="450.0" prefWidth="780.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ProfileMenuController">
     <children>
         <AnchorPane prefHeight="450.0" prefWidth="780.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
@@ -17,6 +14,11 @@
                         <Image url="@../images/MenusBackground.jpg" />
                     </image>
                 </ImageView>
+                <Label contentDisplay="CENTER" layoutX="307.0" layoutY="68.0" text="Profile Menu" textFill="WHITE">
+                    <font>
+                        <Font name="Copperplate Gothic Bold" size="22.0" />
+                    </font>
+                </Label>
             </children>
         </AnchorPane>
     </children>

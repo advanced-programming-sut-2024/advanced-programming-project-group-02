@@ -9,7 +9,8 @@ import javafx.stage.Stage;
 
 import java.util.Objects;
 
-public class LoginMenu extends Application {
+public class
+LoginMenu extends Application {
     public static Stage stage;
 
     @Override

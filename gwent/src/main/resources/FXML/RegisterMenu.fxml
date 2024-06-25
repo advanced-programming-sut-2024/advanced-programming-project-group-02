@@ -3,6 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <AnchorPane prefHeight="450.0" prefWidth="780.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginRegisterMenuController">
     <children>
@@ -13,35 +14,25 @@
                         <Image url="@../images/MenusBackground.jpg" />
                     </image>
                 </ImageView>
-                <CheckBox layoutX="127.0" layoutY="389.0" mnemonicParsing="false" text="I'm not robot" textFill="WHITE" />
-                <Button layoutX="143.0" layoutY="418.0" mnemonicParsing="false" onMouseClicked="#registerUser" text="Register" />
+                <CheckBox layoutX="337.0" layoutY="356.0" mnemonicParsing="false" text="I'm not robot" textFill="WHITE" />
+                <Button layoutX="356.0" layoutY="384.0" mnemonicParsing="false" onMouseClicked="#registerUser" text="Next" />
+                <Button layoutX="397.0" layoutY="172.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="175.0" text="Give me a random password" />
+                <TextField alignment="CENTER" layoutX="177.0" layoutY="147.0" prefHeight="25.0" prefWidth="189.0" promptText="username" />
+                <TextField alignment="CENTER" layoutX="390.0" layoutY="291.0" prefHeight="25.0" prefWidth="189.0" promptText="passwordConfirm" />
+                <Label layoutX="414.0" layoutY="272.0" text="Enter your password again" textFill="WHITE" />
+                <PasswordField alignment="CENTER" layoutX="390.0" layoutY="224.0" prefHeight="25.0" prefWidth="189.0" promptText="password" />
+                <Label layoutX="430.0" layoutY="205.0" text="Enter your password" textFill="WHITE" />
+                <TextField alignment="CENTER" layoutX="177.0" layoutY="291.0" prefHeight="25.0" prefWidth="189.0" promptText="email address" />
+                <Label layoutX="206.0" layoutY="272.0" text="Enter your email address" textFill="WHITE" />
+                <TextField alignment="CENTER" layoutX="177.0" layoutY="224.0" prefHeight="25.0" prefWidth="189.0" promptText="nickname" />
+                <Label layoutX="213.0" layoutY="126.0" text="Enter your username" textAlignment="CENTER" textFill="WHITE" />
+                <Label layoutX="217.0" layoutY="207.0" text="Enter your nickname" textFill="WHITE" />
+                <Label layoutX="274.0" layoutY="66.0" text="Registration Form" textFill="WHITE">
+                    <font>
+                        <Font name="Copperplate Gothic Bold" size="22.0" />
+                    </font>
+                </Label>
             </children>
         </AnchorPane>
-                <Label layoutX="112.0" layoutY="32.0" text="Enter your username" textAlignment="CENTER" textFill="WHITE" />
-                <TextField alignment="CENTER" layoutX="72.0" layoutY="57.0" prefHeight="25.0" prefWidth="189.0" promptText="username" />
-                <Label layoutX="112.0" layoutY="96.0" text="Enter your nickname" textFill="WHITE" />
-                <TextField alignment="CENTER" layoutX="72.0" layoutY="119.0" prefHeight="25.0" prefWidth="189.0" promptText="nickname" />
-                <Label layoutX="101.0" layoutY="161.0" text="Enter your email address" textFill="WHITE" />
-                <TextField alignment="CENTER" layoutX="72.0" layoutY="184.0" prefHeight="25.0" prefWidth="189.0" promptText="email address" />
-                <Label layoutX="112.0" layoutY="256.0" text="Enter your password" textFill="WHITE" />
-                <PasswordField alignment="CENTER" layoutX="73.0" layoutY="279.0" prefHeight="25.0" prefWidth="189.0" promptText="password" />
-                <Label layoutX="97.0" layoutY="311.0" text="Enter your password again" textFill="WHITE" />
-                <TextField alignment="CENTER" layoutX="73.0" layoutY="331.0" prefHeight="25.0" prefWidth="189.0" promptText="passwordConfirm" />
-<!--                <Label text="Security Questions"/>-->
-<!--                <GridPane hgap="10" vgap="10">-->
-<!--                    &lt;!&ndash; 6 سوال امنیتی &ndash;&gt;-->
-<!--                    <CheckBox text="What is your pet's name?" fx:id="question1"/>-->
-<!--                    <TextField fx:id="answer1" GridPane.columnIndex="1"/>-->
-<!--                    <CheckBox text="What is your mother's maiden name?" fx:id="question2"/>-->
-<!--                    <TextField fx:id="answer2" GridPane.columnIndex="1"/>-->
-<!--                    <CheckBox text="What was your first car?" fx:id="question3"/>-->
-<!--                    <TextField fx:id="answer3" GridPane.columnIndex="1"/>-->
-<!--                    <CheckBox text="Where were you born?" fx:id="question4"/>-->
-<!--                    <TextField fx:id="answer4" GridPane.columnIndex="1"/>-->
-<!--                    <CheckBox text="What is your favorite book?" fx:id="question5"/>-->
-<!--                    <TextField fx:id="answer5" GridPane.columnIndex="1"/>-->
-<!--                    <CheckBox text="Who was your first employer?" fx:id="question6"/>-->
-<!--                    <TextField fx:id="answer6" GridPane.columnIndex="1"/>-->
-<!--                </GridPane>-->
-        </children>
-    </AnchorPane>
+    </children>
+</AnchorPane>

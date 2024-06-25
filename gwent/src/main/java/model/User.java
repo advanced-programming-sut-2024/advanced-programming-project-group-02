@@ -8,6 +8,7 @@ public class User {
     private static ArrayList<Game> games = new ArrayList<>();
     private static User loggedInUser;
     private HashMap<Card, Integer> deck = new HashMap<>();
+    //two line for questions
     private String Answer;
     private int AnswerNumber;
 
