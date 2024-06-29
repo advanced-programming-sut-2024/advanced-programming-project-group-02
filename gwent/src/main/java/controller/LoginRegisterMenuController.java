@@ -68,11 +68,11 @@ public class LoginRegisterMenuController {
     private static final int MIN_PASSWORD_LENGTH = 8;
     private static final SecureRandom random = new SecureRandom();
 
+    @FXML
+
+
     private static Matcher getCommandMatcher(String input, String regex) {
         return (Pattern.compile(regex).matcher(input));
-    }
-
-    public static void showCommands() {
     }
 
 
