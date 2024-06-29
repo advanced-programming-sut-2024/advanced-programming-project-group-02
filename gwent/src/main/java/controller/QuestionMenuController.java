@@ -8,12 +8,15 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
 import javafx.collections.FXCollections;
+import javafx.scene.input.MouseEvent;
 import model.User;
+import view.LoginMenu;
+import view.QuestionMenu;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class QuestionsController implements Initializable {
+public class QuestionMenuController implements Initializable {
 
     @FXML
     private ComboBox<String> questionsComboBox;
@@ -61,10 +64,11 @@ public class QuestionsController implements Initializable {
                 break;
         }
 
-        if (selectedQuestion == null &&  selectedQuestion.isEmpty() &&  answer.isEmpty()) {
+        if (selectedQuestion == null && selectedQuestion.isEmpty() && answer.isEmpty()) {
             showAlert("Error", "Please select a question and provide an answer.");
         } else {
             User user = User.getLoggedInUser();
+            user.setSelectedQuestion(selectedQuestion);
             user.setAnswerNumber(answerNumber);
             user.setAnswer(answer);
             // Add further processing as needed
@@ -77,5 +81,14 @@ public class QuestionsController implements Initializable {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    public void backToLoginFromQuestionMenu(MouseEvent mouseEvent) {
+        LoginMenu loginMenu = new LoginMenu();
+        try {
+            loginMenu.start(QuestionMenu.stage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
