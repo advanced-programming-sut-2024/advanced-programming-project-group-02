@@ -10,10 +10,7 @@ import java.util.HashMap;
 
 public class User {
 
-
-
     private static ArrayList<User> users = new ArrayList<>();
-
     private static ArrayList<Game> games = new ArrayList<>();
 
     private static User loggedInUser;
@@ -35,6 +32,7 @@ public class User {
     private String username;
 
     private String password;
+
 
     private String nickname;
 
@@ -62,22 +60,13 @@ public class User {
 
     private int maxScore;
 
-
-
     public User(String username, String password, String email, String nickname) {
-
         this.username = username;
 
         this.password = password;
 
         this.email = email;
-
         this.nickname = nickname;
-
-        //TODO
-
-        //default setting should be done
-
         users.add(this);
 
         loggedInUser = this;
@@ -107,56 +96,29 @@ public class User {
         currentGame = null;
 
     }
-
-
-
     public static ArrayList<User> getUsers() {
-
         return users;
-
     }
-
-
 
     public static void setUsers(ArrayList<User> users) {
-
         User.users = users;
-
     }
-
-
 
     public String getNickname() {
-
         return nickname;
-
     }
-
-
 
     public void setNickname(String nickname) {
-
         this.nickname = nickname;
-
     }
-
-
 
     public String getEmail() {
-
         return email;
-
     }
-
-
 
     public void setEmail(String email) {
-
         this.email = email;
-
     }
-
-
 
     public static boolean isThereUserWithName(String name) {
 
@@ -202,23 +164,13 @@ public class User {
 
     }
 
-
-
     public String getSelectedQuestion() {
-
         return selectedQuestion;
-
     }
-
-
 
     public void setSelectedQuestion(String selectedQuestion) {
-
         this.selectedQuestion = selectedQuestion;
-
     }
-
-
 
     public static User getUserWithName(String name) {
 
@@ -231,7 +183,6 @@ public class User {
         return null;
 
     }
-
 
 
     public static ArrayList<Game> getGames() {
@@ -632,26 +583,7 @@ public class User {
 
     }
 
-
-
     public static void addToUsers(User user){
-
         users.add(user);
-
     }
-
-
-
-    @Override
-
-    public String toString() {
-
-        //TODO
-
-        //uses for user info in profile menu
-
-        return "";
-
-    }
-
 }

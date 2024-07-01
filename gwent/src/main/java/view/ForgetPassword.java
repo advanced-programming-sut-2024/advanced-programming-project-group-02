@@ -11,6 +11,7 @@ import java.util.Objects;
 
 public class ForgetPassword extends Application {
     public static Stage stage;
+
     @Override
     public void start(Stage stage) throws Exception {
         ForgetPassword.stage = stage;
@@ -21,8 +22,8 @@ public class ForgetPassword extends Application {
         stage.getIcons().add(new Image((getClass().getResourceAsStream("/Images/GwentIcon.jpg"))));
         stage.show();
     }
+
     public static void main(String[] args) {
         launch(args);
     }
-
 }

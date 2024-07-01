@@ -15,16 +15,16 @@
                     </image>
                 </ImageView>
                 <CheckBox layoutX="337.0" layoutY="356.0" mnemonicParsing="false" text="I'm not robot" textFill="WHITE" />
-                <Button layoutX="356.0" layoutY="384.0" mnemonicParsing="false" onMouseClicked="#registerUser" text="Next" />
-                <Button layoutX="397.0" layoutY="172.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="175.0" text="Give me a random password" />
-                <TextField alignment="CENTER" layoutX="177.0" layoutY="147.0" prefHeight="25.0" prefWidth="189.0" promptText="username" />
-                <TextField alignment="CENTER" layoutX="390.0" layoutY="291.0" prefHeight="25.0" prefWidth="189.0" promptText="passwordConfirm" />
+                <Button layoutX="385.0" layoutY="384.0" mnemonicParsing="false" onMouseClicked="#registerUser" text="Next" textFill="#1e902d" />
+                <Button layoutX="397.0" layoutY="172.0" mnemonicParsing="false" onMouseClicked="#generateRandomPassword" prefHeight="17.0" prefWidth="175.0" text="Give me a random password" />
+                <TextField fx:id="username" alignment="CENTER" layoutX="177.0" layoutY="147.0" prefHeight="25.0" prefWidth="189.0" promptText="username" />
+                <PasswordField fx:id="passwordConfirm" alignment="CENTER" layoutX="390.0" layoutY="291.0" prefHeight="25.0" prefWidth="189.0" promptText="passwordConfirm" />
                 <Label layoutX="414.0" layoutY="272.0" text="Enter your password again" textFill="WHITE" />
-                <PasswordField alignment="CENTER" layoutX="390.0" layoutY="224.0" prefHeight="25.0" prefWidth="189.0" promptText="password" />
+                <PasswordField fx:id="password" alignment="CENTER" layoutX="390.0" layoutY="224.0" prefHeight="25.0" prefWidth="189.0" promptText="password" />
                 <Label layoutX="430.0" layoutY="205.0" text="Enter your password" textFill="WHITE" />
-                <TextField alignment="CENTER" layoutX="177.0" layoutY="291.0" prefHeight="25.0" prefWidth="189.0" promptText="email address" />
+                <TextField fx:id="email" alignment="CENTER" layoutX="177.0" layoutY="291.0" prefHeight="25.0" prefWidth="189.0" promptText="email address" />
                 <Label layoutX="206.0" layoutY="272.0" text="Enter your email address" textFill="WHITE" />
-                <TextField alignment="CENTER" layoutX="177.0" layoutY="224.0" prefHeight="25.0" prefWidth="189.0" promptText="nickname" />
+                <TextField fx:id="nickname" alignment="CENTER" layoutX="177.0" layoutY="224.0" prefHeight="25.0" prefWidth="189.0" promptText="nickname" />
                 <Label layoutX="213.0" layoutY="126.0" text="Enter your username" textAlignment="CENTER" textFill="WHITE" />
                 <Label layoutX="217.0" layoutY="207.0" text="Enter your nickname" textFill="WHITE" />
                 <Label layoutX="274.0" layoutY="66.0" text="Registration Form" textFill="WHITE">
@@ -32,6 +32,7 @@
                         <Font name="Copperplate Gothic Bold" size="22.0" />
                     </font>
                 </Label>
+            <Button layoutX="330.0" layoutY="384.0" mnemonicParsing="false" onMouseClicked="#backToLoginFromRegisterMenu" text="Back" textFill="#c60b0b"/>
             </children>
         </AnchorPane>
     </children>

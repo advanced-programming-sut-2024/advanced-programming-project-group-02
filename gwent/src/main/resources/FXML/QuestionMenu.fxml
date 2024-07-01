@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="450.0" prefWidth="780.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.QuestionsController">
+<AnchorPane prefHeight="450.0" prefWidth="780.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.QuestionMenuController">
     <children>
         <AnchorPane prefHeight="450.0" prefWidth="780.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
@@ -15,13 +15,14 @@
                     </image>
                 </ImageView>
                 <TextField fx:id="answerField" layoutX="318.0" layoutY="171.0" promptText="Answer" />
-                <Button layoutX="373.0" layoutY="225.0" onMouseClicked="#handleSubmit" text="Submit" />
+                <Button layoutX="401.0" layoutY="225.0" onMouseClicked="#handleSubmit" text="Submit" textFill="#299a23" />
               <ComboBox fx:id="questionsComboBox" layoutX="318.0" layoutY="136.0" prefHeight="25.0" prefWidth="149.0" promptText="Select a question" />
               <Label layoutX="273.0" layoutY="67.0" text="Security Questions" textFill="WHITE">
                <font>
                   <Font name="Copperplate Gothic Bold" size="22.0" />
                </font>
             </Label>
+            <Button layoutX="341.0" layoutY="225.0" mnemonicParsing="false" onMouseClicked="#backToLoginFromQuestionMenu" text="Back" textFill="#b51e1e" />
             </children>
         </AnchorPane>
     </children>
