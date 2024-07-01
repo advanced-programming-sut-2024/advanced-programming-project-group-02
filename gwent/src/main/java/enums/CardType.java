@@ -6,5 +6,6 @@ public enum CardType {
     RangedUnit,
     SiegeUnit,
     AgileUnit,
-    Weather
+    Weather,
+    Leader
 }

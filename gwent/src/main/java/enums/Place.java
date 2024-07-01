@@ -8,5 +8,6 @@ public enum Place {
     CSR,
     weatherPlace,
     MarCo,
-    board
+    board,
+    Leader
 }
