@@ -1,6 +1,7 @@
 package view;
 
 import controller.LoginRegisterMenuController;
+import controller.SetDefaults;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,6 +18,8 @@ LoginMenu extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         LoginRegisterMenuController.loadUsers();
+        SetDefaults.run();
+
         LoginMenu.stage = stage;
         Parent root = FXMLLoader.load((getClass().getResource("/FXML/LoginMenu.fxml")));
         Scene scene = new Scene(root);

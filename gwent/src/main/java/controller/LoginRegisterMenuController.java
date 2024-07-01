@@ -14,6 +14,10 @@ import java.security.SecureRandom;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import view.QuestionMenu;
+import view.ForgetPassword;
+
+
 
 public class LoginRegisterMenuController {
     // handle login and register and forgetPassword
@@ -63,11 +67,11 @@ public class LoginRegisterMenuController {
     public String generatedPassword = "#";
 
 
+    @FXML
+
+
     private static Matcher getCommandMatcher(String input, String regex) {
         return (Pattern.compile(regex).matcher(input));
-    }
-
-    public static void showCommands() {
     }
 
 

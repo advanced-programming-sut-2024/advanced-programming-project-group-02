@@ -1,5 +1,7 @@
 package model;
 
+import javafx.scene.image.Image;
+
 import java.util.ArrayList;
 
 public class Faction {
@@ -7,10 +9,12 @@ public class Faction {
     private String name;
     private ArrayList<Card> cards = new ArrayList<>();
     private ArrayList<Card> leaderCards = new ArrayList<>();
+    private Image image;
 
-    public Faction(String name) {
+    public Faction(String name, Image image) {
         this.name = name;
         factions.add(this);
+        this.image = image;
     }
 
     public static boolean isThereFactionWithName(String name) {
@@ -64,6 +68,10 @@ public class Faction {
 
     public void addToLeaderCards(Card card) {
         leaderCards.add(card);
+    }
+
+    public Image getImage() {
+        return image;
     }
 
     public static void showFactions() {

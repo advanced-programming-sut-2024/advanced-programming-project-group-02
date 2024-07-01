@@ -5,4 +5,5 @@ public enum Statement {
     Player2WonTheGame,
     Tie,
     Ongoing,
+    notStartedYet;
 }
