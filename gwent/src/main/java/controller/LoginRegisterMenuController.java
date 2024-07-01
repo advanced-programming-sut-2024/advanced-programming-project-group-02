@@ -63,11 +63,11 @@ public class LoginRegisterMenuController {
     public String generatedPassword = "#";
 
 
+    @FXML
+
+
     private static Matcher getCommandMatcher(String input, String regex) {
         return (Pattern.compile(regex).matcher(input));
-    }
-
-    public static void showCommands() {
     }
 
 
