@@ -27,13 +27,13 @@
         <Label layoutX="338.0" layoutY="259.0" text="Total cards in deck:" textFill="WHITE" />
         <Label fx:id="totalCardsInDeck" alignment="CENTER" layoutX="364.0" layoutY="277.0" prefHeight="0.0" prefWidth="50.0" text="0" textFill="WHITE" />
         <Label layoutX="331.0" layoutY="301.0" text="Number of unit cards:" textFill="WHITE" />
-        <Label fx:id="numberOfUnitCards" layoutX="385.0" layoutY="319.0" text="0" textFill="WHITE" />
+        <Label fx:id="numberOfUnitCards" alignment="CENTER" layoutX="385.0" layoutY="319.0" text="0" textFill="WHITE" />
         <Label alignment="CENTER" layoutX="354.0" layoutY="337.0" text="Special cards:" textFill="WHITE" />
         <Label fx:id="specialCards" alignment="CENTER" layoutX="385.0" layoutY="355.0" text="0" textFill="WHITE" />
         <Label layoutX="324.0" layoutY="373.0" text="Total unit cards strength:" textFill="WHITE" />
-        <Label fx:id="totalUnitCardsStrength" layoutX="385.0" layoutY="391.0" text="0" textFill="WHITE" />
+        <Label fx:id="totalUnitCardsStrength" alignment="CENTER" layoutX="385.0" layoutY="391.0" text="0" textFill="WHITE" />
         <Label layoutX="357.0" layoutY="409.0" text="Hero cards:" textFill="WHITE" />
-        <Label fx:id="heroCards" layoutX="385.0" layoutY="427.0" text="0" textFill="WHITE" />
+        <Label fx:id="heroCards" alignment="CENTER" layoutX="385.0" layoutY="427.0" text="0" textFill="WHITE" />
         <ImageView fitHeight="120.0" fitWidth="80.0" layoutX="349.0" layoutY="139.0">
             <image>
                 <Image url="@../images/cards/skellige/faction_skellige.jpg" />
@@ -41,7 +41,7 @@
         </ImageView>
         <VBox alignment="CENTER" layoutX="532.0" prefHeight="455.0" prefWidth="248.0" spacing="10">
             <children>
-                <ListView fx:id="selectedCardsListView" prefHeight="455.0" prefWidth="240.0" />
+                <ListView fx:id="userDeckListView" prefHeight="455.0" prefWidth="240.0" />
             </children>
         </VBox>
         <Button fx:id="downloadDeck" layoutX="258.0" layoutY="140.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="80.0" text="download deck">
@@ -54,7 +54,8 @@
                 <Font size="9.0" />
             </font>
         </Button>
-        <Button layoutX="446.0" layoutY="423.0" mnemonicParsing="false" text="start game" />
+        <Button fx:id="startGame" layoutX="446.0" layoutY="423.0" mnemonicParsing="false" text="start game" />
         <Label layoutX="258.0" layoutY="91.0" text="change faction:" textFill="WHITE" />
+      <Button fx:id="goToMainMenu" layoutX="258.0" layoutY="423.0" mnemonicParsing="false" text="Main Manu" />
     </AnchorPane>
 </AnchorPane>

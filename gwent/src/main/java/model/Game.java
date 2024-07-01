@@ -15,13 +15,12 @@ public class Game {
     private int turnNo;
     private int roundNo;
 
-    public Game(User player1, User player2, Date date, EachPlayerGame gamePlayer1, EachPlayerGame gamePlayer2) {
+    public Game(User player1, User player2, EachPlayerGame gamePlayer1, EachPlayerGame gamePlayer2) {
         this.player1 = player1;
         this.player2 = player2;
-        this.date = date;
         GamePlayer1 = gamePlayer1;
         GamePlayer2 = gamePlayer2;
-        this.statement = Statement.Ongoing;
+        this.statement = Statement.notStartedYet;
         this.activePlayer = player1;
         turnNo = 1;
         roundNo = 1;

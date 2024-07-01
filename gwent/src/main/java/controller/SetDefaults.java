@@ -8,6 +8,7 @@ import model.Card;
 import model.Faction;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class SetDefaults {
     public static void run() {
@@ -708,34 +709,38 @@ public class SetDefaults {
     }
 
     public static void setFaction() {
-        Faction skellige = new Faction("Skellige");
+        Faction skellige = new Faction("Skellige", new Image(SetDefaults.class.getResourceAsStream("/images/cards/skellige/faction_skellige.jpg")));
         for (Card card : Card.getCards()) {
             if ((card.getID() > 100 && card.getID() < 123) || (card.getID() > 600 && card.getID() < 616)) {
                 skellige.addToCards(card);
             }
         }
-        Faction scoiatael = new Faction("Scoia'tael");
+
+        Faction scoiatael = new Faction("Scoia'tael", new Image(SetDefaults.class.getResourceAsStream("/images/cards/scoiatael/faction_scoiatael.jpg")));
         for (Card card : Card.getCards()) {
-            if (card.getID() > 200 && card.getID() < 219 || (card.getID() > 600 && card.getID() < 616)) {
-                skellige.addToCards(card);
+            if ((card.getID() > 200 && card.getID() < 219) || (card.getID() > 600 && card.getID() < 616)) {
+                scoiatael.addToCards(card);
             }
         }
-        Faction northernRealms = new Faction("Northern Realms");
+
+        Faction northernRealms = new Faction("Northern Realms", new Image(SetDefaults.class.getResourceAsStream("/images/cards/northernRealms/faction_realms.jpg")));
         for (Card card : Card.getCards()) {
-            if (card.getID() > 300 && card.getID() < 320 || (card.getID() > 600 && card.getID() < 616)) {
-                skellige.addToCards(card);
+            if ((card.getID() > 300 && card.getID() < 320) || (card.getID() > 600 && card.getID() < 616)) {
+                northernRealms.addToCards(card);
             }
         }
-        Faction nilfgaard = new Faction("Nilfgaard");
+
+        Faction nilfgaard = new Faction("Nilfgaard", new Image(SetDefaults.class.getResourceAsStream("/images/cards/nilfgaard/faction_nilfgaard.jpg")));
         for (Card card : Card.getCards()) {
-            if (card.getID() > 400 && card.getID() < 425 || (card.getID() > 600 && card.getID() < 616)) {
-                skellige.addToCards(card);
+            if ((card.getID() > 400 && card.getID() < 425) || (card.getID() > 600 && card.getID() < 616)) {
+                nilfgaard.addToCards(card);
             }
         }
-        Faction monsters = new Faction("Monsters");
+
+        Faction monsters = new Faction("Monsters", new Image(SetDefaults.class.getResourceAsStream("/images/cards/monsters/faction_monsters.jpg")));
         for (Card card : Card.getCards()) {
-            if (card.getID() > 500 && card.getID() < 530 || (card.getID() > 600 && card.getID() < 616)) {
-                skellige.addToCards(card);
+            if ((card.getID() > 500 && card.getID() < 530) || (card.getID() > 600 && card.getID() < 616)) {
+                monsters.addToCards(card);
             }
         }
     }

@@ -69,4 +69,8 @@ public class Card {
     }
 
     public Image getImage() {return image;}
+
+    public boolean isSpecial() {
+        return this.getCardType().equals(CardType.Spell) || this.getCardType().equals(CardType.Weather);
+    }
 }

@@ -15,6 +15,7 @@ public class User {
     private Faction faction;
     private String username;
     private String password;
+    private Game currentGame;
     private int totalCardsInDeck;
     private int numberOfUnitCards;
     private int specialCards;
@@ -42,6 +43,7 @@ public class User {
         totalUnitCardsStrength = 0;
         heroCards = 0;
         maxScore = 0;
+        currentGame = null;
     }
 
     public static boolean isThereUserWithName(String name) {
@@ -106,20 +108,39 @@ public class User {
         //TODO
     }
 
-    public void showDeck() {
-        //TODO
+    public void addToDeck(Card card) {
+        int count = deck.getOrDefault(card, 0);
+        deck.put(card, count + 1);
+
+        totalCardsInDeck++;
+        if (card.isSpecial()) specialCards++;
+        else numberOfUnitCards++;
+        if (card.isHero()) heroCards++;
+        totalUnitCardsStrength += card.getPower();
     }
 
-    public void addToDeck(Card card, int countOfCard) {
-        //TODO
-    }
+    public void removeFromDeck(Card card) {
+        int count = deck.getOrDefault(card, 0);
+        if (count > 1) {
+            deck.put(card, count - 1);
+        } else {
+            deck.remove(card);
+        }
 
-    public void removeFromDeck(Card card, int countOfCard) {
-        //TODO
+        totalCardsInDeck--;
+        if (card.isSpecial()) specialCards--;
+        else numberOfUnitCards--;
+        if (card.isHero()) heroCards--;
+        totalUnitCardsStrength -= card.getPower();
     }
 
     public void clearDeck() {
-        //TODO
+        deck.clear();
+        totalCardsInDeck = 0;
+        numberOfUnitCards = 0;
+        specialCards = 0;
+        totalUnitCardsStrength = 0;
+        heroCards = 0;
     }
 
     public int calculateRank() {
@@ -171,72 +192,80 @@ public class User {
         return totalCardsInDeck;
     }
 
-    public void setTotalCardsInDeck(int totalCardsInDeck) {
-        this.totalCardsInDeck = totalCardsInDeck;
-    }
-
     public int getNumberOfUnitCards() {
         return numberOfUnitCards;
-    }
-
-    public void setNumberOfUnitCards(int numberOfUnitCards) {
-        this.numberOfUnitCards = numberOfUnitCards;
     }
 
     public int getSpecialCards() {
         return specialCards;
     }
 
-    public void setSpecialCards(int specialCards) {
-        this.specialCards = specialCards;
-    }
-
     public int getTotalUnitCardsStrength() {
         return totalUnitCardsStrength;
-    }
-
-    public void setTotalUnitCardsStrength(int totalUnitCardsStrength) {
-        this.totalUnitCardsStrength = totalUnitCardsStrength;
     }
 
     public int getHeroCards() {
         return heroCards;
     }
 
-    public void setHeroCards(int heroCards) {
-        this.heroCards = heroCards;
+    public Game getCurrentGame() {
+        return currentGame;
+    }
+
+    public void setCurrentGame(Game currentGame) {
+        this.currentGame = currentGame;
     }
 
     public int getNumberOfAllGames() {
         return numberOfAllGames;
     }
 
-    public void setNumberOfAllGames(int numberOfAllGames) {
-        this.numberOfAllGames = numberOfAllGames;
+    public void increaseNumberOfAllGames() {
+        numberOfAllGames++;
     }
 
     public int getNumberOfWonGames() {
         return numberOfWonGames;
     }
 
-    public void setNumberOfWonGames(int numberOfWonGames) {
-        this.numberOfWonGames = numberOfWonGames;
+    public void increaseNumberOfWonGames() {
+        numberOfWonGames++;
     }
 
     public int getNumberOfLostGames() {
         return numberOfLostGames;
     }
 
-    public void setNumberOfLostGames(int numberOfLostGames) {
-        this.numberOfLostGames = numberOfLostGames;
+    public void increaseNumberOfLostGames() {
+        numberOfLostGames++;
     }
 
     public int getNumberOfTiedGames() {
         return numberOfTiedGames;
     }
 
-    public void setNumberOfTiedGames(int numberOfTiedGames) {
-        this.numberOfTiedGames = numberOfTiedGames;
+    public void increaseNumberOfTiedGames() {
+        numberOfTiedGames++;
+    }
+
+    public void setTotalCardsInDeck(int totalCardsInDeck) {
+        this.totalCardsInDeck = totalCardsInDeck;
+    }
+
+    public void setNumberOfUnitCards(int numberOfUnitCards) {
+        this.numberOfUnitCards = numberOfUnitCards;
+    }
+
+    public void setSpecialCards(int specialCards) {
+        this.specialCards = specialCards;
+    }
+
+    public void setTotalUnitCardsStrength(int totalUnitCardsStrength) {
+        this.totalUnitCardsStrength = totalUnitCardsStrength;
+    }
+
+    public void setHeroCards(int heroCards) {
+        this.heroCards = heroCards;
     }
 
     public int getMaxScore() {
@@ -247,10 +276,4 @@ public class User {
         this.maxScore = maxScore;
     }
 
-    @Override
-    public String toString() {
-        //TODO
-        //uses for user info in profile menu
-        return "";
-    }
 }

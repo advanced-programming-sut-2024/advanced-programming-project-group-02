@@ -19,8 +19,10 @@ public class MainMenuController {
 
     @FXML
     public void initialize() {
-                    SetDefaults.run();
-                    User user = new User("Zahra" , "12345");
+//                    SetDefaults.run();
+//                    User user = new User("Zahra" , "12345");
+//                    User user2 = new User("Sara" , "12345");
+
         goToPreGameMenu.setOnAction(event -> {
             try {
                 handleGoToPreGameMenu();
@@ -88,44 +90,4 @@ public class MainMenuController {
         LoginMenu loginMenu = new LoginMenu();
         loginMenu.start(MainMenu.stage);
     }
-
-//
-//    private void gotoProfileMenu() {
-//        }
-//
-//
-//    public static void createGame (Matcher matcher){
-//
-//    }
-//
-//    public static void selectFaction (Matcher matcher){
-//
-//    }
-//
-//    public static void selectLeader (Matcher matcher){
-//
-//    }
-//
-//    public static void changeTurn (){
-//        //if player 1 information complete --> change turn;
-//        //if player 2 information complete --> show a massage that he should give us the start game command;
-//    }
-//
-//    public static void startGame(){
-//        //if player 2 information complete --> Start game;
-//        //if player 2 information complete --> show a massage that he should give us the change turn command;
-//    }
-//
-//    public static boolean isInformationCompleted (){return true;}
-//
-//    public static void addToDeck(Matcher matcher){}
-//
-//    public static void removeFromDeck(Matcher matcher){}
-//
-//    public static void loadDeck(Matcher matcher){}
-//
-//    public static void saveDeck(Matcher matcher){}
-//
-//    public static void formattedDate(){}
-//
 }
