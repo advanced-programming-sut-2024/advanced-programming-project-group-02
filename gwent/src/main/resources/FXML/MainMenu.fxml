@@ -12,9 +12,7 @@
       <AnchorPane prefHeight="450.0" prefWidth="780.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <ImageView fitHeight="450.0" fitWidth="780.0">
-               <image>
-                  <Image url="@../images/MenusBackground.jpg" />
-               </image>
+               <Image url="@../images/MenusBackground.jpg"/>
             </ImageView>
             <Button fx:id="goToProfileMenu" layoutX="284.0" layoutY="191.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="182.0" text="profile setting">
                <font>

@@ -7,22 +7,18 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import model.User;
 
-import java.util.Objects;
-
-public class
-LoginMenu extends Application {
+public class PregameMenuS extends Application {
     public static Stage stage;
 
     @Override
     public void start(Stage stage) throws Exception {
-        SetDefaults.run();
-
-        LoginMenu.stage = stage;
-        Parent root = FXMLLoader.load((getClass().getResource("/FXML/LoginMenu.fxml")));
+        view.PregameMenuS.stage = stage;
+        Parent root = FXMLLoader.load((getClass().getResource("/FXML/PregameMenuS.fxml")));
         Scene scene = new Scene(root);
         stage.setScene(scene);
-        stage.setTitle("Login Menu");
+        stage.setTitle("Pregame Menu");
         stage.getIcons().add(new Image((getClass().getResourceAsStream("/Images/GwentIcon.jpg"))));
         stage.show();
     }

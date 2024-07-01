@@ -3,6 +3,7 @@ package controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+import model.User;
 import view.*;
 
 import java.util.Scanner;
@@ -18,6 +19,8 @@ public class MainMenuController {
 
     @FXML
     public void initialize() {
+                    SetDefaults.run();
+                    User user = new User("Zahra" , "12345");
         goToPreGameMenu.setOnAction(event -> {
             try {
                 handleGoToPreGameMenu();
@@ -47,12 +50,33 @@ public class MainMenuController {
 
     private void setHoverEffect(Button button, String hoverColor) {
         button.setOnMouseEntered(event -> button.setStyle("-fx-background-color: " + hoverColor + ";"));
-        button.setOnMouseExited(event -> button.setStyle("")); // Revert to default on mouse exit
+        button.setOnMouseExited(event -> button.setStyle(""));
     }
 
     private void handleGoToPreGameMenu() throws Exception {
-        PregameMenu pregameMenu = new PregameMenu();
-        pregameMenu.start(MainMenu.stage);
+        String UserFaction = User.getLoggedInUser().getFaction().getName();
+        switch (UserFaction) {
+            case "Skellige" :
+                PregameMenuS pregameMenuS = new PregameMenuS();
+                pregameMenuS.start(MainMenu.stage);
+                break;
+            case "Scoia'tael" :
+                PregameMenuSc pregameMenuSc = new PregameMenuSc();
+                pregameMenuSc.start(MainMenu.stage);
+                break;
+            case "Northern Realms" :
+                PregameMenuNR pregameMenuNR = new PregameMenuNR();
+                pregameMenuNR.start(MainMenu.stage);
+                break;
+            case "Nilfgaard" :
+                PregameMenuN pregameMenuN = new PregameMenuN();
+                pregameMenuN.start(MainMenu.stage);
+                break;
+            case "Monsters" :
+                PregameMenuM pregameMenuM = new PregameMenuM();
+                pregameMenuM.start(MainMenu.stage);
+                break;
+        }
     }
 
     private void handleGoToProfileMenu() throws Exception {

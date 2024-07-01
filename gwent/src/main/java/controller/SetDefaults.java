@@ -5,370 +5,373 @@ import enums.CardType;
 import enums.Place;
 import javafx.scene.image.Image;
 import model.Card;
+import model.Faction;
 
 import java.util.ArrayList;
 
 public class SetDefaults {
     public static void run() {
-
+        setCard();
+        setFaction();
+        setQuestion();
     }
 
     public static void setCard() {
         ArrayList<Ability> abilities = new ArrayList<>();
 
         abilities.add(Ability.Mardoeme);
-        new Card("Mardoeme", 101, 0, 3,
-                false, abilities, CardType.Spell, Place.CSR,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/skellige/special_mardroeme.jpg")));
+        Card mardoemeCard = new Card("Mardoeme", 101, 0, 3,
+                false, new ArrayList<>(abilities), CardType.Spell, Place.CSR,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/skellige/special_mardroeme.jpg")));
         abilities.clear();
 
         abilities.add(Ability.Berserker);
-        new Card("Berserker", 102, 4, 1,
-                false, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/skellige/skellige_berserker.jpg")));
+        Card berserkerCard = new Card("Berserker", 102, 4, 1,
+                false, new ArrayList<>(abilities), CardType.CloseCombatUnit, Place.closeCombat,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/skellige/skellige_berserker.jpg")));
         abilities.clear();
 
         abilities.add(Ability.MoralBoost);
-        new Card("Vidkaarl", 103, 14, 1,
-                false, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/skellige/skellige_vildkaarl.jpg")));
+        Card vidkaarlCard = new Card("Vidkaarl", 103, 14, 1,
+                false, new ArrayList<>(abilities), CardType.CloseCombatUnit, Place.closeCombat,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/skellige/skellige_vildkaarl.jpg")));
         abilities.clear();
 
-        new Card("Svanrige", 104, 4, 1,
-                false, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/skellige/skellige_svanrige.jpg")));
+        Card svanrigeCard = new Card("Svanrige", 104, 4, 1,
+                false, new ArrayList<>(abilities), CardType.CloseCombatUnit, Place.closeCombat,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/skellige/skellige_svanrige.jpg")));
 
-        new Card("Udalryk", 105, 4, 1,
-                false, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/skellige/skellige_udalryk.jpg")));
+        Card udalrykCard = new Card("Udalryk", 105, 4, 1,
+                false, new ArrayList<>(abilities), CardType.CloseCombatUnit, Place.closeCombat,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/skellige/skellige_udalryk.jpg")));
 
-        new Card("DonarAnCraite", 106, 4, 1,
-                false, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/skellige/skellige_donar.jpg")));
+        Card donarAnCraiteCard = new Card("DonarAnCraite", 106, 4, 1,
+                false, new ArrayList<>(abilities), CardType.CloseCombatUnit, Place.closeCombat,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/skellige/skellige_donar.jpg")));
+        abilities.clear();
 
         abilities.add(Ability.TightBond);
-        new Card("ClanAnCraite", 107, 6, 3,
-                false, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/skellige/skellige_craite_warrior.jpg")));
+        Card clanAnCraiteCard = new Card("ClanAnCraite", 107, 6, 3,
+                false, new ArrayList<>(abilities), CardType.CloseCombatUnit, Place.closeCombat,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/skellige/skellige_craite_warrior.jpg")));
         abilities.clear();
 
-        new Card("MadmanLugos", 108, 6, 1,
-                false, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/skellige/skellige_madmad_lugos.jpg")));
+        Card madmanLugosCard = new Card("MadmanLugos", 108, 6, 1,
+                false, new ArrayList<>(abilities), CardType.CloseCombatUnit, Place.closeCombat,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/skellige/skellige_madmad_lugos.jpg")));
 
         abilities.add(Ability.Hero);
         abilities.add(Ability.Muster);
-        new Card("Creys", 109, 10, 1,
-                true, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/skellige/skellige_cerys.jpg")));
+        Card creysCard = new Card("Creys", 109, 10, 1,
+                true, new ArrayList<>(abilities), CardType.CloseCombatUnit, Place.closeCombat,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/skellige/skellige_cerys.jpg")));
         abilities.clear();
 
         abilities.add(Ability.Hero);
         abilities.add(Ability.Transformers);
-        new Card("Kambi", 110, 0, 1,
-                false, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/skellige/skellige_kambi.jpg")));
+        Card kambiCard = new Card("Kambi", 110, 0, 1,
+                false, new ArrayList<>(abilities), CardType.CloseCombatUnit, Place.closeCombat,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/skellige/skellige_kambi.jpg")));
         abilities.clear();
 
         abilities.add(Ability.Medic);
-        new Card("BirnaBran", 111, 2, 1,
-                false, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/skellige/skellige_birna.jpg")));
+        Card birnaBranCard = new Card("BirnaBran", 111, 2, 1,
+                false, new ArrayList<>(abilities), CardType.CloseCombatUnit, Place.closeCombat,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/skellige/skellige_birna.jpg")));
         abilities.clear();
 
         abilities.add(Ability.TightBond);
-        new Card("ClanDrummondShieldmaide", 112, 4, 3,
-                false, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/skellige/skellige_shield_maiden.jpg")));
+        Card clanDrummondShieldmaideCard = new Card("ClanDrummondShieldmaide", 112, 4, 3,
+                false, new ArrayList<>(abilities), CardType.CloseCombatUnit, Place.closeCombat,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/skellige/skellige_shield_maiden.jpg")));
         abilities.clear();
 
         abilities.add(Ability.Scorch);
-        new Card("ClanDimunPirate", 113, 6, 1,
-                false, abilities, CardType.RangedUnit, Place.rangedCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/skellige/skellige_dimun_pirate.jpg")));
+        Card clanDimunPirateCard = new Card("ClanDimunPirate", 113, 6, 1,
+                false, new ArrayList<>(abilities), CardType.RangedUnit, Place.rangedCombat,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/skellige/skellige_dimun_pirate.jpg")));
         abilities.clear();
 
-        new Card("ClanBrokvarArcher", 114, 6, 3,
-                false, abilities, CardType.RangedUnit, Place.rangedCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/skellige/skellige_craite_warrior.jpg")));
+        Card clanBrokvarArcherCard = new Card("ClanBrokvarArcher", 114, 6, 3,
+                false, new ArrayList<>(abilities), CardType.RangedUnit, Place.rangedCombat,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/skellige/skellige_craite_warrior.jpg")));
 
         abilities.add(Ability.Hero);
         abilities.add(Ability.Mardoeme);
-        new Card("Ermion", 115, 8, 1,
-                true, abilities, CardType.RangedUnit, Place.rangedCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/skellige/skellige_ermion.jpg")));
+        Card ermionCard = new Card("Ermion", 115, 8, 1,
+                true, new ArrayList<>(abilities), CardType.RangedUnit, Place.rangedCombat,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/skellige/skellige_ermion.jpg")));
         abilities.clear();
 
         abilities.add(Ability.Hero);
-        new Card("Hjalmar", 116, 10, 1,
-                true, abilities, CardType.RangedUnit, Place.rangedCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/skellige/skellige_hjalmar.jpg")));
+        Card hjalmarCard = new Card("Hjalmar", 116, 10, 1,
+                true, new ArrayList<>(abilities), CardType.RangedUnit, Place.rangedCombat,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/skellige/skellige_hjalmar.jpg")));
         abilities.clear();
 
         abilities.add(Ability.Berserker);
-        new Card("YongBerserker", 117, 2, 3,
-                false, abilities, CardType.RangedUnit, Place.rangedCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/skellige/skellige_young_berserker.jpg")));
+        Card yongBerserkerCard = new Card("YongBerserker", 117, 2, 3,
+                false, new ArrayList<>(abilities), CardType.RangedUnit, Place.rangedCombat,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/skellige/skellige_young_berserker.jpg")));
         abilities.clear();
 
         abilities.add(Ability.TightBond);
-        new Card("YoungVildkaarl", 118, 8, 1,
-                false, abilities, CardType.RangedUnit, Place.rangedCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/skellige/skellige_young_vildkaarl.jpg")));
+        Card youngVildkaarlCard = new Card("YoungVildkaarl", 118, 8, 1,
+                false, new ArrayList<>(abilities), CardType.RangedUnit, Place.rangedCombat,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/skellige/skellige_young_vildkaarl.jpg")));
         abilities.clear();
 
         abilities.add(Ability.Muster);
-        new Card("LightLongship", 119, 4, 3,
-                false, abilities, CardType.RangedUnit, Place.rangedCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/skellige/skellige_light_longship.jpg")));
+        Card lightLongshipCard = new Card("LightLongship", 119, 4, 3,
+                false, new ArrayList<>(abilities), CardType.RangedUnit, Place.rangedCombat,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/skellige/skellige_light_longship.jpg")));
         abilities.clear();
 
         abilities.add(Ability.TightBond);
-        new Card("WarLongship", 120, 6, 3,
-                false, abilities, CardType.SiegeUnit, Place.siege,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/skellige/skellige_war_longship.jpg")));
+        Card warLongshipCard = new Card("WarLongship", 120, 6, 3,
+                false, new ArrayList<>(abilities), CardType.SiegeUnit, Place.siege,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/skellige/skellige_war_longship.jpg")));
         abilities.clear();
 
         abilities.add(Ability.CommandersHorn);
-        new Card("DraigBonDho", 121, 2, 1,
-                false, abilities, CardType.SiegeUnit, Place.siege,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/skellige/skellige_draig.jpg")));
+        Card draigBonDhoCard = new Card("DraigBonDho", 121, 2, 1,
+                false, new ArrayList<>(abilities), CardType.SiegeUnit, Place.siege,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/skellige/skellige_draig.jpg")));
         abilities.clear();
 
         abilities.add(Ability.CommandersHorn);
-        new Card("Olaf", 122, 12, 1,
-                false, abilities, CardType.AgileUnit, Place.agile,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/skellige/skellige_olaf.jpg")));
+        Card olafCard = new Card("Olaf", 122, 12, 1,
+                false, new ArrayList<>(abilities), CardType.AgileUnit, Place.agile,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/skellige/skellige_olaf.jpg")));
         abilities.clear();
 
-
         abilities.add(Ability.Muster);
-        new Card("ElvenSkirmisher", 201, 2, 3,
-                false, abilities, CardType.RangedUnit, Place.rangedCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/scoiatael/scoiatael_elven_skirmisher.jpg")));
+        Card elvenSkirmisherCard = new Card("ElvenSkirmisher", 201, 2, 3,
+                false, new ArrayList<>(abilities), CardType.RangedUnit, Place.rangedCombat,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/scoiatael/scoiatael_elven_skirmisher.jpg")));
         abilities.clear();
 
-        new Card("Yaevinn", 202, 6, 1,
-                false, abilities, CardType.AgileUnit, Place.agile,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/scoiatael/scoiatael_yaevinn.jpg")));
+        Card yaevinnCard = new Card("Yaevinn", 202, 6, 1,
+                false, new ArrayList<>(abilities), CardType.AgileUnit, Place.agile,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/scoiatael/scoiatael_yaevinn.jpg")));
 
-        new Card("CiaranAep", 203, 3, 1,
-                false, abilities, CardType.AgileUnit, Place.agile,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/scoiatael/scoiatael_ciaran.jpg")));
+        Card ciaranAepCard = new Card("CiaranAep", 203, 3, 1,
+                false, new ArrayList<>(abilities), CardType.AgileUnit, Place.agile,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/scoiatael/scoiatael_ciaran.jpg")));
 
-        new Card("DennisCranmer", 204, 6, 1,
-                false, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/scoiatael/scoiatael_dennis.jpg")));
+        Card dennisCranmerCard = new Card("DennisCranmer", 204, 6, 1,
+                false, new ArrayList<>(abilities), CardType.CloseCombatUnit, Place.closeCombat,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/scoiatael/scoiatael_dennis.jpg")));
 
-        new Card("DolBlathannaScout", 205, 6, 3,
-                false, abilities, CardType.AgileUnit, Place.agile,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/scoiatael/scoiatael_dol_blathanna_scout.jpg")));
+        Card dolBlathannaScoutCard = new Card("DolBlathannaScout", 205, 6, 3,
+                false, new ArrayList<>(abilities), CardType.AgileUnit, Place.agile,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/scoiatael/scoiatael_dol_blathanna_scout.jpg")));
 
-        new Card("DolBlathannaArcher", 206, 4, 1,
-                false, abilities, CardType.RangedUnit, Place.rangedCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/scoiatael/scoiatael_dol_archer.jpg")));
+        Card dolBlathannaArcherCard = new Card("DolBlathannaArcher", 206, 4, 1,
+                false, new ArrayList<>(abilities), CardType.RangedUnit, Place.rangedCombat,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/scoiatael/scoiatael_dol_archer.jpg")));
 
         abilities.add(Ability.Muster);
-        new Card("DwarvenSkirmisher", 207, 3, 3,
-                false, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/scoiatael/scoiatael_dwarven_skirmisher.jpg")));
+        Card dwarvenSkirmisherCard = new Card("DwarvenSkirmisher", 207, 3, 3,
+                false, new ArrayList<>(abilities), CardType.CloseCombatUnit, Place.closeCombat,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/scoiatael/scoiatael_dwarven_skirmisher.jpg")));
         abilities.clear();
 
         abilities.add(Ability.Medic);
-        new Card("HavekarHealer", 208, 0, 3,
-                false, abilities, CardType.RangedUnit, Place.rangedCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/scoiatael/scoiatael_havekar_healer.jpg")));
+        Card havekarHealerCard = new Card("HavekarHealer", 208, 0, 3,
+                false, new ArrayList<>(abilities), CardType.RangedUnit, Place.rangedCombat,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/scoiatael/scoiatael_havekar_healer.jpg")));
         abilities.clear();
 
         abilities.add(Ability.Muster);
-        new Card("HavekarSmuggler", 209, 5, 3,
-                false, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/scoiatael/scoiatael_havekar_smuggler.jpg")));
+        Card havekarSmugglerCard = new Card("HavekarSmuggler", 209, 5, 3,
+                false, new ArrayList<>(abilities), CardType.CloseCombatUnit, Place.closeCombat,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/scoiatael/scoiatael_havekar_smuggler.jpg")));
         abilities.clear();
 
-        new Card("IdaEmeanAep", 210, 6, 1,
-                false, abilities, CardType.RangedUnit, Place.rangedCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/scoiatael/scoiatael_ida.jpg")));
+        Card idaEmeanAepCard = new Card("IdaEmeanAep", 210, 6, 1,
+                false, new ArrayList<>(abilities), CardType.RangedUnit, Place.rangedCombat,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/scoiatael/scoiatael_ida.jpg")));
 
-        new Card("Rordain", 211, 1, 1,
-                false, abilities, CardType.RangedUnit, Place.rangedCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/scoiatael/scoiatael_riordain.jpg")));
+        Card rordainCard = new Card("Rordain", 211, 1, 1,
+                false, new ArrayList<>(abilities), CardType.RangedUnit, Place.rangedCombat,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/scoiatael/scoiatael_riordain.jpg")));
 
-        new Card("Toruviel", 212, 2, 1,
-                false, abilities, CardType.RangedUnit, Place.rangedCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/scoiatael/scoiatael_toruviel.jpg")));
+        Card toruvielCard = new Card("Toruviel", 212, 2, 1,
+                false, new ArrayList<>(abilities), CardType.RangedUnit, Place.rangedCombat,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/scoiatael/scoiatael_toruviel.jpg")));
 
-        new Card("VirheddBrigadeRecruit", 213, 4, 1,
-                false, abilities, CardType.RangedUnit, Place.rangedCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/scoiatael/scoiatael_vrihedd_brigade_recruit.jpg")));
+        Card virheddBrigadeRecruitCard = new Card("VirheddBrigadeRecruit", 213, 4, 1,
+                false, new ArrayList<>(abilities), CardType.RangedUnit, Place.rangedCombat,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/scoiatael/scoiatael_vrihedd_brigade_recruit.jpg")));
 
-        new Card("VirheddBrigadeVeteran", 214, 5, 2,
-                false, abilities, CardType.AgileUnit, Place.agile,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/scoiatael/scoiatael_vrihedd_brigade_veteran.jpg")));
+        Card virheddBrigadeVeteranCard = new Card("VirheddBrigadeVeteran", 214, 5, 2,
+                false, new ArrayList<>(abilities), CardType.AgileUnit, Place.agile,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/scoiatael/scoiatael_vrihedd_brigade_veteran.jpg")));
 
         abilities.add(Ability.MoralBoost);
-        new Card("Milva", 215, 10, 1,
-                false, abilities, CardType.RangedUnit, Place.rangedCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/scoiatael/scoiatael_milva.jpg")));
+        Card milvaCard = new Card("Milva", 215, 10, 1,
+                false, new ArrayList<>(abilities), CardType.RangedUnit, Place.rangedCombat,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/scoiatael/scoiatael_milva.jpg")));
         abilities.clear();
 
         abilities.add(Ability.Hero);
-        new Card("Seasenthessis", 216, 10, 1,
-                true, abilities, CardType.RangedUnit, Place.rangedCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/scoiatael/scoiatael_seasenthessis.jpg")));
+        Card seasenthessisCard = new Card("Seasenthessis", 216, 10, 1,
+                true, new ArrayList<>(abilities), CardType.RangedUnit, Place.rangedCombat,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/scoiatael/scoiatael_seasenthessis.jpg")));
         abilities.clear();
 
         abilities.add(Ability.Scorch);
-        new Card("Schirru", 217, 8, 1,
-                false, abilities, CardType.SiegeUnit, Place.siege,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/scoiatael/scoiatael_schirru.jpg")));
+        Card schirruCard = new Card("Schirru", 217, 8, 1,
+                false, new ArrayList<>(abilities), CardType.SiegeUnit, Place.siege,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/scoiatael/scoiatael_schirru.jpg")));
         abilities.clear();
 
         abilities.add(Ability.Hero);
-        new Card("Eithne", 218, 10, 1,
-                true, abilities, CardType.RangedUnit, Place.rangedCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/scoiatael/scoiatael_eithne.jpg")));
+        Card eithneCard = new Card("Eithne", 218, 10, 1,
+                true, new ArrayList<>(abilities), CardType.RangedUnit, Place.rangedCombat,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/scoiatael/scoiatael_eithne.jpg")));
         abilities.clear();
 
         abilities.add(Ability.Hero);
         abilities.add(Ability.MoralBoost);
-        new Card("Isngrimfaolitiarna", 219, 10, 1,
-                true, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/scoiatael/scoiatael_isengrim.jpg")));
+        Card isngrimfaolitiarnaCard = new Card("Isngrimfaolitiarna", 219, 10, 1,
+                true, new ArrayList<>(abilities), CardType.CloseCombatUnit, Place.closeCombat,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/scoiatael/scoiatael_isengrim.jpg")));
         abilities.clear();
 
 
         new Card("Ballista", 301, 6, 2,
                 false, abilities, CardType.SiegeUnit, Place.siege,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/northernRealms/realms_ballista.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/northernRealms/realms_ballista.jpg")));
 
         abilities.add(Ability.TightBond);
         new Card("Catapult", 302, 8, 2,
                 false, abilities, CardType.SiegeUnit, Place.siege,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/northernRealms/realms_catapult.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/northernRealms/realms_catapult.jpg")));
         abilities.clear();
 
         abilities.add(Ability.TightBond);
         new Card("DragonHunter", 303, 5, 3,
                 false, abilities, CardType.RangedUnit, Place.rangedCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/northernRealms/realms_dragon_hunter.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/northernRealms/realms_dragon_hunter.jpg")));
         abilities.clear();
 
         abilities.add(Ability.Medic);
         new Card("DunBannerMedic", 304, 5, 1,
                 false, abilities, CardType.SiegeUnit, Place.siege,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/northernRealms/realms_dun_banner_medic.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/northernRealms/realms_dun_banner_medic.jpg")));
         abilities.clear();
 
         abilities.add(Ability.Hero);
         new Card("esteradThyssen", 305, 10, 1,
                 true, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/northernRealms/realms_esterad.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/northernRealms/realms_esterad.jpg")));
         abilities.clear();
 
         abilities.add(Ability.Hero);
         new Card("JohnNatalis", 306, 10, 1,
                 true, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/northernRealms/realms_natalis.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/northernRealms/realms_natalis.jpg")));
         abilities.clear();
 
         abilities.add(Ability.MoralBoost);
         new Card("KaedweniSiegeExpert", 307, 1, 3,
                 false, abilities, CardType.SiegeUnit, Place.siege,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/northernRealms/realms_kaedwen_siege.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/northernRealms/realms_kaedwen_siege.jpg")));
         abilities.clear();
 
         abilities.add(Ability.Hero);
         new Card("PhillipaEirhart", 308, 10, 1,
                 true, abilities, CardType.RangedUnit, Place.rangedCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/northernRealms/realms_philippa.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/northernRealms/realms_philippa.jpg")));
         abilities.clear();
 
         abilities.add(Ability.TightBond);
         new Card("PoorFuckingInfantry", 309, 1, 4,
                 false, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/northernRealms/realms_poor_infantry.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/northernRealms/realms_poor_infantry.jpg")));
         abilities.clear();
 
         abilities.add(Ability.Spy);
         new Card("PrinceStennis", 310, 5, 1,
                 false, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/northernRealms/realms_stennis.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/northernRealms/realms_stennis.jpg")));
         abilities.clear();
 
         new Card("RedanianFootSoldier", 311, 1, 2,
                 false, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/northernRealms/realms_redania.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/northernRealms/realms_redania.jpg")));
 
         new Card("SabrinaGlevissing", 312, 4, 1,
                 false, abilities, CardType.RangedUnit, Place.rangedCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/northernRealms/realms_sabrina.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/northernRealms/realms_sabrina.jpg")));
 
         new Card("SiegeTower", 313, 6, 1,
                 false, abilities, CardType.SiegeUnit, Place.siege,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/northernRealms/realms_siege_tower.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/northernRealms/realms_siege_tower.jpg")));
 
         new Card("SiegfriedOfDenesle", 314, 5, 1,
                 false, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/northernRealms/realms_siegfried.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/northernRealms/realms_siegfried.jpg")));
 
         abilities.add(Ability.Spy);
         new Card("SigismundDijkstra", 315, 4, 1,
                 false, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/northernRealms/realms_dijkstra.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/northernRealms/realms_dijkstra.jpg")));
         abilities.clear();
 
         new Card("SileDeTansarville", 316, 5, 1,
                 false, abilities, CardType.RangedUnit, Place.rangedCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/northernRealms/realms_sile_de_tansarville.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/northernRealms/realms_sile_de_tansarville.jpg")));
 
         abilities.add(Ability.Spy);
         new Card("Thaler", 317, 1, 1,
                 false, abilities, CardType.SiegeUnit, Place.siege,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/northernRealms/realms_thaler.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/northernRealms/realms_thaler.jpg")));
         abilities.clear();
 
         abilities.add(Ability.Hero);
         new Card("VernonRoche", 318, 10, 1,
                 true, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/northernRealms/realms_vernon.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/northernRealms/realms_vernon.jpg")));
         abilities.clear();
 
         new Card("Ves", 319, 5, 1,
                 false, abilities, CardType.RangedUnit, Place.rangedCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/northernRealms/realms_ves.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/northernRealms/realms_ves.jpg")));
 
         new Card("YarpenZirgrin", 320, 2, 1,
                 false, abilities, CardType.RangedUnit, Place.rangedCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/northernRealms/realms_yarpen.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/northernRealms/realms_yarpen.jpg")));
 
         abilities.add(Ability.TightBond);
         new Card("ImperaBrigadeGuard", 401, 3, 4,
                 false, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/nilfgaard/nilfgaard_imperal_brigade.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/nilfgaard/nilfgaard_imperal_brigade.jpg")));
         abilities.clear();
 
         abilities.add(Ability.Spy);
         new Card("StefanSkellen", 402, 9, 1,
                 false, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/nilfgaard/nilfgaard_stefan.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/nilfgaard/nilfgaard_stefan.jpg")));
         abilities.clear();
 
         abilities.add(Ability.TightBond);
         new Card("YoungEmissary", 403, 5, 2,
                 false, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/nilfgaard/nilfgaard_young_emissary.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/nilfgaard/nilfgaard_young_emissary.jpg")));
         abilities.clear();
 
         new Card("CahirMawrDyffrynAepCeallach", 404, 6, 1,
                 false, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/nilfgaard/nilfgaard_cahir.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/nilfgaard/nilfgaard_cahir.jpg")));
 
 
         abilities.add(Ability.Spy);
         new Card("VattierDeRideaux", 405, 4, 1,
                 false, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/nilfgaard/nilfgaard_vattier.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/nilfgaard/nilfgaard_vattier.jpg")));
         abilities.clear();
 
 
@@ -376,352 +379,365 @@ public class SetDefaults {
         abilities.add(Ability.Medic);
         new Card("MennoCoehorn", 406, 10, 1,
                 true, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/nilfgaard/nilfgaard_menno.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/nilfgaard/nilfgaard_menno.jpg")));
         abilities.clear();
 
         new Card("Puttkammer", 407, 3, 1,
                 false, abilities, CardType.RangedUnit, Place.rangedCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/nilfgaard/nilfgaard_puttkammer.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/nilfgaard/nilfgaard_puttkammer.jpg")));
 
         new Card("BlackInfantryArcher", 408, 10, 2,
                 false, abilities, CardType.RangedUnit, Place.rangedCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/nilfgaard/nilfgaard_black_archer.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/nilfgaard/nilfgaard_black_archer.jpg")));
 
 
         abilities.add(Ability.Hero);
         new Card("TiborEggebracht", 409, 10, 1,
                 true, abilities, CardType.RangedUnit, Place.rangedCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/nilfgaard/nilfgaard_tibor.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/nilfgaard/nilfgaard_tibor.jpg")));
         abilities.clear();
 
         new Card("RenualdAepMatsen", 410, 5, 1,
                 false, abilities, CardType.RangedUnit, Place.rangedCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/nilfgaard/nilfgaard_renuald.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/nilfgaard/nilfgaard_renuald.jpg")));
 
         new Card("FringillaVigo", 411, 6, 1,
                 false, abilities, CardType.RangedUnit, Place.rangedCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/nilfgaard/nilfgaard_fringilla.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/nilfgaard/nilfgaard_fringilla.jpg")));
 
         new Card("RottenMangonel", 412, 3, 1,
                 false, abilities, CardType.SiegeUnit, Place.siege,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/nilfgaard/nilfgaard_rotten.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/nilfgaard/nilfgaard_rotten.jpg")));
 
 
         new Card("ZerrikanianFireScorpion", 413, 5, 1,
                 false, abilities, CardType.SiegeUnit, Place.siege,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/nilfgaard/nilfgaard_zerri.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/nilfgaard/nilfgaard_zerri.jpg")));
 
         new Card("SiegeEngineer", 414, 6, 1,
                 false, abilities, CardType.SiegeUnit, Place.siege,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/nilfgaard/nilfgaard_siege_engineer.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/nilfgaard/nilfgaard_siege_engineer.jpg")));
 
         abilities.add(Ability.Hero);
         new Card("MorvranVoorhis", 415, 10, 1,
                 true, abilities, CardType.SiegeUnit, Place.siege,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/nilfgaard/nilfgaard_morvran.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/nilfgaard/nilfgaard_moorvran.jpg")));
         abilities.clear();
 
         new Card("Cynthia", 416, 4, 1,
                 false, abilities, CardType.RangedUnit, Place.rangedCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/nilfgaard/nilfgaard_cynthia.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/nilfgaard/nilfgaard_cynthia.jpg")));
 
         abilities.add(Ability.Medic);
         new Card("EtolianAuxiliaryArchers", 417, 1, 2,
                 false, abilities, CardType.RangedUnit, Place.rangedCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/nilfgaard/nilfgaard_etolian.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/nilfgaard/nilfgaard_etolian.jpg")));
         abilities.clear();
 
         abilities.add(Ability.Medic);
         abilities.add(Ability.Hero);
         new Card("MennoCoehoorn", 418, 10, 1,
                 true, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/nilfgaard/nilfgaard_menno.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/nilfgaard/nilfgaard_menno.jpg")));
         abilities.clear();
 
         new Card("Morteisen", 419, 3, 1,
                 false, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/nilfgaard/nilfgaard_morteisen.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/nilfgaard/nilfgaard_morteisen.jpg")));
 
         abilities.add(Ability.TightBond);
         new Card("NausicaaCavalryRider", 420, 2, 3,
                 false, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/nilfgaard/nilfgaard_nauzicaa.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/nilfgaard/nilfgaard_nauzicaa.jpg")));
         abilities.clear();
 
 
         abilities.add(Ability.Medic);
         new Card("SiegeTechnician", 421, 0, 1,
                 false, abilities, CardType.SiegeUnit, Place.siege,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/nilfgaard/nilfgaard_siege_technician.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/nilfgaard/nilfgaard_siege_technician.jpg")));
         abilities.clear();
 
 
         new Card("Sweers", 422, 2, 1,
                 false, abilities, CardType.RangedUnit, Place.rangedCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/nilfgaard/nilfgaard_sweers.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/nilfgaard/nilfgaard_sweers.jpg")));
 
         new Card("Vanhemar", 423, 4, 1,
                 false, abilities, CardType.RangedUnit, Place.rangedCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/nilfgaard/nilfgaard_vanhemar.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/nilfgaard/nilfgaard_vanhemar.jpg")));
 
         new Card("Vreemde", 424, 2, 1,
                 false, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/nilfgaard/nilfgaard_vreemde.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/nilfgaard/nilfgaard_vreemde.jpg")));
 
 
         abilities.add(Ability.Hero);
         new Card("Draug", 501, 10, 1,
                 true, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/monsters/monsters_draug.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/monsters/monsters_draug.jpg")));
         abilities.clear();
 
         abilities.add(Ability.Hero);
         new Card("Leshen", 502, 10, 1,
                 true, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/monsters/monsters_leshen.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/monsters/monsters_leshen.jpg")));
         abilities.clear();
 
         abilities.add(Ability.Hero);
         abilities.add(Ability.MoralBoost);
         new Card("Kayran", 503, 8, 1,
                 true, abilities, CardType.AgileUnit, Place.agile,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/monsters/monsters_kayran.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/monsters/monsters_kayran.jpg")));
         abilities.clear();
 
         abilities.add(Ability.Scorch);
         new Card("Toad", 504, 7, 1,
                 false, abilities, CardType.RangedUnit, Place.rangedCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/monsters/monsters_toad.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/monsters/monsters_toad.jpg")));
         abilities.clear();
 
         abilities.add(Ability.Muster);
         new Card("Arachas Behemoth", 505, 6, 1,
                 false, abilities, CardType.SiegeUnit, Place.siege,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/monsters/monsters_arachas_behemoth.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/monsters/monsters_arachas_behemoth.jpg")));
         abilities.clear();
 
         abilities.add(Ability.Muster);
         new Card("Crone: Weavess", 506, 6, 1,
                 false, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/monsters/monsters_weavess.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/monsters/monsters_weavess.jpg")));
         abilities.clear();
 
         abilities.add(Ability.Muster);
         new Card("Crone: Whispess", 507, 6, 1,
                 false, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/monsters/monsters_whispess.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/monsters/monsters_whispess.jpg")));
         abilities.clear();
 
 
         new Card("Earth Elemental", 508, 6, 1,
                 false, abilities, CardType.SiegeUnit, Place.siege,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/monsters/monsters_earth_elemental.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/monsters/monsters_earth_elemental.jpg")));
 
 
         new Card("Fiend", 509, 6, 1,
                 false, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/monsters/monsters_fiend.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/monsters/monsters_fiend.jpg")));
 
 
         new Card("Fire Elemental", 510, 6, 1,
                 false, abilities, CardType.SiegeUnit, Place.siege,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/monsters/monsters_fire_elemental.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/monsters/monsters_fire_elemental.jpg")));
 
 
         new Card("Forktail", 511, 5, 1,
                 false, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/monsters/monsters_forktail.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/monsters/monsters_forktail.jpg")));
 
         new Card("Grave Hag", 512, 5, 1,
                 false, abilities, CardType.RangedUnit, Place.rangedCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/monsters/monsters_gravehag.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/monsters/monsters_gravehag.jpg")));
 
         new Card("Griffin", 513, 5, 1,
                 false, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/monsters/monsters_griffin.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/monsters/monsters_griffin.jpg")));
 
         new Card("Ice Giant", 514, 5, 1,
                 false, abilities, CardType.SiegeUnit, Place.siege,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/monsters/monsters_ice_giant.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/monsters/monsters_ice_giant.jpg")));
 
         new Card("Plague Maiden", 515, 5, 1,
                 false, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/monsters/monsters_plague_maiden.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/monsters/monsters_plague_maiden.jpg")));
 
         abilities.add(Ability.Muster);
         new Card("Vampire: Katakan", 516, 5, 1,
                 false, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/monsters/monsters_katakan.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/monsters/monsters_katakan.jpg")));
         abilities.clear();
 
         new Card("Werewolf", 517, 5, 1,
                 false, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/monsters/monsters_werewolf.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/monsters/monsters_werewolf.jpg")));
 
 
         abilities.add(Ability.Muster);
         new Card("Arachas", 518, 4, 3,
                 false, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/monsters/monsters_arachas.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/monsters/monsters_arachas.jpg")));
         abilities.clear();
 
 
         abilities.add(Ability.Muster);
         new Card("Vampire: Bruxa", 519, 4, 1,
                 false, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/monsters/monsters_bruxa.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/monsters/monsters_bruxa.jpg")));
         abilities.clear();
 
 
         abilities.add(Ability.Muster);
         new Card("Vampire: Ekimmara", 520, 4, 1,
                 false, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/monsters/monsters_ekkima.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/monsters/monsters_ekkima.jpg")));
         abilities.clear();
 
 
         abilities.add(Ability.Muster);
         new Card("Vampire: Fleder", 521, 4, 1,
                 false, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/monsters/monsters_fleder.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/monsters/monsters_fleder.jpg")));
         abilities.clear();
 
 
         abilities.add(Ability.Muster);
         new Card("Vampire: Garkain", 522, 4, 1,
                 false, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/monsters/monsters_garkain.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/monsters/monsters_garkain.jpg")));
         abilities.clear();
 
 
         new Card("Cockatrice", 523, 2, 1,
                 false, abilities, CardType.RangedUnit, Place.rangedCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/monsters/monsters_cockatrice.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/monsters/monsters_cockatrice.jpg")));
 
 
         new Card("Endrega", 524, 2, 1,
                 false, abilities, CardType.RangedUnit, Place.rangedCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/monsters/monsters_endrega.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/monsters/monsters_endrega.jpg")));
 
 
         new Card("Foglet", 525, 2, 1,
                 false, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/monsters/monsters_foglet.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/monsters/monsters_foglet.jpg")));
 
 
         new Card("Harpy", 526, 2, 1,
                 false, abilities, CardType.AgileUnit, Place.agile,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/monsters/monsters_harpy.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/monsters/monsters_harpy.jpg")));
 
         abilities.add(Ability.Muster);
         new Card("Nekker", 527, 2, 3,
                 false, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/monsters/monsters_nekker.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/monsters/monsters_nekker.jpg")));
         abilities.clear();
 
         new Card("Wyvern", 528, 2, 1,
                 false, abilities, CardType.RangedUnit, Place.rangedCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/monsters/monsters_wyvern.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/monsters/monsters_wyvern.jpg")));
 
         abilities.add(Ability.Muster);
         new Card("Ghoul", 529, 1, 3,
                 false, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/monsters/monsters_ghoul.jpg")));
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/monsters/monsters_ghoul.jpg")));
         abilities.clear();
 
+
+
         new Card("Biting Frost", 601, 0, 3,
-                false, abilities, CardType.Weather, Place.weatherPlace,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/monsters/weather_biting_frost.jpg")));
+                false, new ArrayList<>(abilities), CardType.Weather, Place.weatherPlace,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/special/weather_biting_frost.jpg")));
 
         new Card("Impenetrable fog", 602, 0, 3,
-                false, abilities, CardType.Weather, Place.weatherPlace,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/monsters/weather_fog.jpg")));
-
+                false, new ArrayList<>(abilities), CardType.Weather, Place.weatherPlace,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/special/weather_fog.jpg")));
 
         new Card("Torrential Rain", 603, 0, 3,
-                false, abilities, CardType.Weather, Place.weatherPlace,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/monsters/weather_rain.jpg")));
-
+                false, new ArrayList<>(abilities), CardType.Weather, Place.weatherPlace,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/special/weather_rain.jpg")));
 
         new Card("Decoy", 604, 0, 3,
-                false, abilities, CardType.Spell, Place.CSR,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/monsters/special_decoy.jpg")));
+                false, new ArrayList<>(abilities), CardType.Spell, Place.CSR,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/special/special_decoy.jpg")));
 
         abilities.add(Ability.CommandersHorn);
         new Card("Dandelion", 605, 2, 1,
-                false, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/monsters/neutral_dandelion.jpg")));
+                false, new ArrayList<>(abilities), CardType.CloseCombatUnit, Place.closeCombat,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/special/neutral_dandelion.jpg")));
         abilities.clear();
 
         new Card("Emiel Regis", 606, 5, 1,
-                false, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/monsters/neutral_emiel.jpg")));
+                false, new ArrayList<>(abilities), CardType.CloseCombatUnit, Place.closeCombat,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/special/neutral_emiel.jpg")));
 
         abilities.add(Ability.Muster);
         new Card("Gaunter O’Dimm", 607, 2, 1,
-                false, abilities, CardType.SiegeUnit, Place.siege,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/monsters/neutral_emiel.jpg")));
+                false, new ArrayList<>(abilities), CardType.SiegeUnit, Place.siege,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/special/neutral_gaunter_odimm.jpg")));
         abilities.clear();
 
-        abilities.add(Ability.Muster);
-        new Card("Gaunter O’Dimm", 608, 2, 1,
-                false, abilities, CardType.SiegeUnit, Place.siege,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/monsters/neutral_gaunter_odimm.jpg")));
-        abilities.clear();
-
-
-
-        abilities.add(Ability.Muster);
-        new Card("Gaunter O’DImm Darkness", 609, 4, 3,
-                false, abilities, CardType.RangedUnit, Place.rangedCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/monsters/neutral_gaunter_odimm_darkness.jpg")));
-        abilities.clear();
-
+        new Card("Gaunter O’DImm Darkness", 608, 4, 3,
+                false, new ArrayList<>(abilities), CardType.RangedUnit, Place.rangedCombat,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/special/neutral_gaunter_odimm_darkness.jpg")));
 
         abilities.add(Ability.Hero);
         abilities.add(Ability.Spy);
         new Card("Mysterious Elf", 610, 0, 1,
-                true, abilities, CardType.RangedUnit, Place.rangedCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/monsters/neutral_mysterious_elf.jpg")));
+                true, new ArrayList<>(abilities), CardType.RangedUnit, Place.rangedCombat,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/special/neutral_mysterious_elf.jpg")));
         abilities.clear();
-
 
         abilities.add(Ability.MoralBoost);
         new Card("Olgierd Von Everc", 611, 6, 1,
-                false, abilities, CardType.AgileUnit, Place.agile,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/monsters/neutral_olgierd.jpg")));
+                false, new ArrayList<>(abilities), CardType.AgileUnit, Place.agile,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/special/neutral_olgierd.jpg")));
         abilities.clear();
-
-
 
         abilities.add(Ability.Hero);
         new Card("Triss Merigold", 612, 7, 1,
-                true, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/monsters/neutral_triss.jpg")));
+                true, new ArrayList<>(abilities), CardType.CloseCombatUnit, Place.closeCombat,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/special/neutral_triss.jpg")));
         abilities.clear();
-
 
         abilities.add(Ability.Scorch);
         new Card("Villentretenmerth", 613, 7, 1,
-                false, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/monsters/neutral_villen.jpg")));
+                false, new ArrayList<>(abilities), CardType.CloseCombatUnit, Place.closeCombat,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/special/neutral_villen.jpg")));
         abilities.clear();
-
 
         abilities.add(Ability.Medic);
         abilities.add(Ability.Hero);
         new Card("Yennefer of Vengerberg", 614, 7, 1,
-                true, abilities, CardType.RangedUnit, Place.rangedCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/monsters/neutral_yennefer.jpg")));
+                true, new ArrayList<>(abilities), CardType.RangedUnit, Place.rangedCombat,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/special/neutral_yennefer.jpg")));
         abilities.clear();
 
         new Card("Zoltan Chivay", 615, 5, 1,
-                false, abilities, CardType.CloseCombatUnit, Place.closeCombat,
-                new Image(SetDefaults.class.getResourceAsStream("images/cards/monsters/neutral_zoltan.jpg")));
+                false, new ArrayList<>(abilities), CardType.CloseCombatUnit, Place.closeCombat,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/special/neutral_zoltan.jpg")));
     }
 
     public static void setFaction() {
-
+        Faction skellige = new Faction("Skellige");
+        for (Card card : Card.getCards()) {
+            if ((card.getID() > 100 && card.getID() < 123) || (card.getID() > 600 && card.getID() < 616)) {
+                skellige.addToCards(card);
+            }
+        }
+        Faction scoiatael = new Faction("Scoia'tael");
+        for (Card card : Card.getCards()) {
+            if (card.getID() > 200 && card.getID() < 219 || (card.getID() > 600 && card.getID() < 616)) {
+                skellige.addToCards(card);
+            }
+        }
+        Faction northernRealms = new Faction("Northern Realms");
+        for (Card card : Card.getCards()) {
+            if (card.getID() > 300 && card.getID() < 320 || (card.getID() > 600 && card.getID() < 616)) {
+                skellige.addToCards(card);
+            }
+        }
+        Faction nilfgaard = new Faction("Nilfgaard");
+        for (Card card : Card.getCards()) {
+            if (card.getID() > 400 && card.getID() < 425 || (card.getID() > 600 && card.getID() < 616)) {
+                skellige.addToCards(card);
+            }
+        }
+        Faction monsters = new Faction("Monsters");
+        for (Card card : Card.getCards()) {
+            if (card.getID() > 500 && card.getID() < 530 || (card.getID() > 600 && card.getID() < 616)) {
+                skellige.addToCards(card);
+            }
+        }
     }
 
     public static void setQuestion() {

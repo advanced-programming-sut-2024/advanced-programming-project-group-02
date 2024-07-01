@@ -13,13 +13,12 @@ public class User {
     private int AnswerNumber;
 
     private Faction faction;
-    private Card leader;
     private String username;
     private String password;
     private int totalCardsInDeck;
     private int numberOfUnitCards;
     private int specialCards;
-    private int totalUnitCardStrength;
+    private int totalUnitCardsStrength;
     private int heroCards;
     private int numberOfAllGames;
     private int numberOfWonGames;
@@ -30,8 +29,19 @@ public class User {
     public User(String username, String password) {
         this.username = username;
         this.password = password;
-        //TODO
-        //default setting should be done
+        users.add(this);
+        loggedInUser = this;
+        this.faction = Faction.getFactionByName("Skellige");
+        totalCardsInDeck = 0;
+        numberOfAllGames = 0;
+        numberOfLostGames = 0;
+        numberOfTiedGames = 0;
+        numberOfUnitCards = 0;
+        numberOfWonGames = 0;
+        specialCards = 0;
+        totalUnitCardsStrength = 0;
+        heroCards = 0;
+        maxScore = 0;
     }
 
     public static boolean isThereUserWithName(String name) {
@@ -157,14 +167,6 @@ public class User {
         this.faction = faction;
     }
 
-    public Card getLeader() {
-        return leader;
-    }
-
-    public void setLeader(Card leader) {
-        this.leader = leader;
-    }
-
     public int getTotalCardsInDeck() {
         return totalCardsInDeck;
     }
@@ -189,12 +191,12 @@ public class User {
         this.specialCards = specialCards;
     }
 
-    public int getTotalUnitCardStrength() {
-        return totalUnitCardStrength;
+    public int getTotalUnitCardsStrength() {
+        return totalUnitCardsStrength;
     }
 
-    public void setTotalUnitCardStrength(int totalUnitCardStrength) {
-        this.totalUnitCardStrength = totalUnitCardStrength;
+    public void setTotalUnitCardsStrength(int totalUnitCardsStrength) {
+        this.totalUnitCardsStrength = totalUnitCardsStrength;
     }
 
     public int getHeroCards() {

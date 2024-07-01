@@ -44,7 +44,7 @@ public class Card {
         return power;
     }
 
-    public int getCountOfCArd() {
+    public int getCountOfCard() {
         return countOfCard;
     }
 
@@ -69,10 +69,4 @@ public class Card {
     }
 
     public Image getImage() {return image;}
-
-//    @Override
-//    public String toString() {
-//        return "";
-//    }
-
 }

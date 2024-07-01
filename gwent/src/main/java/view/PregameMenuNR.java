@@ -7,13 +7,13 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
-public class PregameMenu extends Application {
+public class PregameMenuNR extends Application {
     public static Stage stage;
 
     @Override
     public void start(Stage stage) throws Exception {
-        view.PregameMenu.stage = stage;
-        Parent root = FXMLLoader.load((getClass().getResource("/FXML/PregameMenu.fxml")));
+        view.PregameMenuNR.stage = stage;
+        Parent root = FXMLLoader.load((getClass().getResource("/FXML/PregameMenuNR.fxml")));
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setTitle("Pregame Menu");
