@@ -11,6 +11,7 @@ import model.User;
 import view.CardListCellFactory;
 
 import java.util.Comparator;
+import java.util.Map;
 
 public class PregameMenuSController extends BasePregameController {
 
@@ -27,6 +28,15 @@ public class PregameMenuSController extends BasePregameController {
     protected void initializeController() {
         skelligeCards = FXCollections.observableArrayList();
         userDeck = FXCollections.observableArrayList();
+
+        User user = User.getLoggedInUser();
+        for (Map.Entry<Card, Integer> entry : user.getDeck().entrySet()) {
+            Card card = entry.getKey();
+            int count = entry.getValue();
+            for (int i = 0; i < count; i++) {
+                userDeck.add(card);
+            }
+        }
 
         for (Card card : Faction.getFactionByName("Skellige").getCards()) {
             for (int i = 0; i < card.getCountOfCard(); i++) {

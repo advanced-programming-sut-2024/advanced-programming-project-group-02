@@ -9,15 +9,15 @@ import javafx.stage.Stage;
 
 import java.util.Objects;
 
-public class QuestionsMenu extends Application {
+public class ForgetPassword extends Application {
     public static Stage stage;
     @Override
     public void start(Stage stage) throws Exception {
-        QuestionsMenu.stage = stage;
-        Parent root = FXMLLoader.load((Objects.requireNonNull(getClass().getResource("/FXML/Questions.fxml"))));
+        ForgetPassword.stage = stage;
+        Parent root = FXMLLoader.load((Objects.requireNonNull(getClass().getResource("/FXML/ForgetPassword.fxml"))));
         Scene scene = new Scene(root);
         stage.setScene(scene);
-        stage.setTitle("Questions Menu");
+        stage.setTitle("Forget Password");
         stage.getIcons().add(new Image((getClass().getResourceAsStream("/Images/GwentIcon.jpg"))));
         stage.show();
     }
