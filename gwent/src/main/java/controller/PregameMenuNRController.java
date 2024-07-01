@@ -39,7 +39,9 @@ public class PregameMenuNRController extends BasePregameController {
         }
 
         for (Card card : Faction.getFactionByName("Northern Realms").getCards()) {
-            for (int i = 0; i < card.getCountOfCard(); i++) {
+            int cardInDeck = 0;
+            if (userDeck.contains(card)) cardInDeck = user.getDeck().get(card);
+            for (int i = 0; i < card.getCountOfCard()-cardInDeck ; i++) {
                 northernRealmsCards.add(card);
             }
         }

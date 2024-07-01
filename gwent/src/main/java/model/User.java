@@ -1,11 +1,8 @@
 package model;
 
 
-
 import java.util.ArrayList;
-
 import java.util.HashMap;
-
 
 
 public class User {
@@ -24,7 +21,6 @@ public class User {
     private String Answer;
 
     private int AnswerNumber;
-
 
 
     private Faction faction;
@@ -61,41 +57,44 @@ public class User {
     private int maxScore;
 
     public User(String username, String password, String email, String nickname) {
-        this.username = username;
+        if (!users.contains(User.getUserWithName(username))){
+            this.username = username;
 
-        this.password = password;
+            this.password = password;
 
-        this.email = email;
-        this.nickname = nickname;
-        users.add(this);
+            this.email = email;
+            this.nickname = nickname;
+            users.add(this);
 
-        loggedInUser = this;
+            loggedInUser = this;
 
-        this.faction = Faction.getFactionByName("Skellige");
+            this.faction = Faction.getFactionByName("Skellige");
 
-        totalCardsInDeck = 0;
+            totalCardsInDeck = 0;
 
-        numberOfAllGames = 0;
+            numberOfAllGames = 0;
 
-        numberOfLostGames = 0;
+            numberOfLostGames = 0;
 
-        numberOfTiedGames = 0;
+            numberOfTiedGames = 0;
 
-        numberOfUnitCards = 0;
+            numberOfUnitCards = 0;
 
-        numberOfWonGames = 0;
+            numberOfWonGames = 0;
 
-        specialCards = 0;
+            specialCards = 0;
 
-        totalUnitCardsStrength = 0;
+            totalUnitCardsStrength = 0;
 
-        heroCards = 0;
+            heroCards = 0;
 
-        maxScore = 0;
+            maxScore = 0;
 
-        currentGame = null;
+            currentGame = null;
+        }
 
     }
+
     public static ArrayList<User> getUsers() {
         return users;
     }
@@ -133,13 +132,11 @@ public class User {
     }
 
 
-
     public int getAnswerNumber() {
 
         return AnswerNumber;
 
     }
-
 
 
     public void setAnswerNumber(int answerNumber) {
@@ -149,13 +146,11 @@ public class User {
     }
 
 
-
     public String getAnswer() {
 
         return Answer;
 
     }
-
 
 
     public void setAnswer(String answer) {
@@ -192,13 +187,11 @@ public class User {
     }
 
 
-
     public static void setGames(ArrayList<Game> games) {
 
         User.games = games;
 
     }
-
 
 
     public static User getLoggedInUser() {
@@ -208,13 +201,11 @@ public class User {
     }
 
 
-
     public static void setLoggedInUser(User loggedInUser) {
 
         User.loggedInUser = loggedInUser;
 
     }
-
 
 
     public void saveDeckInAddress(String address) {
@@ -224,13 +215,11 @@ public class User {
     }
 
 
-
     public void saveDeckWithName(String name) {
 
         //TODO
 
     }
-
 
 
     public void loadDeckFromAddress(String address) {
@@ -240,7 +229,6 @@ public class User {
     }
 
 
-
     public void loadDeckWithName(String name) {
 
         //TODO
@@ -248,13 +236,11 @@ public class User {
     }
 
 
-
     public void addToDeck(Card card) {
 
         int count = deck.getOrDefault(card, 0);
 
         deck.put(card, count + 1);
-
 
 
         totalCardsInDeck++;
@@ -268,7 +254,6 @@ public class User {
         totalUnitCardsStrength += card.getPower();
 
     }
-
 
 
     public void removeFromDeck(Card card) {
@@ -286,7 +271,6 @@ public class User {
         }
 
 
-
         totalCardsInDeck--;
 
         if (card.isSpecial()) specialCards--;
@@ -298,7 +282,6 @@ public class User {
         totalUnitCardsStrength -= card.getPower();
 
     }
-
 
 
     public void clearDeck() {
@@ -318,7 +301,6 @@ public class User {
     }
 
 
-
     public int calculateRank() {
 
         int rank = 1;
@@ -336,13 +318,11 @@ public class User {
     }
 
 
-
     public void showUserInfo() {
 
         //TODO
 
     }
-
 
 
     public String getUsername() {
@@ -352,13 +332,11 @@ public class User {
     }
 
 
-
     public void setUsername(String username) {
 
         this.username = username;
 
     }
-
 
 
     public String getPassword() {
@@ -368,13 +346,11 @@ public class User {
     }
 
 
-
     public void setPassword(String password) {
 
         this.password = password;
 
     }
-
 
 
     public HashMap<Card, Integer> getDeck() {
@@ -384,13 +360,11 @@ public class User {
     }
 
 
-
     public void setDeck(HashMap<Card, Integer> deck) {
 
         this.deck = deck;
 
     }
-
 
 
     public Faction getFaction() {
@@ -400,13 +374,11 @@ public class User {
     }
 
 
-
     public void setFaction(Faction faction) {
 
         this.faction = faction;
 
     }
-
 
 
     public int getTotalCardsInDeck() {
@@ -416,13 +388,11 @@ public class User {
     }
 
 
-
     public int getNumberOfUnitCards() {
 
         return numberOfUnitCards;
 
     }
-
 
 
     public int getSpecialCards() {
@@ -432,13 +402,11 @@ public class User {
     }
 
 
-
     public int getTotalUnitCardsStrength() {
 
         return totalUnitCardsStrength;
 
     }
-
 
 
     public int getHeroCards() {
@@ -448,13 +416,11 @@ public class User {
     }
 
 
-
     public Game getCurrentGame() {
 
         return currentGame;
 
     }
-
 
 
     public void setCurrentGame(Game currentGame) {
@@ -464,13 +430,11 @@ public class User {
     }
 
 
-
     public int getNumberOfAllGames() {
 
         return numberOfAllGames;
 
     }
-
 
 
     public void increaseNumberOfAllGames() {
@@ -480,13 +444,11 @@ public class User {
     }
 
 
-
     public int getNumberOfWonGames() {
 
         return numberOfWonGames;
 
     }
-
 
 
     public void increaseNumberOfWonGames() {
@@ -496,13 +458,11 @@ public class User {
     }
 
 
-
     public int getNumberOfLostGames() {
 
         return numberOfLostGames;
 
     }
-
 
 
     public void increaseNumberOfLostGames() {
@@ -512,13 +472,11 @@ public class User {
     }
 
 
-
     public int getNumberOfTiedGames() {
 
         return numberOfTiedGames;
 
     }
-
 
 
     public void increaseNumberOfTiedGames() {
@@ -528,13 +486,11 @@ public class User {
     }
 
 
-
     public void setTotalCardsInDeck(int totalCardsInDeck) {
 
         this.totalCardsInDeck = totalCardsInDeck;
 
     }
-
 
 
     public void setNumberOfUnitCards(int numberOfUnitCards) {
@@ -544,13 +500,11 @@ public class User {
     }
 
 
-
     public void setSpecialCards(int specialCards) {
 
         this.specialCards = specialCards;
 
     }
-
 
 
     public void setTotalUnitCardsStrength(int totalUnitCardsStrength) {
@@ -560,14 +514,11 @@ public class User {
     }
 
 
-
     public void setHeroCards(int heroCards) {
 
         this.heroCards = heroCards;
 
     }
-
-
 
     public int getMaxScore() {
 
@@ -575,15 +526,13 @@ public class User {
 
     }
 
-
-
     public void setMaxScore(int maxScore) {
 
         this.maxScore = maxScore;
 
     }
 
-    public static void addToUsers(User user){
+    public static void addToUsers(User user) {
         users.add(user);
     }
 }
