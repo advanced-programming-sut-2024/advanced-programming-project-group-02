@@ -68,26 +68,31 @@ public abstract class BasePregameController {
             switch (faction) {
                 case "Skellige":
                     User.getLoggedInUser().setFaction(Faction.getFactionByName("Skellige"));
+                    User.getLoggedInUser().setLeaderCard(User.getLoggedInUser().getFaction().getLeaderCArdByID(11));
                     PregameMenuS pregameMenuS = new PregameMenuS();
                     pregameMenuS.start(stage);
                     break;
                 case "Scoia'tael":
                     User.getLoggedInUser().setFaction(Faction.getFactionByName("Scoia'tael"));
+                    User.getLoggedInUser().setLeaderCard(User.getLoggedInUser().getFaction().getLeaderCArdByID(21));
                     PregameMenuSc pregameMenuSc = new PregameMenuSc();
                     pregameMenuSc.start(stage);
                     break;
                 case "Northern Realms":
                     User.getLoggedInUser().setFaction(Faction.getFactionByName("Northern Realms"));
+                    User.getLoggedInUser().setLeaderCard(User.getLoggedInUser().getFaction().getLeaderCArdByID(31));
                     PregameMenuNR pregameMenuNR = new PregameMenuNR();
                     pregameMenuNR.start(stage);
                     break;
                 case "Nilfgaard":
                     User.getLoggedInUser().setFaction(Faction.getFactionByName("Nilfgaard"));
+                    User.getLoggedInUser().setLeaderCard(User.getLoggedInUser().getFaction().getLeaderCArdByID(41));
                     PregameMenuN pregameMenuN = new PregameMenuN();
                     pregameMenuN.start(stage);
                     break;
                 case "Monsters":
                     User.getLoggedInUser().setFaction(Faction.getFactionByName("Monsters"));
+                    User.getLoggedInUser().setLeaderCard(User.getLoggedInUser().getFaction().getLeaderCArdByID(51));
                     PregameMenuM pregameMenuM = new PregameMenuM();
                     pregameMenuM.start(stage);
                     break;

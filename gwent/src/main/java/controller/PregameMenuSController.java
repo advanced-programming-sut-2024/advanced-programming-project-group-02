@@ -4,7 +4,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
+import javafx.scene.image.ImageView;
 import model.Card;
 import model.Faction;
 import model.User;
@@ -15,6 +17,8 @@ import java.util.Map;
 
 public class PregameMenuSController extends BasePregameController {
 
+    public ImageView leaderImage;
+    public ChoiceBox<String> leaderChoiceBox;
     @FXML
     private ListView<Card> cardsListView;
 
@@ -26,10 +30,21 @@ public class PregameMenuSController extends BasePregameController {
 
     @Override
     protected void initializeController() {
+        User user = User.getLoggedInUser();
+
+        ObservableList<String> leaderNames = FXCollections.observableArrayList();
+        for (Card leader : Faction.getFactionByName("Skellige").getLeaderCards()) {
+            leaderNames.add(leader.getName());
+        }
+        leaderChoiceBox.setItems(leaderNames);
+        leaderChoiceBox.setValue(user.getLeaderCard().getName());
+        leaderChoiceBox.setOnAction(event -> handleLeaderChange());
+
+        leaderImage.setImage(user.getLeaderCard().getImage());
+
         skelligeCards = FXCollections.observableArrayList();
         userDeck = FXCollections.observableArrayList();
 
-        User user = User.getLoggedInUser();
         for (Map.Entry<Card, Integer> entry : user.getDeck().entrySet()) {
             Card card = entry.getKey();
             int count = entry.getValue();
@@ -74,5 +89,15 @@ public class PregameMenuSController extends BasePregameController {
                 updateLabels();
             }
         });
+    }
+
+    private void handleLeaderChange() {
+        String selectedLeaderName = leaderChoiceBox.getValue();
+        Card selectedLeader = Faction.getFactionByName("Skellige").getLeaderCardByName(selectedLeaderName);
+
+        if (selectedLeader != null) {
+            User.getLoggedInUser().setLeaderCard(selectedLeader);
+            leaderImage.setImage(selectedLeader.getImage());
+        }
     }
 }

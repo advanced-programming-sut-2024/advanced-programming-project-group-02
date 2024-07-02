@@ -73,4 +73,12 @@ public class Card {
     public boolean isSpecial() {
         return this.getCardType().equals(CardType.Spell) || this.getCardType().equals(CardType.Weather);
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

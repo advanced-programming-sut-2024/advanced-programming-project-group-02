@@ -4,7 +4,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
+import javafx.scene.image.ImageView;
 import model.Card;
 import model.Faction;
 import model.User;
@@ -15,21 +17,34 @@ import java.util.Map;
 
 public class PregameMenuMController extends BasePregameController {
 
+    public ImageView leaderImage;
+    public ChoiceBox<String> leaderChoiceBox;
     @FXML
     private ListView<Card> cardsListView;
 
     @FXML
     private ListView<Card> userDeckListView;
 
-    private ObservableList<Card> monsterCards;
+    private ObservableList<Card> monstersCards;
     private ObservableList<Card> userDeck;
 
     @Override
     protected void initializeController() {
-        monsterCards = FXCollections.observableArrayList();
+        User user = User.getLoggedInUser();
+
+        ObservableList<String> leaderNames = FXCollections.observableArrayList();
+        for (Card leader : Faction.getFactionByName("Monsters").getLeaderCards()) {
+            leaderNames.add(leader.getName());
+        }
+        leaderChoiceBox.setItems(leaderNames);
+        leaderChoiceBox.setValue(user.getLeaderCard().getName());
+        leaderChoiceBox.setOnAction(event -> handleLeaderChange());
+
+        leaderImage.setImage(user.getLeaderCard().getImage());
+
+        monstersCards = FXCollections.observableArrayList();
         userDeck = FXCollections.observableArrayList();
 
-        User user = User.getLoggedInUser();
         for (Map.Entry<Card, Integer> entry : user.getDeck().entrySet()) {
             Card card = entry.getKey();
             int count = entry.getValue();
@@ -42,14 +57,14 @@ public class PregameMenuMController extends BasePregameController {
             int cardInDeck = 0;
             if (userDeck.contains(card)) cardInDeck = user.getDeck().get(card);
             for (int i = 0; i < card.getCountOfCard()-cardInDeck ; i++) {
-                monsterCards.add(card);
+                monstersCards.add(card);
             }
         }
 
-        SortedList<Card> sortedMonsterCards = new SortedList<>(monsterCards, Comparator.comparingInt(Card::getID));
+        SortedList<Card> sortedMonstersCards = new SortedList<>(monstersCards, Comparator.comparingInt(Card::getID));
         SortedList<Card> sortedUserDeck = new SortedList<>(userDeck, Comparator.comparingInt(Card::getID));
 
-        cardsListView.setItems(sortedMonsterCards);
+        cardsListView.setItems(sortedMonstersCards);
         cardsListView.setCellFactory(new CardListCellFactory());
 
         userDeckListView.setItems(sortedUserDeck);
@@ -59,7 +74,7 @@ public class PregameMenuMController extends BasePregameController {
             Card selectedCard = cardsListView.getSelectionModel().getSelectedItem();
             if (selectedCard != null) {
                 userDeck.add(selectedCard);
-                monsterCards.remove(selectedCard);
+                monstersCards.remove(selectedCard);
                 User.getLoggedInUser().addToDeck(selectedCard);
                 updateLabels();
             }
@@ -69,10 +84,20 @@ public class PregameMenuMController extends BasePregameController {
             Card selectedCard = userDeckListView.getSelectionModel().getSelectedItem();
             if (selectedCard != null) {
                 userDeck.remove(selectedCard);
-                monsterCards.add(selectedCard);
+                monstersCards.add(selectedCard);
                 User.getLoggedInUser().removeFromDeck(selectedCard);
                 updateLabels();
             }
         });
+    }
+
+    private void handleLeaderChange() {
+        String selectedLeaderName = leaderChoiceBox.getValue();
+        Card selectedLeader = Faction.getFactionByName("Monsters").getLeaderCardByName(selectedLeaderName);
+
+        if (selectedLeader != null) {
+            User.getLoggedInUser().setLeaderCard(selectedLeader);
+            leaderImage.setImage(selectedLeader.getImage());
+        }
     }
 }
