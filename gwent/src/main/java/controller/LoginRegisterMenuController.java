@@ -62,6 +62,7 @@ public class LoginRegisterMenuController {
 
     private static final int MIN_PASSWORD_LENGTH = 8;
     private static final SecureRandom random = new SecureRandom();
+    public CheckBox notARobotCheckBox;
     //generate pass
     boolean showAlertConfirmed = false;
     public String generatedPassword = "#";
@@ -74,23 +75,39 @@ public class LoginRegisterMenuController {
         return (Pattern.compile(regex).matcher(input));
     }
 
-
     public void registerUser(MouseEvent mouseEvent) {
         String usernameText = this.username.getText();
         String passwordText = this.password.getText();
         String emailText = this.email.getText();
         String nicknameText = this.nickname.getText();
+        String passwordConfirmText = this.passwordConfirm.getText();
+        boolean notARobot = this.notARobotCheckBox.isSelected();
+
+        if (usernameText == null || usernameText.isEmpty() ||
+                passwordText == null || passwordText.isEmpty() ||
+                emailText == null || emailText.isEmpty() ||
+                nicknameText == null || nicknameText.isEmpty() ||
+                passwordConfirmText == null || passwordConfirmText.isEmpty()) {
+            showAlert("Invalid Input", "Please fill in all the fields.");
+            return;
+        }
+
+        if (!notARobot) {
+            showAlert("Verification Error", "Please confirm you are not a robot.");
+            return;
+        }
+
         if (usersMap.containsKey(usernameText) && usersMap.size() != 0) {
             showAlert("Invalid username", "This username has already been used");
         } else if (!isUsableUsername(usernameText)) {
             System.out.println(usernameText);
             showAlert("Invalid username", "Your username can only contain uppercase and lowercase letters, numbers or the dash character");
-        } else if (!isPasswordWeak(passwordText)) {
+        } else if (isPasswordWeak(passwordText)) {
             showAlert("Security error", "Your password is not strong! You must use at least eight characters including upper and lower" +
                     " case letters, numbers and special characters.");
         } else if (!isValidEmailAddress(emailText)) {
             showAlert("Invalid email", "The email entered is invalid.");
-        } else if (!passwordText.equals(this.passwordConfirm.getText())) {
+        } else if (!passwordText.equals(passwordConfirmText)) {
             showAlert("Wrong password!", "Your password was not confirmed! Please enter your password correctly for confirm password.");
         } else {
             User user = new User(usernameText, passwordText, emailText, nicknameText);
@@ -102,6 +119,7 @@ public class LoginRegisterMenuController {
             }
             goToQuestionMenu();
         }
+
         email.clear();
         username.clear();
         password.clear();
@@ -112,24 +130,37 @@ public class LoginRegisterMenuController {
     public void loginUser(MouseEvent mouseEvent) {
         String loginUsernameText = this.loginUsername.getText();
         String loginPasswordText = this.loginPassword.getText();
-        if (!Objects.requireNonNull(User.getUserWithName(loginUsernameText)).getPassword().equals(password)) {
-            showAlert("Wrong password!", "Please enter your password correctly");
-        } else if (User.isThereUserWithName(loginUsernameText)) {
-            showAlert("username not found!", "Please enter your username correctly");
-        } else if (loginPasswordText != null && loginUsernameText != null) {
-            System.out.println("User logged in successfully.");
-            User user = User.getUserWithName(loginUsernameText);
-            User.setLoggedInUser(user);
-            MainMenu mainMenu = new MainMenu();
-            try {
-                mainMenu.start(LoginMenu.stage);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+
+        if (loginUsernameText == null || loginUsernameText.isEmpty() ||
+                loginPasswordText == null || loginPasswordText.isEmpty()) {
+            showAlert("Invalid Input", "Please enter both username and password.");
+            return;
         }
+
+        if (!User.isThereUserWithName(loginUsernameText)) {
+            showAlert("Username Not Found", "The username '" + loginUsernameText + "' does not exist.");
+            return;
+        }
+
+        User user = User.getUserWithName(loginUsernameText);
+        if (user == null || !user.getPassword().equals(loginPasswordText)) {
+            showAlert("Wrong Password", "Please enter your password correctly.");
+            return;
+        }
+
+        System.out.println("User logged in successfully.");
+        User.setLoggedInUser(user);
+        MainMenu mainMenu = new MainMenu();
+        try {
+            mainMenu.start(LoginMenu.stage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         loginPassword.clear();
         loginUsername.clear();
     }
+
 
     public static void loadUsers() {
         try (Reader reader = new FileReader(FILE_PATH)) {
@@ -164,21 +195,34 @@ public class LoginRegisterMenuController {
 
     public void forgetPassword(MouseEvent mouseEvent) {
         String usernameForgetText = this.usernameForget.getText();
-        User user = User.getUserWithName(usernameForgetText);
         String newPasswordForgetText = this.passwordForget.getText();
-        String mainAnswer = user.getAnswer();
         String enteredAnswerText = this.answerForget.getText();
-        if (user == null) {
-            showAlert("username not found!", "Please register first.");
-        } else if (usersMap.containsKey(usernameForgetText) && newPasswordForgetText != null) {
-            showAlert("Invalid username!", "This username not fond.");
-        } else if (!enteredAnswerText.equals(mainAnswer)) {
-            showAlert("Wrong Answer!", "Please enter your correct answer");
-        } else if ((enteredAnswerText.equals(mainAnswer)) && newPasswordForgetText != null && enteredAnswerText != null) {
-            user.setPassword(newPasswordForgetText);
-            showAlert("password recovery", "Your password has been changed.");
-            goToMainMenu();
+
+        if (usernameForgetText == null || usernameForgetText.isEmpty() ||
+                newPasswordForgetText == null || newPasswordForgetText.isEmpty() ||
+                enteredAnswerText == null || enteredAnswerText.isEmpty()) {
+            showAlert("Invalid Input", "Please fill in all the fields.");
+            return;
         }
+
+        User user = User.getUserWithName(usernameForgetText);
+
+        if (user == null) {
+            showAlert("Username Not Found", "The username '" + usernameForgetText + "' does not exist. Please register first.");
+            return;
+        }
+
+        String mainAnswer = user.getAnswer();
+
+        if (!enteredAnswerText.equals(mainAnswer)) {
+            showAlert("Wrong Answer", "Please enter your correct answer.");
+            return;
+        }
+
+        user.setPassword(newPasswordForgetText);
+        showAlert("Password Recovery", "Your password has been changed.");
+        goToMainMenu();
+
         usernameForget.clear();
         passwordForget.clear();
         answerForget.clear();
