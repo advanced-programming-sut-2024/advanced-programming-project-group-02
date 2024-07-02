@@ -70,6 +70,24 @@ public class Faction {
         leaderCards.add(card);
     }
 
+    public void setCards(ArrayList<Card> cards) {
+        this.cards = cards;
+    }
+
+    public ArrayList<Card> getLeaderCards() {
+        return leaderCards;
+    }
+
+    public void setLeaderCards(ArrayList<Card> leaderCards) {
+        this.leaderCards = leaderCards;
+    }
+
+    public Card getLeaderCardByName(String name) {
+        for (Card card : leaderCards) {
+            if (card.getName().equals(name)) return card;
+        } return null;
+    }
+
     public Image getImage() {
         return image;
     }

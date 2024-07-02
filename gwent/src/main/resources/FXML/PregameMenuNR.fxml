@@ -34,7 +34,7 @@
         <Label fx:id="totalUnitCardsStrength" alignment="CENTER" layoutX="385.0" layoutY="391.0" text="0" textFill="WHITE" />
         <Label layoutX="357.0" layoutY="409.0" text="Hero cards:" textFill="WHITE" />
         <Label fx:id="heroCards" alignment="CENTER" layoutX="385.0" layoutY="427.0" text="0" textFill="WHITE" />
-        <ImageView fitHeight="120.0" fitWidth="80.0" layoutX="349.0" layoutY="139.0">
+        <ImageView fitHeight="120.0" fitWidth="80.0" layoutX="349.0" layoutY="128.0">
             <image>
                 <Image url="@../images/cards/northernRealms/faction_realms.jpg" />
             </image>
@@ -44,7 +44,7 @@
                 <ListView fx:id="userDeckListView" prefHeight="455.0" prefWidth="240.0" />
             </children>
         </VBox>
-        <Button fx:id="downloadDeck" layoutX="258.0" layoutY="140.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="80.0" text="download deck">
+        <Button fx:id="downloadDeck" layoutX="431.0" layoutY="165.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="80.0" text="download deck">
             <font>
                 <Font size="9.0" />
             </font>
@@ -55,7 +55,9 @@
             </font>
         </Button>
         <Button fx:id="startGame" layoutX="446.0" layoutY="423.0" mnemonicParsing="false" text="start game" />
-        <Label layoutX="258.0" layoutY="91.0" text="change faction:" textFill="WHITE" />
+        <Label layoutX="256.0" layoutY="91.0" text="change faction:" textFill="WHITE" />
         <Button fx:id="goToMainMenu" layoutX="258.0" layoutY="423.0" mnemonicParsing="false" text="Main Manu" />
+        <ImageView fx:id="leaderImage" fitHeight="140.0" fitWidth="98.0" layoutX="258.0" layoutY="115.0" pickOnBounds="true" preserveRatio="true" />
+        <ChoiceBox fx:id="leaderChoiceBox" layoutX="258.0" layoutY="264.0" prefHeight="24.0" prefWidth="71.0" />
     </AnchorPane>
 </AnchorPane>

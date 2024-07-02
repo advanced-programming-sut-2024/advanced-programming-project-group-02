@@ -808,7 +808,7 @@ public class SetDefaults {
         for (Card card : Card.getCards()) {
             if ((card.getID() > 100 && card.getID() < 123) || (card.getID() > 600 && card.getID() < 616)) {
                 skellige.addToCards(card);
-            }
+            } else if (card.getID() > 10 && card.getID() < 20) skellige.addToLeaderCards(card);
         }
 
 
@@ -816,28 +816,28 @@ public class SetDefaults {
         for (Card card : Card.getCards()) {
             if ((card.getID() > 200 && card.getID() < 219) || (card.getID() > 600 && card.getID() < 616)) {
                 scoiatael.addToCards(card);
-            }
+            } else if (card.getID() > 20 && card.getID() < 30) scoiatael.addToLeaderCards(card);
         }
 
         Faction northernRealms = new Faction("Northern Realms", new Image(SetDefaults.class.getResourceAsStream("/images/cards/northernRealms/faction_realms.jpg")));
         for (Card card : Card.getCards()) {
             if ((card.getID() > 300 && card.getID() < 320) || (card.getID() > 600 && card.getID() < 616)) {
                 northernRealms.addToCards(card);
-            }
+            } else if (card.getID() > 30 && card.getID() < 40) northernRealms.addToLeaderCards(card);
         }
 
         Faction nilfgaard = new Faction("Nilfgaard", new Image(SetDefaults.class.getResourceAsStream("/images/cards/nilfgaard/faction_nilfgaard.jpg")));
         for (Card card : Card.getCards()) {
             if ((card.getID() > 400 && card.getID() < 425) || (card.getID() > 600 && card.getID() < 616)) {
                 nilfgaard.addToCards(card);
-            }
+            } else if (card.getID() > 40 && card.getID() < 50) nilfgaard.addToLeaderCards(card);
         }
 
         Faction monsters = new Faction("Monsters", new Image(SetDefaults.class.getResourceAsStream("/images/cards/monsters/faction_monsters.jpg")));
         for (Card card : Card.getCards()) {
             if ((card.getID() > 500 && card.getID() < 530) || (card.getID() > 600 && card.getID() < 616)) {
                 monsters.addToCards(card);
-            }
+            } else if (card.getID() > 50 && card.getID() < 60) monsters.addToLeaderCards(card);
         }
     }
 

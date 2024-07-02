@@ -25,6 +25,8 @@ public class User {
 
     private Faction faction;
 
+    private Card leaderCard;
+
     private String username;
 
     private String password;
@@ -69,6 +71,8 @@ public class User {
             loggedInUser = this;
 
             this.faction = Faction.getFactionByName("Skellige");
+
+            this.leaderCard = faction.getLeaderCArdByID(11);
 
             totalCardsInDeck = 0;
 
@@ -534,5 +538,13 @@ public class User {
 
     public static void addToUsers(User user) {
         users.add(user);
+    }
+
+    public Card getLeaderCard() {
+        return leaderCard;
+    }
+
+    public void setLeaderCard(Card leaderCard) {
+        this.leaderCard = leaderCard;
     }
 }
