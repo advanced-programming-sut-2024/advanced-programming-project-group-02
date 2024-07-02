@@ -1,15 +1,27 @@
 package view;
 
-import controller.GameMenuController;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.stage.Stage;
 
-import java.util.Scanner;
+public class GameMenu extends Application {
+    public static Stage stage;
 
-public class GameMenu {
-    public static void run (Scanner scanner){
-        //randomise transforming the cards from deck to hand
-        //veto card should be done here before the game starts
-        GameMenuController.showCommands();
+    @Override
+    public void start(Stage stage) throws Exception {
+        GameMenu.stage = stage;
+        Parent root = FXMLLoader.load((getClass().getResource("/FXML/GameMenu.fxml")));
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setTitle("Game Menu");
+        stage.getIcons().add(new Image((getClass().getResourceAsStream("/Images/GwentIcon.jpg"))));
+        stage.show();
     }
-    public static void showCommands() {}
 
+    public static void main(String[] args) {
+        launch(args);
+    }
 }
