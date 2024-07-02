@@ -706,6 +706,101 @@ public class SetDefaults {
         new Card("Zoltan Chivay", 615, 5, 1,
                 false, new ArrayList<>(abilities), CardType.CloseCombatUnit, Place.closeCombat,
                 new Image(SetDefaults.class.getResourceAsStream("/images/cards/special/neutral_zoltan.jpg")));
+
+
+
+        //leader cards
+        new Card("Crach an Craite", 11, 0, 1,
+                false, new ArrayList<>(abilities), CardType.Leader, Place.Leader,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/leaders/skellige_crach_an_craite.jpg")));
+
+        new Card("King Bran", 12, 0, 1,
+                false, new ArrayList<>(abilities), CardType.Leader, Place.Leader,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/leaders/skellige_king_bran.jpg")));
+
+
+        new Card("Queen of Dol Blathanna", 21, 0, 1,
+                false, new ArrayList<>(abilities), CardType.Leader, Place.Leader,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/leaders/scoiatael_francesca_silver.jpg")));
+
+        new Card("The Beautiful", 22, 0, 1,
+                false, new ArrayList<>(abilities), CardType.Leader, Place.Leader,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/leaders/scoiatael_francesca_gold.jpg")));
+
+        new Card("Daisy of the Valley", 23, 0, 1,
+                false, new ArrayList<>(abilities), CardType.Leader, Place.Leader,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/leaders/scoiatael_francesca_copper.jpg")));
+
+        new Card("Pureblood Elf", 24, 0, 1,
+                false, new ArrayList<>(abilities), CardType.Leader, Place.Leader,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/leaders/scoiatael_francesca_bronze.jpg")));
+
+        new Card("Hope of the Aen Seidhe", 25, 0, 1,
+                false, new ArrayList<>(abilities), CardType.Leader, Place.Leader,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/leaders/scoiatael_francesca_hope_of_the_aen_seidhe.jpg")));
+
+
+        new Card("The Siegemaster", 31, 0, 1,
+                false, new ArrayList<>(abilities), CardType.Leader, Place.Leader,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/leaders/realms_foltest_silver.jpg")));
+
+        new Card("The Steel-Forged", 32, 0, 1,
+                false, new ArrayList<>(abilities), CardType.Leader, Place.Leader,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/leaders/realms_foltest_gold.jpg")));
+
+        new Card("King of Temeria", 33, 0, 1,
+                false, new ArrayList<>(abilities), CardType.Leader, Place.Leader,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/leaders/realms_foltest_copper.jpg")));
+
+        new Card("Lord Commander of the North", 34, 0, 1,
+                false, new ArrayList<>(abilities), CardType.Leader, Place.Leader,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/leaders/realms_foltest_bronze.jpg")));
+
+        new Card("Son of Medell", 35, 0, 1,
+                false, new ArrayList<>(abilities), CardType.Leader, Place.Leader,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/leaders/realms_foltest_son_of_medell.jpg")));
+
+
+        new Card("The White Flame", 41, 0, 1,
+                false, new ArrayList<>(abilities), CardType.Leader, Place.Leader,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/leaders/nilfgaard_emhyr_silver.jpg")));
+
+        new Card("His Imperial Majesty", 42, 0, 1,
+                false, new ArrayList<>(abilities), CardType.Leader, Place.Leader,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/leaders/nilfgaard_emhyr_copper.jpg")));
+
+        new Card("Emperor of Nilfgaard", 43, 0, 1,
+                false, new ArrayList<>(abilities), CardType.Leader, Place.Leader,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/leaders/nilfgaard_emhyr_bronze.jpg")));
+
+        new Card("The Relentless", 44, 0, 1,
+                false, new ArrayList<>(abilities), CardType.Leader, Place.Leader,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/leaders/nilfgaard_emhyr_gold.jpg")));
+
+        new Card("Invader of the North", 45, 0, 1,
+                false, new ArrayList<>(abilities), CardType.Leader, Place.Leader,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/leaders/nilfgaard_emhyr_invader_of_the_north.jpg")));
+
+
+        new Card("Bringer of Death", 51, 0, 1,
+                false, new ArrayList<>(abilities), CardType.Leader, Place.Leader,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/leaders/monsters_eredin_silver.jpg")));
+
+        new Card("King of the wild Hunt", 52, 0, 1,
+                false, new ArrayList<>(abilities), CardType.Leader, Place.Leader,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/leaders/monsters_eredin_bronze.jpg")));
+
+        new Card("Destroyer of Worlds", 53, 0, 1,
+                false, new ArrayList<>(abilities), CardType.Leader, Place.Leader,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/leaders/monsters_eredin_gold.jpg")));
+
+        new Card("Commander of the Red Riders", 54, 0, 1,
+                false, new ArrayList<>(abilities), CardType.Leader, Place.Leader,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/leaders/monsters_eredin_copper.jpg")));
+
+        new Card("The Treacherous", 55, 0, 1,
+                false, new ArrayList<>(abilities), CardType.Leader, Place.Leader,
+                new Image(SetDefaults.class.getResourceAsStream("/images/cards/leaders/monsters_eredin_the_treacherous.jpg")));
     }
 
     public static void setFaction() {
@@ -715,6 +810,7 @@ public class SetDefaults {
                 skellige.addToCards(card);
             }
         }
+
 
         Faction scoiatael = new Faction("Scoia'tael", new Image(SetDefaults.class.getResourceAsStream("/images/cards/scoiatael/faction_scoiatael.jpg")));
         for (Card card : Card.getCards()) {
