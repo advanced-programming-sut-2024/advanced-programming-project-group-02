@@ -1,5 +1,6 @@
 package controller;
 
+import javafx.scene.input.MouseEvent;
 import model.Card;
 
 import java.util.regex.Matcher;
@@ -50,6 +51,10 @@ public class GameMenuController {
 
     public static boolean isEndRound(){return true;}
 
+    public void Exit (MouseEvent mouseEvent){
+        LoginRegisterMenuController.saveUsers();
+        System.exit(0);
+    }
 
 
 }

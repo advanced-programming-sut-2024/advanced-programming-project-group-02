@@ -85,12 +85,12 @@ public class LoginRegisterMenuController {
         } else if (!isUsableUsername(usernameText)) {
             System.out.println(usernameText);
             showAlert("Invalid username", "Your username can only contain uppercase and lowercase letters, numbers or the dash character");
-        } else if (!isPasswordWeak(passwordText)) {
+        } else if ((!isPasswordWeak(passwordText))  && (generatedPassword.equals("#"))) {
             showAlert("Security error", "Your password is not strong! You must use at least eight characters including upper and lower" +
                     " case letters, numbers and special characters.");
         } else if (!isValidEmailAddress(emailText)) {
             showAlert("Invalid email", "The email entered is invalid.");
-        } else if (!passwordText.equals(this.passwordConfirm.getText())) {
+        } else if ((!passwordText.equals(this.passwordConfirm.getText())) && (generatedPassword.equals("#"))) {
             showAlert("Wrong password!", "Your password was not confirmed! Please enter your password correctly for confirm password.");
         } else {
             User user = new User(usernameText, passwordText, emailText, nicknameText);
@@ -120,6 +120,7 @@ public class LoginRegisterMenuController {
             System.out.println("User logged in successfully.");
             User user = User.getUserWithName(loginUsernameText);
             User.setLoggedInUser(user);
+            //go to main menu
             MainMenu mainMenu = new MainMenu();
             try {
                 mainMenu.start(LoginMenu.stage);
@@ -150,7 +151,7 @@ public class LoginRegisterMenuController {
         }
     }
 
-    private static void saveUsers() {
+    public static void saveUsers() {
         ArrayList<User> users = User.getUsers();
         try (Writer writer = new FileWriter(FILE_PATH)) {
             for (User user : users) {
@@ -184,13 +185,6 @@ public class LoginRegisterMenuController {
         answerForget.clear();
     }
 
-    public static boolean isPasswordWeak(String password) {
-        String checkStrong = "^(?=.*\\d)(?=.*[A-Z])(?=.*[a-z]).*";
-        if (getCommandMatcher(password, checkStrong).matches()) {
-            return true;
-        }
-        return false;
-    }
 
     //go to another menus in 4 method
     public void goToRegisterMenu(MouseEvent mouseEvent) {
@@ -247,6 +241,13 @@ public class LoginRegisterMenuController {
         }
     }
 
+    public static boolean isPasswordWeak(String password) {
+        String checkStrong = "^(?=.*\\d)(?=.*[A-Z])(?=.*[a-z]).*";
+        if (getCommandMatcher(password, checkStrong).matches()) {
+            return true;
+        }
+        return false;
+    }
 
     public static boolean isValidEmailAddress(String email) {
         String checkEmail = "^(.+)@(\\S+)\\.com$";
@@ -258,7 +259,7 @@ public class LoginRegisterMenuController {
 
     public static boolean isUsableUsername(String username) {
         String checkUsable = "(\\d)?[A-Z]?[a-z]?(-)?";
-        if (getCommandMatcher(username, checkUsable).matches()) {
+        if (!getCommandMatcher(username, checkUsable).matches()) {
             return true;
         }
         return false;
@@ -319,5 +320,10 @@ public class LoginRegisterMenuController {
             return true;
         }
         return false;
+    }
+
+    public void Exit (MouseEvent mouseEvent){
+        saveUsers();
+        System.exit(0);
     }
 }

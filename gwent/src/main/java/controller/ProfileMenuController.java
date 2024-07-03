@@ -1,5 +1,7 @@
 package controller;
 
+import javafx.scene.input.MouseEvent;
+
 import java.util.regex.Matcher;
 
 public class ProfileMenuController {
@@ -10,4 +12,9 @@ public class ProfileMenuController {
     public static void changeEmail(Matcher matcher) {}
     public static void showUserInfo(Matcher matcher) {}
     public static void showGameHistory(Matcher matcher) {}
+
+    public void Exit (MouseEvent mouseEvent){
+        LoginRegisterMenuController.saveUsers();
+        System.exit(0);
+    }
 }

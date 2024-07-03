@@ -40,6 +40,16 @@ public class Card {
         return ID;
     }
 
+    public static Card getCardByID(int ID){
+        ArrayList <Card> cards1 = new ArrayList<>();
+        for (Card card : cards1){
+            if (card.getID() == ID){
+                return card;
+            }
+        }
+        return null;
+    }
+
     public int getPower() {
         return power;
     }

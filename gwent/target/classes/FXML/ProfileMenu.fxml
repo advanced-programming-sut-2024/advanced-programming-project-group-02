@@ -5,20 +5,27 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="450.0" prefWidth="780.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ProfileMenuController">
+<AnchorPane prefHeight="450.0" prefWidth="780.0" xmlns="http://javafx.com/javafx/17.0.2-ea"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ProfileMenuController">
     <children>
-        <AnchorPane prefHeight="450.0" prefWidth="780.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <AnchorPane prefHeight="450.0" prefWidth="780.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                    AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
                 <ImageView fitHeight="450.0" fitWidth="780.0">
                     <image>
-                        <Image url="@../images/MenusBackground.jpg" />
+                        <Image url="@../images/MenusBackground.jpg"/>
                     </image>
                 </ImageView>
                 <Label contentDisplay="CENTER" layoutX="307.0" layoutY="68.0" text="Profile Menu" textFill="WHITE">
                     <font>
-                        <Font name="Copperplate Gothic Bold" size="22.0" />
+                        <Font name="Copperplate Gothic Bold" size="22.0"/>
                     </font>
                 </Label>
+                <Button layoutX="742.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#Exit" text="X" textFill="RED">
+                    <font>
+                        <Font name="System Bold" size="10.0"/>
+                    </font>
+                </Button>
             </children>
         </AnchorPane>
     </children>

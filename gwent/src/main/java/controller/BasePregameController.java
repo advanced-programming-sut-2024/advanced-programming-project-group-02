@@ -1,16 +1,24 @@
 package controller;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import model.EachPlayerGame;
-import model.Faction;
-import model.Game;
-import model.User;
+import model.*;
 import view.*;
 
+import javax.swing.*;
+import java.io.*;
+import java.lang.reflect.Type;
+import java.nio.file.Paths;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 public abstract class BasePregameController {
@@ -22,10 +30,10 @@ public abstract class BasePregameController {
     protected Label specialCards;
     @FXML
     protected Label heroCards;
-    @FXML
-    protected Button downloadDeck;
-    @FXML
-    protected Button uploadDeck;
+    //    @FXML
+//    protected Button downloadDeck;
+//    @FXML
+//    protected Button uploadDeck;
     @FXML
     protected Label totalUnitCardsStrength;
     @FXML
@@ -35,6 +43,12 @@ public abstract class BasePregameController {
 
     @FXML
     protected ChoiceBox<String> factionChoiceBox;
+
+    //file json
+    private static final String FILE_PATH = "cards.json";
+    private static Map<Integer, Integer> cardsMap = new HashMap<>();
+    private static final Gson gson = new Gson();
+
 
     @FXML
     protected void initialize() {
@@ -144,7 +158,7 @@ public abstract class BasePregameController {
     }
 
     @FXML
-    private void handleGoToMainMenu(ActionEvent event){
+    private void handleGoToMainMenu(ActionEvent event) {
         goToMainMenu();
     }
 
@@ -203,8 +217,114 @@ public abstract class BasePregameController {
         return result.orElse(null);
     }
 
+    public void downloadDeck(MouseEvent mouseEvent) {
+        String userHome = System.getProperty("user.home");
+        String fileName = "GwentDeck.json";
+        String filePath = Paths.get(userHome, fileName).toString();
+
+        User user = User.getLoggedInUser();
+        ArrayList<Card> cards = new ArrayList<>(user.getDeck().keySet());
+
+        Map<Integer, Integer> cardsMap = new HashMap<>();
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+        try (Writer writer = new FileWriter(filePath)) {
+            for (Card card : cards) {
+                cardsMap.put(card.getID(), card.getCountOfCard());
+            }
+            gson.toJson(cardsMap, writer);
+            System.out.println("Deck saved successfully at: " + filePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void uploadDeck(MouseEvent mouseEvent) {
+        User user = User.getLoggedInUser();
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Select a JSON file");
+        int result = fileChooser.showOpenDialog(null);
+
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            try (Reader reader = new FileReader(selectedFile)) {
+                Type cardType = new TypeToken<Map<Integer, Integer>>() {
+                }.getType();
+                cardsMap = gson.fromJson(reader, cardType);
+
+                if (cardsMap == null) {
+                    cardsMap = new HashMap<>();
+                }
+
+                for (Map.Entry<Integer, Integer> entry : cardsMap.entrySet()) {
+                    int idCard = entry.getKey();
+                    Card card = Card.getCardByID(idCard);
+                    if (card != null) {
+                        user.addToDeck(card);
+                    }
+                }
+                String faction = User.getLoggedInUser().getFaction().getName();
+                User.getLoggedInUser().clearDeck();
+                switch (faction) {
+                    case "Skellige":
+                        PregameMenuS pregameMenuS = new PregameMenuS();
+                        try {
+                            pregameMenuS.start(PregameMenuS.stage);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case "Scoia'tael":
+                        PregameMenuSc pregameMenuSc = new PregameMenuSc();
+                        try {
+                            pregameMenuSc.start(PregameMenuSc.stage);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case "Northern Realms":
+                        PregameMenuNR pregameMenuNR = new PregameMenuNR();
+                        try {
+                            pregameMenuNR.start(PregameMenuNR.stage);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case "Nilfgaard":
+                        PregameMenuN pregameMenuN = new PregameMenuN();
+                        try {
+                            pregameMenuN.start(PregameMenuN.stage);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case "Monsters":
+                        PregameMenuM pregameMenuM = new PregameMenuM();
+                        try {
+                            pregameMenuM.start(PregameMenuM.stage);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    default:
+                        return;
+                }
+                System.out.println("Deck loaded successfully from: " + selectedFile.getAbsolutePath()); //test
+            } catch (FileNotFoundException e) {
+                System.out.println("File not found: " + selectedFile.getAbsolutePath());  //test
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("File selection cancelled by user.");
+        }
+    }
 
     private void startGame() {
         System.out.println("HEHEHEHEHEHEH");
+    }
+    public void Exit (MouseEvent mouseEvent){
+        LoginRegisterMenuController.saveUsers();
+        System.exit(0);
     }
 }

@@ -2,6 +2,7 @@ package controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import model.User;
 import view.*;
@@ -20,8 +21,8 @@ public class MainMenuController {
     @FXML
     public void initialize() {
                     SetDefaults.run();
-                    User user = new User("Zahra" , "12345", "", "");
-                    User user2 = new User("Sara" , "12345", "", "");
+//                    User user = new User("Zahra" , "12345", "", "");
+//                    User user2 = new User("Sara" , "12345", "", "");
 
         goToPreGameMenu.setOnAction(event -> {
             try {
@@ -89,5 +90,10 @@ public class MainMenuController {
     private void handleLogout() throws Exception {
         LoginMenu loginMenu = new LoginMenu();
         loginMenu.start(MainMenu.stage);
+    }
+
+    public void Exit (MouseEvent mouseEvent){
+        LoginRegisterMenuController.saveUsers();
+        System.exit(0);
     }
 }
