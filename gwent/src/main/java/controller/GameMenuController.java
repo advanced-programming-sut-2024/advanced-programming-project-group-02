@@ -1,11 +1,52 @@
 package controller;
 
 import javafx.scene.input.MouseEvent;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.image.ImageView;
 import model.Card;
 
 import java.util.regex.Matcher;
 
 public class GameMenuController {
+
+    public ImageView firstPlayerCrystal2;
+    public ImageView firstPlayerCrystal1;
+    public ImageView secondPlayerCrystal1;
+    public ImageView secondPlayerCrystal2;
+    public ImageView weatherCard;
+    public Button firstPlayerPass;
+    public Button secondPlayerPass;
+    public ImageView firstPlayerSiegeBoost;
+    public ImageView firstPlayerRangedBoost;
+    public ImageView firstPlayerCloseCombatBoost;
+    public ImageView secondPlayerCloseCombatBoost;
+    public ImageView secondPlayerRangedBoost;
+    public ImageView secondPlayerSiegeBoost;
+    public ImageView secondPlayerCards;
+    public ImageView firstPlayerBurnedCards;
+    public ImageView firstPlayerCards;
+    public ImageView secondPlayerBurnedCards;
+    public ListView currentPlayerDeck;
+    public ListView firstPlayerRangedList;
+    public ListView firstPlayerCloseCombatList;
+    public ListView secondPlayerCloseCombatList;
+    public ListView secondPlayerRangedList;
+    public ListView secondPlayerSiegeList;
+    public ListView firstPlayerSiegeList;
+    public Label firstPlayerSiege;
+    public Label firstPlayerRanged;
+    public Label secondPlayerRanged;
+    public Label secondPlayerCloseCombat;
+    public Label firstPlayerCloseCombat;
+    public Label firstPlayerTotalBoardStrength;
+    public Label SecondPlayerRemainingCards;
+    public Label firstPlayerRemainingCards;
+    public Label SecondPlayerTotalBoardStrength;
+    public ImageView firstPlayerLeaderCard;
+    public ImageView secondPlayerLeaderCard;
+    public Label secondPlayerSiege;
 
     public static void showCommands(){
 
