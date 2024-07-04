@@ -1,5 +1,13 @@
 package controller;
 
+import com.google.gson.Gson;
+
+import javax.swing.*;
+import java.util.HashMap;
+import java.util.Map;
+
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
@@ -7,13 +15,16 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import model.Card;
 import model.Faction;
 import model.User;
 import view.CardListCellFactory;
 
-import java.util.Comparator;
-import java.util.Map;
+import java.io.*;
+import java.lang.reflect.Type;
+import java.nio.file.Paths;
+import java.util.*;
 
 public class PregameMenuMController extends BasePregameController {
 
@@ -27,6 +38,15 @@ public class PregameMenuMController extends BasePregameController {
 
     private ObservableList<Card> monstersCards;
     private ObservableList<Card> userDeck;
+    //file json
+    private static final String FILE_PATH = "cards.json";
+    private static Map<Integer, Integer> cardsMap = new HashMap<>();
+    private static final Gson gson = new Gson();
+
+
+    public ListView<Card> getUserDeckListView() {
+        return userDeckListView;
+    }
 
     @Override
     protected void initializeController() {
@@ -56,7 +76,7 @@ public class PregameMenuMController extends BasePregameController {
         for (Card card : Faction.getFactionByName("Monsters").getCards()) {
             int cardInDeck = 0;
             if (userDeck.contains(card)) cardInDeck = user.getDeck().get(card);
-            for (int i = 0; i < card.getCountOfCard()-cardInDeck ; i++) {
+            for (int i = 0; i < card.getCountOfCard() - cardInDeck; i++) {
                 monstersCards.add(card);
             }
         }

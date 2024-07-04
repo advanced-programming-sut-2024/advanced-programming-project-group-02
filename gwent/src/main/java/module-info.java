@@ -2,6 +2,7 @@ module my.javafx.app {
     requires javafx.controls;
     requires javafx.fxml;
     requires com.google.gson;
+    requires java.desktop;
 
     opens view to javafx.fxml, javafx.graphics;
     opens controller to javafx.fxml;

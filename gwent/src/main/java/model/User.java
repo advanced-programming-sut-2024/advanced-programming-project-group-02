@@ -59,7 +59,7 @@ public class User {
     private int maxScore;
 
     public User(String username, String password, String email, String nickname) {
-        if (!users.contains(User.getUserWithName(username))){
+        if (!users.contains(User.getUserWithName(username))) {
             this.username = username;
 
             this.password = password;

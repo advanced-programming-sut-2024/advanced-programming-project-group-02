@@ -2,6 +2,7 @@ package controller;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -187,6 +188,10 @@ public class GameMenuController {
     public void startEndRound (){}
 
     public boolean isEndRound(){return true;}
+    public void Exit (MouseEvent mouseEvent){
+        LoginRegisterMenuController.saveUsers();
+        System.exit(0);
+    }
 
 
 }

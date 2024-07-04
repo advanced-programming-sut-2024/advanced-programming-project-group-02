@@ -44,12 +44,12 @@
                 <ListView fx:id="userDeckListView" prefHeight="455.0" prefWidth="240.0" />
             </children>
         </VBox>
-        <Button fx:id="downloadDeck" layoutX="431.0" layoutY="165.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="80.0" text="download deck">
+        <Button layoutX="431.0" layoutY="165.0" mnemonicParsing="false" onMouseClicked="#downloadDeck" prefHeight="20.0" prefWidth="80.0" text="download deck">
             <font>
                 <Font size="9.0" />
             </font>
         </Button>
-        <Button fx:id="uploadDeck" layoutX="440.0" layoutY="140.0" mnemonicParsing="false" text="upload deck">
+        <Button layoutX="440.0" layoutY="140.0" mnemonicParsing="false" onMouseClicked="#uploadDeck" text="upload deck">
             <font>
                 <Font size="9.0" />
             </font>
@@ -59,5 +59,10 @@
         <Button fx:id="goToMainMenu" layoutX="258.0" layoutY="423.0" mnemonicParsing="false" text="Main Manu" />
         <ImageView fx:id="leaderImage" fitHeight="140.0" fitWidth="98.0" layoutX="258.0" layoutY="115.0" pickOnBounds="true" preserveRatio="true" />
         <ChoiceBox fx:id="leaderChoiceBox" layoutX="258.0" layoutY="264.0" prefHeight="24.0" prefWidth="71.0" />
+        <Button layoutX="742.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#Exit" text="X" textFill="RED">
+            <font>
+                <Font name="System Bold" size="10.0"/>
+            </font>
+        </Button>
     </AnchorPane>
 </AnchorPane>
