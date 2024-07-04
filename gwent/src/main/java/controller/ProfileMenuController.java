@@ -13,8 +13,4 @@ public class ProfileMenuController {
     public static void showUserInfo(Matcher matcher) {}
     public static void showGameHistory(Matcher matcher) {}
 
-    public void Exit (MouseEvent mouseEvent){
-        LoginRegisterMenuController.saveUsers();
-        System.exit(0);
-    }
 }

@@ -92,8 +92,4 @@ public class MainMenuController {
         loginMenu.start(MainMenu.stage);
     }
 
-    public void Exit (MouseEvent mouseEvent){
-        LoginRegisterMenuController.saveUsers();
-        System.exit(0);
-    }
 }

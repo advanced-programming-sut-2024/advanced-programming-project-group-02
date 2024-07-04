@@ -38,10 +38,6 @@ public class PregameMenuMController extends BasePregameController {
 
     private ObservableList<Card> monstersCards;
     private ObservableList<Card> userDeck;
-    //file json
-    private static final String FILE_PATH = "cards.json";
-    private static Map<Integer, Integer> cardsMap = new HashMap<>();
-    private static final Gson gson = new Gson();
 
 
     public ListView<Card> getUserDeckListView() {

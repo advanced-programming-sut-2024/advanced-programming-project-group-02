@@ -66,8 +66,6 @@ public class LoginRegisterMenuController {
 
 
     @FXML
-
-
     private static Matcher getCommandMatcher(String input, String regex) {
         return (Pattern.compile(regex).matcher(input));
     }
@@ -128,24 +126,15 @@ public class LoginRegisterMenuController {
     public void loginUser(MouseEvent mouseEvent) {
         String loginUsernameText = this.loginUsername.getText();
         String loginPasswordText = this.loginPassword.getText();
-        if (!Objects.requireNonNull(User.getUserWithName(loginUsernameText)).getPassword().equals(password)) {
-            showAlert("Wrong password!", "Please enter your password correctly");
-        } else if (User.isThereUserWithName(loginUsernameText)) {
+        if (loginUsernameText == null || loginUsernameText.isEmpty() ||
+                loginPasswordText == null || loginPasswordText.isEmpty()) {
+            showAlert("Invalid Input", "Please enter both username and password.");
+        } else if (!User.isThereUserWithName(loginUsernameText)) {
             showAlert("username not found!", "Please enter your username correctly");
-        } else if (loginPasswordText != null && loginUsernameText != null) {
+        } else {
             User user = User.getUserWithName(loginUsernameText);
-            if (loginUsernameText == null || loginUsernameText.isEmpty() ||
-                    loginPasswordText == null || loginPasswordText.isEmpty()) {
-                showAlert("Invalid Input", "Please enter both username and password.");
-                return;
-            }
-            if (!User.isThereUserWithName(loginUsernameText)) {
-                showAlert("Username Not Found", "The username '" + loginUsernameText + "' does not exist.");
-                return;
-            }
-            if (user == null || !user.getPassword().equals(loginPasswordText)) {
+            if (!user.getPassword().equals(loginPasswordText)) {
                 showAlert("Wrong Password", "Please enter your password correctly.");
-                return;
             }
             System.out.println("User logged in successfully.");
             User.setLoggedInUser(user);
@@ -181,57 +170,58 @@ public class LoginRegisterMenuController {
         }
     }
 
-    public static void saveUsers () {
+    public static void saveUsers() {
         ArrayList<User> users = User.getUsers();
+
+        if (users == null) {
+            System.out.println("Users list is null. No data to save.");
+            return;
+        }
+
+        usersMap.clear();
+
+        for (User user : users) {
+            usersMap.put(user.getUsername(), user);
+        }
+
         try (Writer writer = new FileWriter(FILE_PATH)) {
-            for (User user : users) {
-                usersMap.put(user.getUsername(), new User(user.getUsername(), user.getPassword(), user.getEmail(), user.getNickname()));
-            }
             gson.toJson(usersMap, writer);
+            System.out.println("Users saved successfully to " + FILE_PATH);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void forgetPassword (MouseEvent mouseEvent){
+    public void forgetPassword(MouseEvent mouseEvent) {
         String usernameForgetText = this.usernameForget.getText();
         String newPasswordForgetText = this.passwordForget.getText();
         String enteredAnswerText = this.answerForget.getText();
-
         if (usernameForgetText == null || usernameForgetText.isEmpty() ||
                 newPasswordForgetText == null || newPasswordForgetText.isEmpty() ||
                 enteredAnswerText == null || enteredAnswerText.isEmpty()) {
             showAlert("Invalid Input", "Please fill in all the fields.");
             return;
         }
-
         User user = User.getUserWithName(usernameForgetText);
-
         if (user == null) {
             showAlert("Username Not Found", "The username '" + usernameForgetText + "' does not exist. Please register first.");
             return;
         }
-
         String mainAnswer = user.getAnswer();
-
         if (!enteredAnswerText.equals(mainAnswer)) {
             showAlert("Wrong Answer", "Please enter your correct answer.");
             return;
         }
-
         user.setPassword(newPasswordForgetText);
         showAlert("Password Recovery", "Your password has been changed.");
         goToMainMenu();
-
         usernameForget.clear();
         passwordForget.clear();
         answerForget.clear();
     }
 
-
-
     //go to another menus in 4 method
-    public void goToRegisterMenu (MouseEvent mouseEvent){
+    public void goToRegisterMenu(MouseEvent mouseEvent) {
         RegisterMenu registerMenu = new RegisterMenu();
         try {
             registerMenu.start(LoginMenu.stage);
@@ -240,7 +230,7 @@ public class LoginRegisterMenuController {
         }
     }
 
-    public void goToQuestionMenu () {
+    public void goToQuestionMenu() {
         QuestionMenu questionMenu = new QuestionMenu();
         try {
             questionMenu.start(RegisterMenu.stage);
@@ -249,7 +239,7 @@ public class LoginRegisterMenuController {
         }
     }
 
-    public void goToForgetPasswordPage (MouseEvent mouseEvent){
+    public void goToForgetPasswordPage(MouseEvent mouseEvent) {
         ForgetPassword forgetPassword = new ForgetPassword();
         try {
             forgetPassword.start(LoginMenu.stage);
@@ -258,7 +248,7 @@ public class LoginRegisterMenuController {
         }
     }
 
-    public void goToMainMenu () {
+    public void goToMainMenu() {
         MainMenu mainMenu = new MainMenu();
         try {
             mainMenu.start(ForgetPassword.stage);
@@ -267,7 +257,7 @@ public class LoginRegisterMenuController {
         }
     }
 
-    public void backToLoginFromRegisterMenu (MouseEvent mouseEvent){
+    public void backToLoginFromRegisterMenu(MouseEvent mouseEvent) {
         LoginMenu loginMenu = new LoginMenu();
         try {
             loginMenu.start(RegisterMenu.stage);
@@ -276,7 +266,7 @@ public class LoginRegisterMenuController {
         }
     }
 
-    public void backToLoginFromForgetPasswordMenu (MouseEvent mouseEvent){
+    public void backToLoginFromForgetPasswordMenu(MouseEvent mouseEvent) {
         LoginMenu loginMenu = new LoginMenu();
         try {
             loginMenu.start(ForgetPassword.stage);
@@ -285,7 +275,7 @@ public class LoginRegisterMenuController {
         }
     }
 
-    public static boolean isPasswordWeak (String password){
+    public static boolean isPasswordWeak(String password) {
         String checkStrong = "^(?=.*\\d)(?=.*[A-Z])(?=.*[a-z]).*";
         if (getCommandMatcher(password, checkStrong).matches()) {
             return true;
@@ -293,7 +283,7 @@ public class LoginRegisterMenuController {
         return false;
     }
 
-    public static boolean isValidEmailAddress (String email){
+    public static boolean isValidEmailAddress(String email) {
         String checkEmail = "^(.+)@(\\S+)\\.com$";
         if (getCommandMatcher(email, checkEmail).matches()) {
             return true;
@@ -301,7 +291,7 @@ public class LoginRegisterMenuController {
         return false;
     }
 
-    public static boolean isUsableUsername (String username){
+    public static boolean isUsableUsername(String username) {
         String checkUsable = "(\\d)?[A-Z]?[a-z]?(-)?";
         if (!getCommandMatcher(username, checkUsable).matches()) {
             return true;
@@ -309,8 +299,9 @@ public class LoginRegisterMenuController {
         return false;
     }
 
+
     // get random password in two method
-    public void generateRandomPassword (MouseEvent mouseEvent){
+    public void generateRandomPassword(MouseEvent mouseEvent) {
         String allCharacters = UPPERCASE + LOWERCASE + DIGITS + SPECIAL_CHARACTERS;
         StringBuilder password = new StringBuilder();
         password.append(UPPERCASE.charAt(random.nextInt(UPPERCASE.length())));
@@ -327,8 +318,15 @@ public class LoginRegisterMenuController {
         }
     }
 
-    private static String shuffleString (String input){
-        return null;
+    private String shuffleString(String input) {
+        char[] characters = input.toCharArray();
+        for (int i = characters.length - 1; i > 0; i--) {
+            int j = random.nextInt(i + 1);
+            char temp = characters[i];
+            characters[i] = characters[j];
+            characters[j] = temp;
+        }
+        return new String(characters);
     }
 
     private boolean showAlertConfirmed (String title, String message){
@@ -347,16 +345,19 @@ public class LoginRegisterMenuController {
         return false;
     }
 
-    public void Exit (MouseEvent mouseEvent){
-        saveUsers();
-        System.exit(0);
+    public static boolean isEmptyFile() {
+        if (gson == null) {
+            return true;
+        }
+        return false;
     }
-
-    private static void showAlert (String title, String message){
+    private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.show();
     }
+
+
 }

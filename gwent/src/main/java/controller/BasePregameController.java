@@ -328,8 +328,5 @@ public abstract class BasePregameController {
             e.printStackTrace();
         }
     }
-    public void Exit (MouseEvent mouseEvent){
-        LoginRegisterMenuController.saveUsers();
-        System.exit(0);
-    }
+
 }

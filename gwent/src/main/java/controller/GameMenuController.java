@@ -103,6 +103,9 @@ public class GameMenuController {
     @FXML
     public Label secondPlayerCountOfCards;
 
+//    public static void slectionCard (Card card){
+//
+//    }
     @FXML
     public void initialize() {
         Game game = User.getLoggedInUser().getCurrentGame();
