@@ -61,17 +61,15 @@ public class SetDefaults {
                 false, new ArrayList<>(abilities), CardType.CloseCombatUnit, Place.closeCombat,
                 new Image(SetDefaults.class.getResourceAsStream("/images/cards/skellige/skellige_madmad_lugos.jpg")));
 
-        abilities.add(Ability.Hero);
         abilities.add(Ability.Muster);
         Card creysCard = new Card("Creys", 109, 10, 1,
                 true, new ArrayList<>(abilities), CardType.CloseCombatUnit, Place.closeCombat,
                 new Image(SetDefaults.class.getResourceAsStream("/images/cards/skellige/skellige_cerys.jpg")));
         abilities.clear();
 
-        abilities.add(Ability.Hero);
         abilities.add(Ability.Transformers);
         Card kambiCard = new Card("Kambi", 110, 0, 1,
-                false, new ArrayList<>(abilities), CardType.CloseCombatUnit, Place.closeCombat,
+                true, new ArrayList<>(abilities), CardType.CloseCombatUnit, Place.closeCombat,
                 new Image(SetDefaults.class.getResourceAsStream("/images/cards/skellige/skellige_kambi.jpg")));
         abilities.clear();
 
@@ -97,18 +95,15 @@ public class SetDefaults {
                 false, new ArrayList<>(abilities), CardType.RangedUnit, Place.rangedCombat,
                 new Image(SetDefaults.class.getResourceAsStream("/images/cards/skellige/skellige_craite_warrior.jpg")));
 
-        abilities.add(Ability.Hero);
         abilities.add(Ability.Mardoeme);
         Card ermionCard = new Card("Ermion", 115, 8, 1,
                 true, new ArrayList<>(abilities), CardType.RangedUnit, Place.rangedCombat,
                 new Image(SetDefaults.class.getResourceAsStream("/images/cards/skellige/skellige_ermion.jpg")));
         abilities.clear();
 
-        abilities.add(Ability.Hero);
         Card hjalmarCard = new Card("Hjalmar", 116, 10, 1,
                 true, new ArrayList<>(abilities), CardType.RangedUnit, Place.rangedCombat,
                 new Image(SetDefaults.class.getResourceAsStream("/images/cards/skellige/skellige_hjalmar.jpg")));
-        abilities.clear();
 
         abilities.add(Ability.Berserker);
         Card yongBerserkerCard = new Card("YongBerserker", 117, 2, 3,

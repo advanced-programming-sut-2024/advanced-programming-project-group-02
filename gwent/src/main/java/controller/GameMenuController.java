@@ -123,13 +123,25 @@ public class GameMenuController {
         if (game.getGamePlayer2().getCrystals() == 1) secondPlayerCrystal2.setVisible(false);
         firstPlayerRemainingCards.setText(String.valueOf(game.getGamePlayer1().getHand().size()));
         secondPlayerRemainingCards.setText(String.valueOf(game.getGamePlayer2().getHand().size()));
-        weatherCard.setImage(game.getWeatherCard().getImage());
-        firstPlayerCloseCombatBoost.setImage(game.getGamePlayer1().getMarCoCloseCombat().getImage());
-        firstPlayerRangedBoost.setImage(game.getGamePlayer1().getMarCoRangedCombat().getImage());
-        firstPlayerSiegeBoost.setImage(game.getGamePlayer1().getMarCoSiege().getImage());
-        secondPlayerCloseCombatBoost.setImage(game.getGamePlayer2().getMarCoCloseCombat().getImage());
-        secondPlayerCloseCombatBoost.setImage(game.getGamePlayer2().getMarCoRangedCombat().getImage());
-        secondPlayerCloseCombatBoost.setImage(game.getGamePlayer2().getMarCoSiege().getImage());
+        if (game.getWeatherCard() != null) weatherCard.setImage(game.getWeatherCard().getImage());
+        if (game.getGamePlayer1().getMarCoCloseCombat() != null) {
+            firstPlayerCloseCombatBoost.setImage(game.getGamePlayer1().getMarCoCloseCombat().getImage());
+        }
+        if (game.getGamePlayer1().getMarCoRangedCombat() != null) {
+            firstPlayerRangedBoost.setImage(game.getGamePlayer1().getMarCoRangedCombat().getImage());
+        }
+        if (game.getGamePlayer1().getMarCoSiege() != null) {
+            firstPlayerSiegeBoost.setImage(game.getGamePlayer1().getMarCoSiege().getImage());
+        }
+        if (game.getGamePlayer2().getMarCoCloseCombat() != null) {
+            secondPlayerCloseCombatBoost.setImage(game.getGamePlayer2().getMarCoCloseCombat().getImage());
+        }
+        if (game.getGamePlayer2().getMarCoRangedCombat() != null) {
+            secondPlayerRangedBoost.setImage(game.getGamePlayer2().getMarCoRangedCombat().getImage());
+        }
+        if (game.getGamePlayer2().getMarCoSiege() != null) {
+            secondPlayerSiegeBoost.setImage(game.getGamePlayer2().getMarCoSiege().getImage());
+        }
         firstPlayerTotalBoardStrength.setText(String.valueOf(game.getGamePlayer1().getTotalBoardPower()));
         secondPlayerTotalBoardStrength.setText(String.valueOf(game.getGamePlayer2().getTotalBoardPower()));
         firstPlayerSiege.setText(String.valueOf(game.getGamePlayer1().getSiegeScore()));
