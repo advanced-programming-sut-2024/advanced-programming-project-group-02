@@ -6,6 +6,7 @@ import java.util.Date;
 
 public class Game {
     private final User activePlayer;
+    private Card weatherCard;
     private User player1;
     private User player2;
     private Date date;
@@ -23,6 +24,14 @@ public class Game {
         this.activePlayer = player1;
         turnNo = 1;
         roundNo = 1;
+    }
+
+    public Card getWeatherCard() {
+        return weatherCard;
+    }
+
+    public void setWeatherCard(Card weatherCard) {
+        this.weatherCard = weatherCard;
     }
 
     public User getPlayer1() {

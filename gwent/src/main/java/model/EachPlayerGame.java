@@ -79,6 +79,10 @@ public class EachPlayerGame {
         throw new IllegalStateException("Unexpected state: failed to get a random card from deck.");
     }
 
+    public int getTotalBoardPower() {
+        return closeCombatScore + rangedCombatScore + siegeScore;
+    }
+
     public ObservableList<Card> getHand() {
         return hand;
     }

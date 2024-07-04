@@ -75,11 +75,11 @@ public class GameMenuController {
     @FXML
     public Label firstPlayerTotalBoardStrength;
     @FXML
-    public Label SecondPlayerRemainingCards;
+    public Label secondPlayerRemainingCards;
     @FXML
     public Label firstPlayerRemainingCards;
     @FXML
-    public Label SecondPlayerTotalBoardStrength;
+    public Label secondPlayerTotalBoardStrength;
     @FXML
     public ImageView firstPlayerLeaderCard;
     @FXML
@@ -119,11 +119,46 @@ public class GameMenuController {
         secondPlayerCards.setImage(game.getPlayer2().getFaction().getImage());
         firstPlayerCountOfCards.setText(String.valueOf(game.getPlayer1().getDeck().size()));
         secondPlayerCountOfCards.setText(String.valueOf(game.getPlayer2().getDeck().size()));
+        if (game.getGamePlayer1().getCrystals() == 1) firstPlayerCrystal2.setVisible(false);
+        if (game.getGamePlayer2().getCrystals() == 1) secondPlayerCrystal2.setVisible(false);
+        firstPlayerRemainingCards.setText(String.valueOf(game.getGamePlayer1().getHand().size()));
+        secondPlayerRemainingCards.setText(String.valueOf(game.getGamePlayer2().getHand().size()));
+        weatherCard.setImage(game.getWeatherCard().getImage());
+        firstPlayerCloseCombatBoost.setImage(game.getGamePlayer1().getMarCoCloseCombat().getImage());
+        firstPlayerRangedBoost.setImage(game.getGamePlayer1().getMarCoRangedCombat().getImage());
+        firstPlayerSiegeBoost.setImage(game.getGamePlayer1().getMarCoSiege().getImage());
+        secondPlayerCloseCombatBoost.setImage(game.getGamePlayer2().getMarCoCloseCombat().getImage());
+        secondPlayerCloseCombatBoost.setImage(game.getGamePlayer2().getMarCoRangedCombat().getImage());
+        secondPlayerCloseCombatBoost.setImage(game.getGamePlayer2().getMarCoSiege().getImage());
+        firstPlayerTotalBoardStrength.setText(String.valueOf(game.getGamePlayer1().getTotalBoardPower()));
+        secondPlayerTotalBoardStrength.setText(String.valueOf(game.getGamePlayer2().getTotalBoardPower()));
+        firstPlayerSiege.setText(String.valueOf(game.getGamePlayer1().getSiegeScore()));
+        firstPlayerRanged.setText(String.valueOf(game.getGamePlayer1().getRangedCombatScore()));
+        firstPlayerCloseCombat.setText(String.valueOf(game.getGamePlayer1().getCloseCombatScore()));
+        secondPlayerSiege.setText(String.valueOf(game.getGamePlayer2().getSiegeScore()));
+        secondPlayerRanged.setText(String.valueOf(game.getGamePlayer2().getRangedCombatScore()));
+        secondPlayerCloseCombat.setText(String.valueOf(game.getGamePlayer2().getCloseCombatScore()));
+        setFirstPlayerBoard(game.getGamePlayer1());
+        setSecondPlayerBoard(game.getGamePlayer2());
         showTurnInfo(game);
     }
 
-    public void showCommands(){
+    private void setFirstPlayerBoard(EachPlayerGame game) {
+        firstPlayerCloseCombatList.setItems(game.getCloseCombat());
+        firstPlayerCloseCombatList.setCellFactory(new CardListCellFactory(74,39));
+        firstPlayerRangedList.setItems(game.getRangedCombat());
+        firstPlayerRangedList.setCellFactory(new CardListCellFactory(74,39));
+        firstPlayerSiegeList.setItems(game.getSiege());
+        firstPlayerSiegeList.setCellFactory(new CardListCellFactory(74,39));
+    }
 
+    private void setSecondPlayerBoard(EachPlayerGame game) {
+        secondPlayerCloseCombatList.setItems(game.getCloseCombat());
+        secondPlayerCloseCombatList.setCellFactory(new CardListCellFactory(74,39));
+        secondPlayerRangedList.setItems(game.getRangedCombat());
+        secondPlayerRangedList.setCellFactory(new CardListCellFactory(74,39));
+        secondPlayerSiegeList.setItems(game.getSiege());
+        secondPlayerSiegeList.setCellFactory(new CardListCellFactory(74,39));
     }
 
     public Card vetoCard(int ID){
@@ -165,6 +200,8 @@ public class GameMenuController {
                     firstPlayerBurnedCards.setImage(lastBurnedCard.getImage());
             } else firstPlayerBurnedCards.setImage(null);
             if (firstPlayerGame.isLeaderCardUsed()) firstPlayerLeaderActive.setVisible(false);
+            secondPlayerPass.setVisible(false);
+            if (firstPlayerGame.isPassedTheGame()) firstPlayerPass.setVisible(false);
         } else {
             currentPlayerHand.setItems(secondPlayerGame.getHand());
             ObservableList<Card> burnedCards = secondPlayerGame.getBurnedCards();
@@ -173,10 +210,11 @@ public class GameMenuController {
                 secondPlayerBurnedCards.setImage(lastBurnedCard.getImage());
             } else secondPlayerBurnedCards.setImage(null);
             if (secondPlayerGame.isLeaderCardUsed()) secondPlayerLeaderActive.setVisible(false);
+            firstPlayerPass.setVisible(false);
+            if (secondPlayerGame.isPassedTheGame()) secondPlayerPass.setVisible(false);
         }
-        if (firstPlayerGame.getCrystals() == 1) firstPlayerCrystal2.setVisible(false);
-        if (secondPlayerGame.getCrystals() == 1) secondPlayerCrystal2.setVisible(false);
         currentPlayerHand.setCellFactory(new CardListCellFactory(74, 39));
+
     }
 
     public void showTotalScoreOfRow (Matcher matcher){}
