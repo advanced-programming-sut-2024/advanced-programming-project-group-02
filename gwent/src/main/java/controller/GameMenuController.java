@@ -1,5 +1,6 @@
 package controller;
 
+import enums.Place;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
@@ -162,6 +163,10 @@ public class GameMenuController {
         secondPlayerRangedList.setCellFactory(new CardListCellFactory(74,39));
         secondPlayerSiegeList.setItems(game.getSiege());
         secondPlayerSiegeList.setCellFactory(new CardListCellFactory(74,39));
+    }
+
+    private void selectionCard(Card card){
+        Place place = card.getPlace();
     }
 
     public Card vetoCard(int ID){

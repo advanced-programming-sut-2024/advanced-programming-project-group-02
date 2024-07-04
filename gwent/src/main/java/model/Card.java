@@ -78,6 +78,10 @@ public class Card {
         cards.add(card);
     }
 
+    public Place getPlace() {
+        return place;
+    }
+
     public Image getImage() {return image;}
 
     public boolean isSpecial() {
