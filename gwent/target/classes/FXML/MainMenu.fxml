@@ -34,11 +34,6 @@
                   <Font size="15.0" />
                </font>
             </Button>
-            <Button layoutX="742.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#Exit" text="X" textFill="RED">
-               <font>
-                  <Font name="System Bold" size="10.0"/>
-               </font>
-            </Button>
          </children>
       </AnchorPane>
    </children>

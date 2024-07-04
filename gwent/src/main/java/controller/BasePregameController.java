@@ -323,8 +323,5 @@ public abstract class BasePregameController {
     private void startGame() {
         System.out.println("HEHEHEHEHEHEH");
     }
-    public void Exit (MouseEvent mouseEvent){
-        LoginRegisterMenuController.saveUsers();
-        System.exit(0);
-    }
+
 }

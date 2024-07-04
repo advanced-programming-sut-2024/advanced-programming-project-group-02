@@ -65,9 +65,5 @@
         <ImageView fx:id="leaderImage" fitHeight="140.0" fitWidth="98.0" layoutX="258.0" layoutY="115.0"
                    pickOnBounds="true" preserveRatio="true"/>
         <ChoiceBox fx:id="leaderChoiceBox" layoutX="258.0" layoutY="264.0" prefHeight="24.0" prefWidth="71.0"/>
-        <Button layoutX="742.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#Exit" text="X" textFill="RED">
-            <font>
-                <Font name="System Bold" size="10.0" />
-            </font></Button>
     </AnchorPane>
 </AnchorPane>
