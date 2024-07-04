@@ -20,10 +20,10 @@ public class GameMenu extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        if (LoginRegisterMenuController.isEmptyFile()) {
-            System.out.println("sfklj;dklash");
-            LoginRegisterMenuController.loadUsers();
-        }
+                            if (LoginRegisterMenuController.isEmptyFile()) {
+                                System.out.println("sfklj;dklash");
+                                LoginRegisterMenuController.loadUsers();
+                            }
         SetDefaults.run();
 
         Button closeButton = new Button("Close Application");
@@ -35,6 +35,8 @@ public class GameMenu extends Application {
         GameMenu.stage = stage;
         Parent root = FXMLLoader.load((getClass().getResource("/FXML/GameMenu.fxml")));
         Scene scene = new Scene(root);
+        String css = getClass().getResource("/CSS/styles.css").toExternalForm();
+        scene.getStylesheets().add(css);
         stage.setScene(scene);
         stage.setTitle("Game Menu");
         stage.getIcons().add(new Image((getClass().getResourceAsStream("/Images/GwentIcon.jpg"))));
