@@ -1,11 +1,10 @@
 package controller;
 
 import com.google.gson.Gson;
-import javafx.fxml.FXML;
 import com.google.gson.reflect.TypeToken;
+import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-
 import model.User;
 import view.*;
 
@@ -15,9 +14,6 @@ import java.security.SecureRandom;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import view.QuestionMenu;
-import view.ForgetPassword;
 
 
 public class LoginRegisterMenuController {
@@ -152,10 +148,10 @@ public class LoginRegisterMenuController {
             loginPassword.clear();
             loginUsername.clear();
         }
-
     }
 
-    public static void loadUsers() {
+
+    public static void loadUsers () {
         try (Reader reader = new FileReader(FILE_PATH)) {
             for (Map.Entry<String, User> entry : usersMap.entrySet()) {
                 User value = entry.getValue();
@@ -303,13 +299,6 @@ public class LoginRegisterMenuController {
         return false;
     }
 
-    private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.show();
-    }
 
     // get random password in two method
     public void generateRandomPassword(MouseEvent mouseEvent) {
@@ -340,7 +329,7 @@ public class LoginRegisterMenuController {
         return new String(characters);
     }
 
-    private boolean showAlertConfirmed(String title, String message) {
+    private boolean showAlertConfirmed (String title, String message){
         if (showAlertConfirmed) {
             return true;
         }
@@ -362,4 +351,13 @@ public class LoginRegisterMenuController {
         }
         return false;
     }
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.show();
+    }
+
+
 }

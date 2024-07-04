@@ -12,7 +12,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
 import java.util.Objects;
 import java.util.Optional;
 

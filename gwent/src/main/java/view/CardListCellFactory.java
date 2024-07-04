@@ -7,6 +7,13 @@ import javafx.util.Callback;
 import model.Card;
 
 public class CardListCellFactory implements Callback<ListView<Card>, ListCell<Card>> {
+    private final double imageHeight;
+    private final double imageWidth;
+
+    public CardListCellFactory(double imageHeight, double imageWidth) {
+        this.imageHeight = imageHeight;
+        this.imageWidth = imageWidth;
+    }
 
     @Override
     public ListCell<Card> call(ListView<Card> param) {
@@ -21,12 +28,11 @@ public class CardListCellFactory implements Callback<ListView<Card>, ListCell<Ca
                     setGraphic(null);
                 } else {
                     imageView.setImage(card.getImage());
-                    imageView.setFitHeight(410);
-                    imageView.setFitWidth(217);
+                    imageView.setFitHeight(imageHeight);
+                    imageView.setFitWidth(imageWidth);
                     setGraphic(imageView);
                 }
             }
         };
     }
 }
-

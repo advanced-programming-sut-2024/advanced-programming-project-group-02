@@ -30,24 +30,24 @@
                   <Image url="@../images/GameBoard/black.jpg" />
                </image>
             </ImageView>
-            <ImageView fitHeight="232.0" fitWidth="93.0" layoutX="69.0" layoutY="374.0" opacity="0.62" pickOnBounds="true" preserveRatio="true" rotate="90.0">
+            <ImageView fitHeight="232.0" fitWidth="93.0" layoutX="69.0" layoutY="398.0" opacity="0.62" pickOnBounds="true" preserveRatio="true" rotate="90.0">
                <image>
                   <Image url="@../images/GameBoard/black.jpg" />
                </image>
             </ImageView>
             <Circle fill="#0000000a" layoutX="88.0" layoutY="237.0" radius="37.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="5.0" />
-            <Circle fill="#0000000a" layoutX="88.0" layoutY="490.0" radius="37.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="5.0" />
+            <Circle fill="#0000000a" layoutX="88.0" layoutY="513.0" radius="37.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="5.0" />
             <ImageView fitHeight="64.0" fitWidth="52.0" layoutX="62.0" layoutY="217.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/GameBoard/profile.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="64.0" fitWidth="52.0" layoutX="62.0" layoutY="469.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="64.0" fitWidth="52.0" layoutX="62.0" layoutY="493.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/GameBoard/profile.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="28.0" fitWidth="25.0" layoutX="125.0" layoutY="502.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="28.0" fitWidth="25.0" layoutX="125.0" layoutY="526.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/GameBoard/icon_card_count.png" />
                </image>
@@ -57,14 +57,19 @@
                   <Image url="@../images/GameBoard/icon_card_count.png" />
                </image>
             </ImageView>
+<<<<<<< HEAD
+            <ImageView fx:id="secondPlayerLeaderCard" fitHeight="97.0" fitWidth="68.0" layoutX="111.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="firstPlayerLeaderCard" fitHeight="97.0" fitWidth="68.0" layoutX="111.0" layoutY="582.0" pickOnBounds="true" preserveRatio="true" />
+=======
             <ImageView fx:id="secondPlayerLeaderCard" fitHeight="97.0" fitWidth="68.0" layoutX="100.0" layoutY="54.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="firstPlayerLeaderCard" fitHeight="97.0" fitWidth="68.0" layoutX="100.0" layoutY="583.0" pickOnBounds="true" preserveRatio="true" />
+>>>>>>> 4530cd77a46d150d108adb4b743feaaaeeea2b38
             <Label fx:id="SecondPlayerTotalBoardStrength" alignment="CENTER" contentDisplay="CENTER" layoutX="299.0" layoutY="221.0" prefHeight="22.0" prefWidth="35.0" text="0" textFill="RED">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
             </Label>
-            <Label fx:id="firstPlayerRemainingCards" layoutX="153.0" layoutY="505.0" text="0" textFill="RED">
+            <Label fx:id="firstPlayerRemainingCards" layoutX="153.0" layoutY="529.0" text="0" textFill="RED">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
@@ -104,13 +109,13 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <ListView fx:id="firstPlayerSiegeList" layoutX="498.0" layoutY="500.0" prefHeight="74.0" prefWidth="562.0" />
-            <ListView fx:id="secondPlayerSiegeList" layoutX="498.0" layoutY="19.0" prefHeight="74.0" prefWidth="562.0" />
-            <ListView fx:id="secondPlayerRangedList" layoutX="498.0" layoutY="111.0" prefHeight="74.0" prefWidth="562.0" />
-            <ListView fx:id="secondPlayerCloseCombatList" layoutX="498.0" layoutY="207.0" prefHeight="74.0" prefWidth="562.0" />
-            <ListView fx:id="firstPlayerCloseCombatList" layoutX="498.0" layoutY="312.0" prefHeight="74.0" prefWidth="562.0" />
-            <ListView fx:id="firstPlayerRangedList" layoutX="498.0" layoutY="404.0" prefHeight="74.0" prefWidth="562.0" />
-            <ListView fx:id="currentPlayerDeck" layoutX="406.0" layoutY="589.0" prefHeight="88.0" prefWidth="652.0" />
+            <ListView fx:id="firstPlayerSiegeList" layoutX="498.0" layoutY="500.0" orientation="HORIZONTAL" prefHeight="74.0" prefWidth="562.0" />
+            <ListView fx:id="secondPlayerSiegeList" layoutX="498.0" layoutY="19.0" orientation="HORIZONTAL" prefHeight="74.0" prefWidth="562.0" />
+            <ListView fx:id="secondPlayerRangedList" layoutX="498.0" layoutY="111.0" orientation="HORIZONTAL" prefHeight="74.0" prefWidth="562.0" />
+            <ListView fx:id="secondPlayerCloseCombatList" layoutX="498.0" layoutY="207.0" orientation="HORIZONTAL" prefHeight="74.0" prefWidth="562.0" />
+            <ListView fx:id="firstPlayerCloseCombatList" layoutX="498.0" layoutY="312.0" orientation="HORIZONTAL" prefHeight="74.0" prefWidth="562.0" />
+            <ListView fx:id="firstPlayerRangedList" layoutX="498.0" layoutY="404.0" orientation="HORIZONTAL" prefHeight="74.0" prefWidth="562.0" />
+            <ListView fx:id="currentPlayerHand" layoutX="406.0" layoutY="589.0" orientation="HORIZONTAL" prefHeight="88.0" prefWidth="652.0" />
             <ImageView fx:id="secondPlayerBurnedCards" fitHeight="98.0" fitWidth="75.0" layoutX="1083.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="firstPlayerCards" fitHeight="98.0" fitWidth="75.0" layoutX="1210.0" layoutY="582.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="firstPlayerBurnedCards" fitHeight="98.0" fitWidth="75.0" layoutX="1083.0" layoutY="582.0" pickOnBounds="true" preserveRatio="true" />
@@ -124,12 +129,58 @@
             <Button fx:id="secondPlayerPass" layoutX="230.0" layoutY="94.0" mnemonicParsing="false" text="Pass" />
             <Button fx:id="firstPlayerPass" layoutX="230.0" layoutY="618.0" mnemonicParsing="false" text="Pass" />
             <ImageView fx:id="weatherCard" fitHeight="97.0" fitWidth="193.0" layoutX="100.0" layoutY="312.0" pickOnBounds="true" preserveRatio="true" />
-            <ImageView fitHeight="36.0" fitWidth="28.0" layoutX="37.0" layoutY="203.0" pickOnBounds="true" preserveRatio="true" />
-            <ImageView fitHeight="36.0" fitWidth="28.0" layoutX="37.0" layoutY="487.0" pickOnBounds="true" preserveRatio="true" />
-            <ImageView fx:id="secondPlayerCrystal2" fitHeight="26.0" fitWidth="28.0" layoutX="183.0" layoutY="204.0" pickOnBounds="true" preserveRatio="true" />
-            <ImageView fx:id="secondPlayerCrystal1" fitHeight="26.0" fitWidth="28.0" layoutX="154.0" layoutY="204.0" pickOnBounds="true" preserveRatio="true" />
-            <ImageView fx:id="firstPlayerCrystal1" fitHeight="26.0" fitWidth="28.0" layoutX="154.0" layoutY="456.0" pickOnBounds="true" preserveRatio="true" />
-            <ImageView fx:id="firstPlayerCrystal2" fitHeight="26.0" fitWidth="28.0" layoutX="183.0" layoutY="456.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="secondPlayerFactionImage" fitHeight="36.0" fitWidth="28.0" layoutX="37.0" layoutY="196.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="firstPlayerFactionImage" fitHeight="36.0" fitWidth="28.0" layoutX="37.0" layoutY="514.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="secondPlayerCrystal1" fitHeight="22.0" fitWidth="20.0" layoutX="172.0" layoutY="252.0">
+               <image>
+                  <Image url="@../images/GameBoard/icon_gem_on.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="secondPlayerCrystal2" fitHeight="22.0" fitWidth="20.0" layoutX="195.0" layoutY="252.0">
+               <image>
+                  <Image url="@../images/GameBoard/icon_gem_on.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="firstPlayerCrystal1" fitHeight="22.0" fitWidth="20.0" layoutX="172.0" layoutY="529.0">
+               <image>
+                  <Image url="@../images/GameBoard/icon_gem_on.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="firstPlayerCrystal2" fitHeight="22.0" fitWidth="20.0" layoutX="195.0" layoutY="529.0">
+               <image>
+                  <Image url="@../images/GameBoard/icon_gem_on.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="131.0" layoutY="199.0" text="Player 2" textFill="WHITE">
+               <font>
+                  <Font name="Arial Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label layoutX="130.0" layoutY="477.0" text="Player 1" textFill="WHITE">
+               <font>
+                  <Font name="Arial Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="player2FactionName" layoutX="131.0" layoutY="215.0" prefHeight="18.0" prefWidth="68.0" textFill="WHITE" />
+            <Label fx:id="player1FactionName" layoutX="131.0" layoutY="493.0" prefHeight="18.0" prefWidth="98.0" textFill="WHITE" />
+            <ImageView fx:id="secondPlayerLeaderActive" fitHeight="26.0" fitWidth="28.0" layoutX="179.0" layoutY="91.0">
+               <image>
+                  <Image url="@../images/GameBoard/icon_leader_active.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="firstPlayerLeaderActive" fitHeight="26.0" fitWidth="28.0" layoutX="179.0" layoutY="619.0">
+               <image>
+                  <Image url="@../images/GameBoard/icon_leader_active.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="firstPlayerCountOfCards" alignment="CENTER" contentDisplay="CENTER" layoutX="1230.0" layoutY="653.0" prefHeight="18.0" prefWidth="35.0" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Label>
+            <Label fx:id="secondPlayerCountOfCards" alignment="CENTER" contentDisplay="CENTER" layoutX="1230.0" layoutY="124.0" prefHeight="18.0" prefWidth="35.0" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Label>
          </children>
       </AnchorPane>
    </children>

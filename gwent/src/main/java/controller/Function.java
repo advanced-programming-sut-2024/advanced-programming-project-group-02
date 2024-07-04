@@ -3,7 +3,7 @@ package controller;
 import enums.Place;
 import model.Card;
 
-public class Function {
+public class Function extends GameMenuController{
     public static void run(Place place,Card card){}
     private static void commandersHorn(Place place,Card card){}
     private static void decoy(Place place,Card card){}
