@@ -1,96 +1,192 @@
 package controller;
 
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
-import model.Card;
+import model.*;
+import view.CardListCellFactory;
 
 import java.util.regex.Matcher;
 
 public class GameMenuController {
 
+    @FXML
     public ImageView firstPlayerCrystal2;
+    @FXML
     public ImageView firstPlayerCrystal1;
+    @FXML
     public ImageView secondPlayerCrystal1;
+    @FXML
     public ImageView secondPlayerCrystal2;
+    @FXML
     public ImageView weatherCard;
+    @FXML
     public Button firstPlayerPass;
+    @FXML
     public Button secondPlayerPass;
+    @FXML
     public ImageView firstPlayerSiegeBoost;
+    @FXML
     public ImageView firstPlayerRangedBoost;
+    @FXML
     public ImageView firstPlayerCloseCombatBoost;
+    @FXML
     public ImageView secondPlayerCloseCombatBoost;
+    @FXML
     public ImageView secondPlayerRangedBoost;
+    @FXML
     public ImageView secondPlayerSiegeBoost;
+    @FXML
     public ImageView secondPlayerCards;
+    @FXML
     public ImageView firstPlayerBurnedCards;
+    @FXML
     public ImageView firstPlayerCards;
+    @FXML
     public ImageView secondPlayerBurnedCards;
-    public ListView currentPlayerDeck;
+    @FXML
+    public ListView currentPlayerHand;
+    @FXML
     public ListView firstPlayerRangedList;
+    @FXML
     public ListView firstPlayerCloseCombatList;
+    @FXML
     public ListView secondPlayerCloseCombatList;
+    @FXML
     public ListView secondPlayerRangedList;
+    @FXML
     public ListView secondPlayerSiegeList;
+    @FXML
     public ListView firstPlayerSiegeList;
+    @FXML
     public Label firstPlayerSiege;
+    @FXML
     public Label firstPlayerRanged;
+    @FXML
     public Label secondPlayerRanged;
+    @FXML
     public Label secondPlayerCloseCombat;
+    @FXML
     public Label firstPlayerCloseCombat;
+    @FXML
     public Label firstPlayerTotalBoardStrength;
+    @FXML
     public Label SecondPlayerRemainingCards;
+    @FXML
     public Label firstPlayerRemainingCards;
+    @FXML
     public Label SecondPlayerTotalBoardStrength;
+    @FXML
     public ImageView firstPlayerLeaderCard;
+    @FXML
     public ImageView secondPlayerLeaderCard;
+    @FXML
     public Label secondPlayerSiege;
+    @FXML
+    public Label player2FactionName;
+    @FXML
+    public Label player1FactionName;
+    @FXML
+    public ImageView secondPlayerFactionImage;
+    @FXML
+    public ImageView firstPlayerFactionImage;
+    @FXML
+    public ImageView secondPlayerLeaderActive;
+    @FXML
+    public ImageView firstPlayerLeaderActive;
+    @FXML
+    public Label firstPlayerCountOfCards;
+    @FXML
+    public Label secondPlayerCountOfCards;
 
-    public static void showCommands(){
+    @FXML
+    public void initialize() {
+        Game game = User.getLoggedInUser().getCurrentGame();
+        game.setGamePlayer2(new EachPlayerGame(game.getPlayer2()));
+        Faction factionPlayer1  = game.getPlayer1().getFaction();
+        Faction factionPlayer2  = game.getPlayer2().getFaction();
+        player1FactionName.setText(factionPlayer1.getName());
+        player2FactionName.setText(factionPlayer2.getName());
+        firstPlayerFactionImage.setImage(factionPlayer1.getImage());
+        secondPlayerFactionImage.setImage(factionPlayer2.getImage());
+        firstPlayerLeaderCard.setImage(game.getPlayer1().getLeaderCard().getImage());
+        secondPlayerLeaderCard.setImage(game.getPlayer2().getLeaderCard().getImage());
+        firstPlayerCards.setImage(game.getPlayer1().getFaction().getImage());
+        secondPlayerCards.setImage(game.getPlayer2().getFaction().getImage());
+        firstPlayerCountOfCards.setText(String.valueOf(game.getPlayer1().getDeck().size()));
+        secondPlayerCountOfCards.setText(String.valueOf(game.getPlayer2().getDeck().size()));
+        showTurnInfo(game);
+    }
+
+    public void showCommands(){
 
     }
 
-    public static Card vetoCard(int ID){
+    public Card vetoCard(int ID){
         return null;
     }
 
-    public static void inHandDeck (Matcher matcher){
+    public void inHandDeck (Matcher matcher){
 
     } // show hand
 
-    public static void inHandDeckOption(Matcher matcher){}
+    public void inHandDeckOption(Matcher matcher){}
 
-    public static void remainingCardsToPlay (){} // show remaining
+    public void remainingCardsToPlay (){} // show remaining
 
-    public static void outOfPlayCards(){} //show discard
+    public void outOfPlayCards(){} //show discard
 
-    public static void cardsInRow (Matcher matcher){}
+    public void cardsInRow (Matcher matcher){}
 
-    public static void spellsInPlay (){}
+    public void spellsInPlay (){}
 
-    public static void commanderPowerPlay (){}
+    public void commanderPowerPlay (){}
 
-    public static void showCommander (){}
+    public void showCommander (){}
 
-    public static void showPlayersInfo (){}
+    public void showPlayersInfo (){}
 
-    public static void showPlayersLive (){}
+    public void showPlayersLive (){}
 
-    public static void showNumberOfCardsInHand (){}
+    public void showNumberOfCardsInHand (){}
 
-    public static void showTurnInfo (){}
+    public void showTurnInfo (Game game){
+        EachPlayerGame firstPlayerGame = game.getGamePlayer1();
+        EachPlayerGame secondPlayerGame = game.getGamePlayer1();
+        if (game.getTurnNo() % 2 != 0) {
+            currentPlayerHand.setItems(firstPlayerGame.getHand());
+            ObservableList<Card> burnedCards = firstPlayerGame.getBurnedCards();
+            if (!burnedCards.isEmpty()) {
+                Card lastBurnedCard = burnedCards.get(burnedCards.size() - 1);
+                    firstPlayerBurnedCards.setImage(lastBurnedCard.getImage());
+            } else firstPlayerBurnedCards.setImage(null);
+            if (firstPlayerGame.isLeaderCardUsed()) firstPlayerLeaderActive.setVisible(false);
+        } else {
+            currentPlayerHand.setItems(secondPlayerGame.getHand());
+            ObservableList<Card> burnedCards = secondPlayerGame.getBurnedCards();
+            if (!burnedCards.isEmpty()) {
+                Card lastBurnedCard = burnedCards.get(burnedCards.size() - 1);
+                secondPlayerBurnedCards.setImage(lastBurnedCard.getImage());
+            } else secondPlayerBurnedCards.setImage(null);
+            if (secondPlayerGame.isLeaderCardUsed()) secondPlayerLeaderActive.setVisible(false);
+        }
+        if (firstPlayerGame.getCrystals() == 1) firstPlayerCrystal2.setVisible(false);
+        if (secondPlayerGame.getCrystals() == 1) secondPlayerCrystal2.setVisible(false);
+        currentPlayerHand.setCellFactory(new CardListCellFactory(74, 39));
+    }
 
-    public static void showTotalScoreOfRow (Matcher matcher){}
+    public void showTotalScoreOfRow (Matcher matcher){}
 
-    public static void passRound (){}
+    public void passRound (){}
 
-    public static void placeCard (Matcher matcher){}
+    public void placeCard (Matcher matcher){}
 
-    public static void startEndRound (){}
+    public void startEndRound (){}
 
-    public static boolean isEndRound(){return true;}
-
+    public boolean isEndRound(){return true;}
 
 
 }

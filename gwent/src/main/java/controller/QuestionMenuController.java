@@ -26,7 +26,6 @@ public class QuestionMenuController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Initialize ComboBox items
         questionsComboBox.setItems(FXCollections.observableArrayList(
                 "What is your pet's name?",
                 "What is your mother's maiden name?",

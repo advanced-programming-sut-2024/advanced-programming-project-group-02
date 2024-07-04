@@ -180,9 +180,8 @@ public abstract class BasePregameController {
         dialog.showAndWait().ifPresent(password -> {
             if (secondUser.getPassword().equals(passwordField.getText())) {
                 User firstUser = User.getLoggedInUser();
-                EachPlayerGame eachPlayerGame1 = new EachPlayerGame(firstUser.getDeck(), User.getLoggedInUser());
-                EachPlayerGame eachPlayerGame2 = new EachPlayerGame(secondUser.getDeck(), secondUser);
-                Game game = new Game(firstUser, secondUser, eachPlayerGame1, eachPlayerGame2);
+                EachPlayerGame eachPlayerGame1 = new EachPlayerGame(User.getLoggedInUser());
+                Game game = new Game(firstUser, secondUser, eachPlayerGame1);
                 firstUser.setCurrentGame(game);
                 secondUser.setCurrentGame(game);
                 User.setLoggedInUser(secondUser);
@@ -205,6 +204,12 @@ public abstract class BasePregameController {
 
 
     private void startGame() {
-        System.out.println("HEHEHEHEHEHEH");
+        System.out.println("Opening Game Board");
+        GameMenu gameMenu = new GameMenu();
+        try {
+            gameMenu.start((Stage) startGame.getScene().getWindow());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

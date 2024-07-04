@@ -1,37 +1,89 @@
 package model;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.SortedList;
+
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
 public class EachPlayerGame {
 
-    private HashMap<Card, Integer> hand = new HashMap<Card, Integer>();
+    private ObservableList<Card> hand = FXCollections.observableArrayList();
     private HashMap<Card, Integer> deck;
-    private HashMap<Card, Integer> discardPile = new HashMap<Card, Integer>();
-    private HashMap<Card, Integer> closeCombat = new HashMap<Card, Integer>();
-    private HashMap<Card, Integer> rangedCombat = new HashMap<Card, Integer>();
-    private HashMap<Card, Integer> siege = new HashMap<Card, Integer>();
+    private ObservableList<Card> burnedCards = FXCollections.observableArrayList();
+    private ObservableList<Card> closeCombat = FXCollections.observableArrayList();
+    private ObservableList<Card> rangedCombat = FXCollections.observableArrayList();
+    private ObservableList<Card> siege = FXCollections.observableArrayList();
     private User player;
     private Faction faction;
-    private int lives;
+    private int crystals;
     private int closeCombatScore;
     private int rangedCombatScore;
     private int siegeScore;
     private boolean passedTheGame;
+    private boolean isLeaderCardUsed;
     private Card MarCoCloseCombat;
     private Card MarCoRangedCombat;
     private Card MarCoSiege;
+    private final Random random = new Random();
 
-    public EachPlayerGame(HashMap<Card, Integer> deck, User player) {
-        this.deck = deck;
+    public EachPlayerGame(User player) {
+        this.deck = new HashMap<>(player.getDeck());
         this.player = player;
-
+        faction = player.getFaction();
+        drawInitialHand();
+        hand = new SortedList<>(hand, Comparator.comparingInt(Card::getPower));
+        passedTheGame = false;
+        isLeaderCardUsed = false;
+        closeCombatScore = 0;
+        rangedCombatScore = 0;
+        siegeScore = 0;
+        crystals = 2;
     }
 
-    public HashMap<Card, Integer> getHand() {
+    private void drawInitialHand() {
+        int handSize = 10;
+        int totalCardsInDeck = deck.values().stream().mapToInt(Integer::intValue).sum();
+
+        if (totalCardsInDeck < handSize) {
+            throw new IllegalArgumentException("Deck does not contain enough cards to draw an initial hand.");
+        }
+
+        while (handSize > 0) {
+            Card randomCard = getRandomCardFromDeck();
+            int deckCount = deck.get(randomCard);
+
+            hand.add(randomCard);
+            deck.put(randomCard, deckCount - 1);
+
+            if (deck.get(randomCard) == 0) {
+                deck.remove(randomCard);
+            }
+
+            handSize--;
+        }
+    }
+
+    private Card getRandomCardFromDeck() {
+        int index = random.nextInt(deck.size());
+        int i = 0;
+        for (Map.Entry<Card, Integer> entry : deck.entrySet()) {
+            if (i == index) {
+                return entry.getKey();
+            }
+            i++;
+        }
+        throw new IllegalStateException("Unexpected state: failed to get a random card from deck.");
+    }
+
+    public ObservableList<Card> getHand() {
         return hand;
     }
 
-    public void setHand(HashMap<Card, Integer> hand) {
+    public void setHand(ObservableList<Card> hand) {
         this.hand = hand;
     }
 
@@ -43,35 +95,35 @@ public class EachPlayerGame {
         this.deck = deck;
     }
 
-    public HashMap<Card, Integer> getDiscardPile() {
-        return discardPile;
+    public ObservableList<Card> getBurnedCards() {
+        return burnedCards;
     }
 
-    public void setDiscardPile(HashMap<Card, Integer> discardPile) {
-        this.discardPile = discardPile;
+    public void setBurnedCards(ObservableList<Card> burnedCards) {
+        this.burnedCards = burnedCards;
     }
 
-    public HashMap<Card, Integer> getCloseCombat() {
+    public ObservableList<Card> getCloseCombat() {
         return closeCombat;
     }
 
-    public void setCloseCombat(HashMap<Card, Integer> closeCombat) {
+    public void setCloseCombat(ObservableList<Card> closeCombat) {
         this.closeCombat = closeCombat;
     }
 
-    public HashMap<Card, Integer> getRangedCombat() {
+    public ObservableList<Card> getRangedCombat() {
         return rangedCombat;
     }
 
-    public void setRangedCombat(HashMap<Card, Integer> rangedCombat) {
+    public void setRangedCombat(ObservableList<Card> rangedCombat) {
         this.rangedCombat = rangedCombat;
     }
 
-    public HashMap<Card, Integer> getSiege() {
+    public ObservableList<Card> getSiege() {
         return siege;
     }
 
-    public void setSiege(HashMap<Card, Integer> siege) {
+    public void setSiege(ObservableList<Card> siege) {
         this.siege = siege;
     }
 
@@ -91,12 +143,12 @@ public class EachPlayerGame {
         this.faction = faction;
     }
 
-    public int getLives() {
-        return lives;
+    public int getCrystals() {
+        return crystals;
     }
 
-    public void setLives(int lives) {
-        this.lives = lives;
+    public void setCrystals(int crystals) {
+        this.crystals = crystals;
     }
 
     public int getCloseCombatScore() {
@@ -158,5 +210,13 @@ public class EachPlayerGame {
     public int totalScore() {
         //the process of calculating the score
         return 0;
+    }
+
+    public boolean isLeaderCardUsed() {
+        return isLeaderCardUsed;
+    }
+
+    public void setLeaderCardUsed(boolean leaderCardUsed) {
+        isLeaderCardUsed = leaderCardUsed;
     }
 }

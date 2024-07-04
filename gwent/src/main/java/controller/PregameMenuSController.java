@@ -65,10 +65,10 @@ public class PregameMenuSController extends BasePregameController {
         SortedList<Card> sortedUserDeck = new SortedList<>(userDeck, Comparator.comparingInt(Card::getID));
 
         cardsListView.setItems(sortedSkelligeCards);
-        cardsListView.setCellFactory(new CardListCellFactory());
+        cardsListView.setCellFactory(new CardListCellFactory(410, 217));
 
         userDeckListView.setItems(sortedUserDeck);
-        userDeckListView.setCellFactory(new CardListCellFactory());
+        userDeckListView.setCellFactory(new CardListCellFactory(410, 217));
 
         cardsListView.setOnMouseClicked(event -> {
             Card selectedCard = cardsListView.getSelectionModel().getSelectedItem();
