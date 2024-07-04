@@ -2,12 +2,15 @@ package enums;
 
 public enum Place {
     closeCombat,
-    siege,
     rangedCombat,
+    siege,
     agile,
     CSR,
     weatherPlace,
-    MarCo,
+    MarCoCloseCombat,
+    MarCoRangedCombat,
+    MarCoSiege,
+    CSRMarCo,
     board,
     Leader
 }

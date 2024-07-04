@@ -1,5 +1,6 @@
 package controller;
 
+import enums.CardType;
 import enums.Place;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -10,7 +11,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
 import model.*;
 import view.CardListCellFactory;
-
+import javax.swing.text.html.CSS;
 import java.util.regex.Matcher;
 
 public class GameMenuController {
@@ -109,6 +110,10 @@ public class GameMenuController {
 //    }
     @FXML
     public void initialize() {
+        updateGameState();
+    }
+
+    private void updateGameState() {
         Game game = User.getLoggedInUser().getCurrentGame();
         game.setGamePlayer2(new EachPlayerGame(game.getPlayer2()));
         Faction factionPlayer1  = game.getPlayer1().getFaction();
@@ -127,13 +132,25 @@ public class GameMenuController {
         if (game.getGamePlayer2().getCrystals() == 1) secondPlayerCrystal2.setVisible(false);
         firstPlayerRemainingCards.setText(String.valueOf(game.getGamePlayer1().getHand().size()));
         secondPlayerRemainingCards.setText(String.valueOf(game.getGamePlayer2().getHand().size()));
-        weatherCard.setImage(game.getWeatherCard().getImage());
-        firstPlayerCloseCombatBoost.setImage(game.getGamePlayer1().getMarCoCloseCombat().getImage());
-        firstPlayerRangedBoost.setImage(game.getGamePlayer1().getMarCoRangedCombat().getImage());
-        firstPlayerSiegeBoost.setImage(game.getGamePlayer1().getMarCoSiege().getImage());
-        secondPlayerCloseCombatBoost.setImage(game.getGamePlayer2().getMarCoCloseCombat().getImage());
-        secondPlayerCloseCombatBoost.setImage(game.getGamePlayer2().getMarCoRangedCombat().getImage());
-        secondPlayerCloseCombatBoost.setImage(game.getGamePlayer2().getMarCoSiege().getImage());
+        if (game.getWeatherCard() != null) weatherCard.setImage(game.getWeatherCard().getImage());
+        if (game.getGamePlayer1().getMarCoCloseCombat() != null) {
+            firstPlayerCloseCombatBoost.setImage(game.getGamePlayer1().getMarCoCloseCombat().getImage());
+        }
+        if (game.getGamePlayer1().getMarCoRangedCombat() != null) {
+            firstPlayerRangedBoost.setImage(game.getGamePlayer1().getMarCoRangedCombat().getImage());
+        }
+        if (game.getGamePlayer1().getMarCoSiege() != null) {
+            firstPlayerSiegeBoost.setImage(game.getGamePlayer1().getMarCoSiege().getImage());
+        }
+        if (game.getGamePlayer2().getMarCoCloseCombat() != null) {
+            secondPlayerCloseCombatBoost.setImage(game.getGamePlayer2().getMarCoCloseCombat().getImage());
+        }
+        if (game.getGamePlayer2().getMarCoRangedCombat() != null) {
+            secondPlayerRangedBoost.setImage(game.getGamePlayer2().getMarCoRangedCombat().getImage());
+        }
+        if (game.getGamePlayer2().getMarCoSiege() != null) {
+            secondPlayerSiegeBoost.setImage(game.getGamePlayer2().getMarCoSiege().getImage());
+        }
         firstPlayerTotalBoardStrength.setText(String.valueOf(game.getGamePlayer1().getTotalBoardPower()));
         secondPlayerTotalBoardStrength.setText(String.valueOf(game.getGamePlayer2().getTotalBoardPower()));
         firstPlayerSiege.setText(String.valueOf(game.getGamePlayer1().getSiegeScore()));
@@ -165,38 +182,6 @@ public class GameMenuController {
         secondPlayerSiegeList.setCellFactory(new CardListCellFactory(74,39));
     }
 
-    private void selectionCard(Card card){
-        Place place = card.getPlace();
-    }
-
-    public Card vetoCard(int ID){
-        return null;
-    }
-
-    public void inHandDeck (Matcher matcher){
-
-    } // show hand
-
-    public void inHandDeckOption(Matcher matcher){}
-
-    public void remainingCardsToPlay (){} // show remaining
-
-    public void outOfPlayCards(){} //show discard
-
-    public void cardsInRow (Matcher matcher){}
-
-    public void spellsInPlay (){}
-
-    public void commanderPowerPlay (){}
-
-    public void showCommander (){}
-
-    public void showPlayersInfo (){}
-
-    public void showPlayersLive (){}
-
-    public void showNumberOfCardsInHand (){}
-
     public void showTurnInfo (Game game){
         EachPlayerGame firstPlayerGame = game.getGamePlayer1();
         EachPlayerGame secondPlayerGame = game.getGamePlayer1();
@@ -223,15 +208,113 @@ public class GameMenuController {
         }
         currentPlayerHand.setCellFactory(new CardListCellFactory(74, 39));
 
+        currentPlayerHand.setOnMouseClicked(event -> {
+            Card selectedCard = (Card) currentPlayerHand.getSelectionModel().getSelectedItem();
+            if (selectedCard != null) {
+                highlightValidRowsAndPlaces(selectedCard);
+            }
+        });
+
+    }
+    private void highlightValidRowsAndPlaces(Card selectedCard) {
+        Game game = User.getLoggedInUser().getCurrentGame();
+        resetRowAndPlaceHighlights();
+
+        if (selectedCard.isSpecial()) {
+            if (selectedCard.getCardType().equals(CardType.Weather)) {
+                weatherCard.getStyleClass().add("highlight");
+            } else {
+                switch (selectedCard.getName()) {
+                    case "Scorch":
+                        firstPlayerSiegeBoost.getStyleClass().add("highlight");
+                        firstPlayerRangedBoost.getStyleClass().add("highlight");
+                        firstPlayerCloseCombatBoost.getStyleClass().add("highlight");
+                        firstPlayerSiegeList.getStyleClass().add("highlight");
+                        firstPlayerRangedList.getStyleClass().add("highlight");
+                        firstPlayerCloseCombatList.getStyleClass().add("highlight");
+                        secondPlayerSiegeBoost.getStyleClass().add("highlight");
+                        secondPlayerRangedBoost.getStyleClass().add("highlight");
+                        secondPlayerCloseCombatBoost.getStyleClass().add("highlight");
+                        secondPlayerSiegeList.getStyleClass().add("highlight");
+                        secondPlayerRangedList.getStyleClass().add("highlight");
+                        secondPlayerCloseCombatList.getStyleClass().add("highlight");
+                        break;
+                    case "Commander’s horn" :
+                    case "Mardoeme":
+                        if (game.getActivePlayer().equals(User.getLoggedInUser().getCurrentGame().getPlayer1())) {
+                            firstPlayerSiegeBoost.getStyleClass().add("highlight");
+                            firstPlayerRangedBoost.getStyleClass().add("highlight");
+                            firstPlayerCloseCombatBoost.getStyleClass().add("highlight");
+                        } else {
+                            secondPlayerSiegeBoost.getStyleClass().add("highlight");
+                            secondPlayerRangedBoost.getStyleClass().add("highlight");
+                            secondPlayerCloseCombatBoost.getStyleClass().add("highlight");
+                        }
+                        break;
+                    case "Decoy":
+                        if (game.getActivePlayer().equals(User.getLoggedInUser().getCurrentGame().getPlayer1())) {
+                            if (!game.getGamePlayer1().getCloseCombat().isEmpty()) firstPlayerCloseCombatList.getStyleClass().add("highlight");
+                            if (!game.getGamePlayer1().getRangedCombat().isEmpty()) firstPlayerRangedList.getStyleClass().add("highlight");
+                            if (!game.getGamePlayer1().getSiege().isEmpty()) firstPlayerSiegeList.getStyleClass().add("highlight");
+                        } else {
+                            if (!game.getGamePlayer2().getCloseCombat().isEmpty()) secondPlayerCloseCombatList.getStyleClass().add("highlight");
+                            if (!game.getGamePlayer2().getRangedCombat().isEmpty()) secondPlayerRangedList.getStyleClass().add("highlight");
+                            if (!game.getGamePlayer2().getSiege().isEmpty()) secondPlayerSiegeList.getStyleClass().add("highlight");
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+        } else {
+            switch (selectedCard.getPosition()) {
+                case closeCombat:
+                    firstPlayerCloseCombatList.getStyleClass().add("highlight");
+                    secondPlayerCloseCombatList.getStyleClass().add("highlight");
+                    break;
+                case rangedCombat:
+                    firstPlayerRangedList.getStyleClass().add("highlight");
+                    secondPlayerRangedList.getStyleClass().add("highlight");
+                    break;
+                case siege:
+                    firstPlayerSiegeList.getStyleClass().add("highlight");
+                    secondPlayerSiegeList.getStyleClass().add("highlight");
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
-    public void showTotalScoreOfRow (Matcher matcher){}
 
-    public void passRound (){}
+    private void resetRowAndPlaceHighlights() {
+        firstPlayerCloseCombatList.getStyleClass().remove("highlight");
+        secondPlayerCloseCombatList.getStyleClass().remove("highlight");
+        firstPlayerRangedList.getStyleClass().remove("highlight");
+        secondPlayerRangedList.getStyleClass().remove("highlight");
+        firstPlayerSiegeList.getStyleClass().remove("highlight");
+        secondPlayerSiegeList.getStyleClass().remove("highlight");
+    }
 
-    public void placeCard (Matcher matcher){}
+    private void addRowClickHandlers() {
+        firstPlayerCloseCombatList.setOnMouseClicked(event -> placeCardInRow(firstPlayerCloseCombatList));
+        secondPlayerCloseCombatList.setOnMouseClicked(event -> placeCardInRow(secondPlayerCloseCombatList));
+        firstPlayerRangedList.setOnMouseClicked(event -> placeCardInRow(firstPlayerRangedList));
+        secondPlayerRangedList.setOnMouseClicked(event -> placeCardInRow(secondPlayerRangedList));
+        firstPlayerSiegeList.setOnMouseClicked(event -> placeCardInRow(firstPlayerSiegeList));
+        secondPlayerSiegeList.setOnMouseClicked(event -> placeCardInRow(secondPlayerSiegeList));
+    }
 
-    public void startEndRound (){}
+    private void placeCardInRow(ListView<Card> row) {
+        Card selectedCard = (Card) currentPlayerHand.getSelectionModel().getSelectedItem();
+        if (selectedCard != null) {
+            row.getItems().add(selectedCard);
+            currentPlayerHand.getItems().remove(selectedCard);
+            resetRowAndPlaceHighlights();
+            updateGameState();
+        }
+    }
+
 
     public boolean isEndRound(){return true;}
     public void Exit (MouseEvent mouseEvent){
@@ -240,4 +323,39 @@ public class GameMenuController {
     }
 
 
+//    public void showTotalScoreOfRow (Matcher matcher){}
+//
+//    public void passRound (){}
+//
+//    public void placeCard (Matcher matcher){}
+//
+//    public void startEndRound (){}
+//
+//    public Card vetoCard(int ID){
+//        return null;
+//    }
+//
+//    public void inHandDeck (Matcher matcher){
+//
+//    } // show hand
+//
+//    public void inHandDeckOption(Matcher matcher){}
+//
+//    public void remainingCardsToPlay (){} // show remaining
+//
+//    public void outOfPlayCards(){} //show discard
+//
+//    public void cardsInRow (Matcher matcher){}
+//
+//    public void spellsInPlay (){}
+//
+//    public void commanderPowerPlay (){}
+//
+//    public void showCommander (){}
+//
+//    public void showPlayersInfo (){}
+//
+//    public void showPlayersLive (){}
+//
+//    public void showNumberOfCardsInHand (){}
 }

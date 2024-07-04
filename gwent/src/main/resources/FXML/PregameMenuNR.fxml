@@ -61,7 +61,7 @@
         </Button>
         <Button fx:id="startGame" layoutX="446.0" layoutY="423.0" mnemonicParsing="false" text="start game"/>
         <Label layoutX="256.0" layoutY="91.0" text="change faction:" textFill="WHITE"/>
-        <Button fx:id="goToMainMenu" layoutX="258.0" layoutY="423.0" mnemonicParsing="false" text="Main Manu"/>
+        <Button fx:id="goToMainMenu" layoutX="258.0" layoutY="423.0" mnemonicParsing="false" text="Main Menu"/>
         <ImageView fx:id="leaderImage" fitHeight="140.0" fitWidth="98.0" layoutX="258.0" layoutY="115.0"
                    pickOnBounds="true" preserveRatio="true"/>
         <ChoiceBox fx:id="leaderChoiceBox" layoutX="258.0" layoutY="264.0" prefHeight="24.0" prefWidth="71.0"/>
