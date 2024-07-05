@@ -2,13 +2,8 @@ package controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
 import model.User;
 import view.*;
-
-import java.util.Scanner;
-import java.util.regex.Matcher;
 
 public class MainMenuController {
     @FXML

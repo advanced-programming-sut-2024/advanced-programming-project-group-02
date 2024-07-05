@@ -112,6 +112,8 @@ public class GameMenuController {
     public StackPane secondPlayerCloseCombatBoostPane;
     public StackPane weatherCardPane;
 
+    private Card selectedCard;
+
     @FXML
     public void initialize() {
         updateGameState();
@@ -189,7 +191,7 @@ public class GameMenuController {
     public void showTurnInfo (Game game){
         EachPlayerGame firstPlayerGame = game.getGamePlayer1();
         EachPlayerGame secondPlayerGame = game.getGamePlayer1();
-        if (game.getTurnNo() % 2 != 0) {
+        if (game.getPlayer1().equals(game.getActivePlayer())) {
             currentPlayerHand.setItems(firstPlayerGame.getHand());
             ObservableList<Card> burnedCards = firstPlayerGame.getBurnedCards();
             if (!burnedCards.isEmpty()) {
@@ -213,8 +215,10 @@ public class GameMenuController {
         currentPlayerHand.setCellFactory(new CardListCellFactory(74, 39));
 
         currentPlayerHand.setOnMouseClicked(event -> {
+            resetRowAndPlaceHighlights();
             Card selectedCard = (Card) currentPlayerHand.getSelectionModel().getSelectedItem();
             if (selectedCard != null) {
+                this.selectedCard = selectedCard;
                 highlightValidRowsAndPlaces(selectedCard);
             }
         });
@@ -222,7 +226,6 @@ public class GameMenuController {
     }
     private void highlightValidRowsAndPlaces(Card selectedCard) {
         Game game = User.getLoggedInUser().getCurrentGame();
-        resetRowAndPlaceHighlights();
 
         if (selectedCard.isSpecial()) {
             if (selectedCard.getCardType().equals(CardType.Weather)) {
@@ -279,13 +282,13 @@ public class GameMenuController {
 
     private void unitCardHighlight(Card selectedCard, Game game, ListView secondPlayerList, ListView firstPlayerList) {
         if (selectedCard.getAbility().contains(Ability.Spy)) {
-            if (User.getLoggedInUser().equals(game.getPlayer1())) {
+            if (game.getActivePlayer().equals(game.getPlayer1())) {
                 secondPlayerList.getStyleClass().add("highlight");
             } else {
                 firstPlayerList.getStyleClass().add("highlight");
             }
         } else {
-            if (User.getLoggedInUser().equals(game.getPlayer1())) {
+            if (game.getActivePlayer().equals(game.getPlayer1())) {
                 firstPlayerList.getStyleClass().add("highlight");
             } else {
                 secondPlayerList.getStyleClass().add("highlight");
@@ -334,12 +337,12 @@ public class GameMenuController {
 
 
     private void highlightAllRows() {
-        firstPlayerSiegeBoostPane.getStyleClass().add("highlight");
-        firstPlayerRangedBoostPane.getStyleClass().add("highlight");
-        firstPlayerCloseCombatBoostPane.getStyleClass().add("highlight");
-        secondPlayerSiegeBoostPane.getStyleClass().add("highlight");
-        secondPlayerRangedBoostPane.getStyleClass().add("highlight");
-        secondPlayerCloseCombatBoostPane.getStyleClass().add("highlight");
+        firstPlayerSiegeList.getStyleClass().add("highlight");
+        firstPlayerRangedList.getStyleClass().add("highlight");
+        firstPlayerCloseCombatList.getStyleClass().add("highlight");
+        secondPlayerSiegeList.getStyleClass().add("highlight");
+        secondPlayerRangedList.getStyleClass().add("highlight");
+        secondPlayerCloseCombatList.getStyleClass().add("highlight");
     }
 
     public void Exit (MouseEvent mouseEvent){
@@ -347,40 +350,175 @@ public class GameMenuController {
         System.exit(0);
     }
 
+    private void handleListViewClick(ListView<?> listView, Card selectedCard) {
+        if (isHighlightedListView(listView)) {
+            Function function = new Function();
+            function.run(this, listView, selectedCard);
+            resetRowAndPlaceHighlights();
+        }
+    }
 
-//    public void showTotalScoreOfRow (Matcher matcher){}
-//
-//    public void passRound (){}
-//
-//    public void placeCard (Matcher matcher){}
-//
-//    public void startEndRound (){}
-//
-//    public Card vetoCard(int ID){
-//        return null;
-//    }
-//
-//    public void inHandDeck (Matcher matcher){
-//
-//    } // show hand
-//
-//    public void inHandDeckOption(Matcher matcher){}
-//
-//    public void remainingCardsToPlay (){} // show remaining
-//
-//    public void outOfPlayCards(){} //show discard
-//
-//    public void cardsInRow (Matcher matcher){}
-//
-//    public void spellsInPlay (){}
-//
-//    public void commanderPowerPlay (){}
-//
-//    public void showCommander (){}
-//
-//    public void showPlayersInfo (){}
-//
-//    public void showPlayersLive (){}
-//
-//    public void showNumberOfCardsInHand (){}
+    private void handleImageViewClick(ImageView imageView, Card selectedCard) {
+        if (isHighlightedImageView(imageView)) {
+            Function function = new Function();
+            function.run(this, imageView, selectedCard);
+            resetRowAndPlaceHighlights();
+        }
+    }
+
+    private boolean isHighlightedListView(ListView<?> listView) {
+        return listView.getStyleClass().contains("highlight");
+    }
+
+    private boolean isHighlightedImageView(ImageView imageView) {
+        return imageView.getStyleClass().contains("highlight");
+    }
+
+    @FXML
+    public void currentPlayerHandClicked(MouseEvent event) {
+        ListView<?> listView = currentPlayerHand;
+        Card selectedCard = this.selectedCard;
+        System.out.println("currentPlayerHandClicked: " + selectedCard.getName());
+        handleListViewClick(listView, selectedCard);
+    }
+
+    @FXML
+    public void firstPlayerCloseCombatListClicked(MouseEvent event) {
+        ListView<?> listView = firstPlayerCloseCombatList;
+        Card selectedCard = this.selectedCard;
+        System.out.println("firstPlayerCloseCombatListClicked: " + selectedCard.getName());
+        handleListViewClick(listView, selectedCard);
+    }
+
+    @FXML
+    public void firstPlayerRangedListClicked(MouseEvent event) {
+        ListView<?> listView = firstPlayerRangedList;
+        Card selectedCard = this.selectedCard;
+        System.out.println("firstPlayerRangedListClicked: " + selectedCard.getName());
+        handleListViewClick(listView, selectedCard);
+    }
+
+    @FXML
+    public void firstPlayerSiegeListClicked(MouseEvent event) {
+        ListView<?> listView = firstPlayerSiegeList;
+        Card selectedCard = this.selectedCard;
+        System.out.println("firstPlayerSiegeListClicked: " + selectedCard.getName());
+        handleListViewClick(listView, selectedCard);
+    }
+
+    @FXML
+    public void secondPlayerCloseCombatListClicked(MouseEvent event) {
+        ListView<?> listView = secondPlayerCloseCombatList;
+        Card selectedCard = this.selectedCard;
+        System.out.println("secondPlayerCloseCombatListClicked: " + selectedCard.getName());
+        handleListViewClick(listView, selectedCard);
+    }
+
+    @FXML
+    public void secondPlayerRangedListClicked(MouseEvent event) {
+        ListView<?> listView = secondPlayerRangedList;
+        Card selectedCard = this.selectedCard;
+        System.out.println("secondPlayerRangedListClicked: " + selectedCard.getName());
+        handleListViewClick(listView, selectedCard);
+    }
+
+    @FXML
+    public void secondPlayerSiegeListClicked(MouseEvent event) {
+        ListView<?> listView = secondPlayerSiegeList;
+        Card selectedCard = this.selectedCard;
+        System.out.println("secondPlayerSiegeListClicked: " + selectedCard.getName());
+        handleListViewClick(listView, selectedCard);
+    }
+    @FXML
+    public void weatherCardClicked(MouseEvent event) {
+        ImageView imageView = weatherCard;
+        System.out.println("weatherCardClicked: " + selectedCard.getName());
+        if (isHighlightedImageView(weatherCard)) handleImageViewClick(imageView, selectedCard);
+        else if (weatherCard != null) showWeatherCardInfo();
+    }
+
+    @FXML
+    public void firstPlayerSiegeBoostClicked(MouseEvent event) {
+        ImageView imageView = firstPlayerSiegeBoost;
+        System.out.println("firstPlayerSiegeBoostClicked: " + selectedCard.getName());
+        handleImageViewClick(imageView, selectedCard);
+    }
+
+    @FXML
+    public void firstPlayerRangedBoostClicked(MouseEvent event) {
+        ImageView imageView = firstPlayerRangedBoost;
+        System.out.println("firstPlayerRangedBoostClicked: " + selectedCard.getName());
+        handleImageViewClick(imageView, selectedCard);
+    }
+
+    @FXML
+    public void firstPlayerCloseCombatBoostClicked(MouseEvent event) {
+        ImageView imageView = firstPlayerCloseCombatBoost;
+        System.out.println("firstPlayerCloseCombatBoostClicked: " + selectedCard.getName());
+        handleImageViewClick(imageView, selectedCard);
+    }
+
+    @FXML
+    public void secondPlayerCloseCombatBoostClicked(MouseEvent event) {
+        ImageView imageView = secondPlayerCloseCombatBoost;
+        System.out.println("secondPlayerCloseCombatBoostClicked: " + selectedCard.getName());
+        handleImageViewClick(imageView, selectedCard);
+    }
+
+    @FXML
+    public void secondPlayerRangedBoostClicked(MouseEvent event) {
+        ImageView imageView = secondPlayerRangedBoost;
+        System.out.println("secondPlayerRangedBoostClicked: " + selectedCard.getName());
+        handleImageViewClick(imageView, selectedCard);
+    }
+
+    @FXML
+    public void secondPlayerSiegeBoostClicked(MouseEvent event) {
+        ImageView imageView = secondPlayerSiegeBoost;
+        System.out.println("secondPlayerSiegeBoostClicked: " + selectedCard.getName());
+        handleImageViewClick(imageView, selectedCard);
+    }
+
+    @FXML
+    public void firstPlayerPassClicked(MouseEvent mouseEvent) {
+        Game game = User.getLoggedInUser().getCurrentGame();
+        game.getGamePlayer1().setPassedTheGame(true);
+        game.setTurnNo(game.getTurnNo() + 1);
+        game.setActivePlayer(game.getPlayer2());
+        isRoundEnd();
+    }
+
+    @FXML
+    public void secondPlayerPassClicked(MouseEvent mouseEvent) {
+        Game game = User.getLoggedInUser().getCurrentGame();
+        game.getGamePlayer2().setPassedTheGame(true);
+        game.setTurnNo(game.getTurnNo() + 1);
+        game.setActivePlayer(game.getPlayer1());
+        isRoundEnd();
+    }
+
+    private void isRoundEnd() {
+        isGameEnd();
+    }
+
+    private void endOfRound() {
+
+    }
+
+    private void isGameEnd() {
+    }
+
+    private void endOfGame() {
+
+    }
+
+    public void secondPlayerLeaderCardClicked(MouseEvent mouseEvent) {
+    }
+
+    public void firstPlayerLeaderCardClicked(MouseEvent mouseEvent) {
+    }
+
+    private void showWeatherCardInfo() {
+    }
+
 }

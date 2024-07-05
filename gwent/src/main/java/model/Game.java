@@ -5,7 +5,7 @@ import enums.Statement;
 import java.util.Date;
 
 public class Game {
-    private final User activePlayer;
+    private User activePlayer;
     private Card weatherCard;
     private User player1;
     private User player2;
@@ -100,6 +100,10 @@ public class Game {
 
     public User getActivePlayer() {
         return activePlayer;
+    }
+
+    public void setActivePlayer(User activePlayer) {
+        this.activePlayer = activePlayer;
     }
 
     @Override
