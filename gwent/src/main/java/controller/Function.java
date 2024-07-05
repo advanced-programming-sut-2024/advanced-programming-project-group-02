@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import enums.CardType;
 import enums.Place;
 import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import model.Card;
 import model.Game;
@@ -64,7 +65,7 @@ public class Function {
                     game.getGamePlayer1().setHand(cardList);
                     break;
             }
-            switch (){
+            switch () {
 
             }
         } if (user.equals(game.getPlayer2())) {
@@ -75,26 +76,42 @@ public class Function {
                     game.getGamePlayer2().setSiege(cardList);
                     cardList = game.getGamePlayer2().getHand();
                     cardList.remove(card);
-                    game.getGamePlayer1().setHand(cardList);
+                    game.getGamePlayer2().setHand(cardList);
                     break;
                 case "firstPlayerCloseCombatList":
-                    cardList = game.getGamePlayer1().getCloseCombat();
+                    cardList = game.getGamePlayer2().getCloseCombat();
                     cardList.add(card);
-                    game.getGamePlayer1().setCloseCombat(cardList);
-                    cardList = game.getGamePlayer1().getHand();
+                    game.getGamePlayer2().setCloseCombat(cardList);
+                    cardList = game.getGamePlayer2().getHand();
                     cardList.remove(card);
-                    game.getGamePlayer1().setHand(cardList);
+                    game.getGamePlayer2().setHand(cardList);
                     break;
                 case "firstPlayerRangedList":
-                    cardList = game.getGamePlayer1().getRangedCombat();
+                    cardList = game.getGamePlayer2().getRangedCombat();
                     cardList.add(card);
-                    game.getGamePlayer1().setRangedCombat(cardList);
-                    cardList = game.getGamePlayer1().getHand();
+                    game.getGamePlayer2().setRangedCombat(cardList);
+                    cardList = game.getGamePlayer2().getHand();
                     cardList.remove(card);
-                    game.getGamePlayer1().setHand(cardList);
+                    game.getGamePlayer2().setHand(cardList);
                     break;
             }
-            switch ()
+            Ability ability = card.getAbility().get();
+            switch (ability) {
+                case Muster:
+                    muster(game, listView, card);
+                case Medic:
+                    medic(game, listView, card);
+                case TightBond:
+                    tightBond(game, listView, card );
+                case Scorch:
+                case MoralBoost:
+                case CommandersHorn:
+                case Spy:
+                case Mardoeme:
+                case Berserker:
+                case Transformers:
+
+            }
         }
 
 
@@ -104,43 +121,76 @@ public class Function {
 
     }
 
-    private static void commandersHorn(ListView listView, Card card) {
+    private static void commandersHorn(Game game, ListView listView, Card card) {
     }
 
-    private static void commandersHorn(ImageView imageView, Card card) {
+    private static void commandersHorn(Game game, ImageView imageView, Card card) {
     }
 
-    private static void decoy(Place place, Card card) {
+    private static void decoy(Game game, ListView listView, Card card) {
     }
 
-    private static void medic(Place place, Card card) {
+    private static void decoy(Game game, ImageView imageView, Card card) {
     }
 
-    private static void moralBoost(Place place, Card card) {
+    private static void medic(Game game, ListView listView, Card card) {
     }
 
-    private static void muster(Place place, Card card) {
+    private static void medic(Game game, ImageView imageView, Card card) {
     }
 
-    private static void spy(Place place, Card card) {
+    private static void moralBoost(Game game, ListView listView, Card card) {
     }
 
-    private static void tightBond(Place place, Card card) {
+    private static void moralBoost(Game game, ImageView imageView, Card card) {
     }
 
-    private static void scorch(Place place, Card card) {
+    private static void muster(Game game, ListView listView, Card card) {
     }
 
-    private static void berserker(Place place, Card card) {
+    private static void muster(Game game, ImageView imageView, Card card) {
     }
 
-    private static void mardroeme(Place place, Card card) {
+    private static void spy(Game game, ListView listView, Card card) {
     }
 
-    private static void transformers(Place place, Card card) {
+    private static void spy(Game game, ImageView imageView, Card card) {
     }
 
-    private static void nonAbility(Place place, Card card) {
+    private static void tightBond(Game game, ListView listView, Card card) {
+    }
+
+    private static void tightBond(Game game, ImageView imageView, Card card) {
+    }
+
+    private static void scorch(Game game, ListView listView, Card card) {
+    }
+
+    private static void scorch(Game game, ImageView imageView, Card card) {
+    }
+
+    private static void berserker(Game game, ListView listView, Card card) {
+    }
+
+    private static void berserker(Game game, ImageView imageView, Card card) {
+    }
+
+    private static void mardroeme(Game game, ListView listView, Card card) {
+    }
+
+    private static void mardroeme(Game game, ImageView imageView, Card card) {
+    }
+
+    private static void transformers(Game game, ListView listView, Card card) {
+    }
+
+    private static void transformers(Game game, ImageView imageView, Card card) {
+    }
+
+    private static void nonAbility(Game game, ListView listView, Card card) {
+    }
+
+    private static void nonAbility(Game game, ImageView imageView, Card card) {
     }
 
     //3 method for transfer spell weather
