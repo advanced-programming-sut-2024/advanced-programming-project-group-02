@@ -58,8 +58,8 @@
                   <Image url="@../images/GameBoard/icon_card_count.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="secondPlayerLeaderCard" fitHeight="97.0" fitWidth="68.0" layoutX="111.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true" />
-            <ImageView fx:id="firstPlayerLeaderCard" fitHeight="97.0" fitWidth="68.0" layoutX="111.0" layoutY="582.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="secondPlayerLeaderCard" onMouseClicked="#secondPlayerLeaderCardClicked" fitHeight="97.0" fitWidth="68.0" layoutX="111.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="firstPlayerLeaderCard" onMouseClicked="#firstPlayerLeaderCardClicked" fitHeight="97.0" fitWidth="68.0" layoutX="111.0" layoutY="582.0" pickOnBounds="true" preserveRatio="true" />
             <Label fx:id="secondPlayerTotalBoardStrength" alignment="CENTER" contentDisplay="CENTER" layoutX="299.0" layoutY="221.0" prefHeight="22.0" prefWidth="35.0" text="0" textFill="RED">
                <font>
                   <Font name="System Bold" size="15.0" />
@@ -105,39 +105,39 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <ListView fx:id="firstPlayerSiegeList" layoutX="498.0" layoutY="500.0" orientation="HORIZONTAL" prefHeight="74.0" prefWidth="562.0" />
-            <ListView fx:id="secondPlayerSiegeList" layoutX="498.0" layoutY="19.0" orientation="HORIZONTAL" prefHeight="74.0" prefWidth="562.0" />
-            <ListView fx:id="secondPlayerRangedList" layoutX="498.0" layoutY="111.0" orientation="HORIZONTAL" prefHeight="74.0" prefWidth="562.0" />
-            <ListView fx:id="secondPlayerCloseCombatList" layoutX="498.0" layoutY="207.0" orientation="HORIZONTAL" prefHeight="74.0" prefWidth="562.0" />
-            <ListView fx:id="firstPlayerCloseCombatList" layoutX="498.0" layoutY="312.0" orientation="HORIZONTAL" prefHeight="74.0" prefWidth="562.0" />
-            <ListView fx:id="firstPlayerRangedList" layoutX="498.0" layoutY="404.0" orientation="HORIZONTAL" prefHeight="74.0" prefWidth="562.0" />
-            <ListView fx:id="currentPlayerHand" layoutX="406.0" layoutY="589.0" orientation="HORIZONTAL" prefHeight="88.0" prefWidth="652.0" />
+            <ListView fx:id="firstPlayerSiegeList" onMouseClicked="#firstPlayerSiegeListClicked" layoutX="498.0" layoutY="500.0" orientation="HORIZONTAL" prefHeight="74.0" prefWidth="562.0" />
+            <ListView fx:id="secondPlayerSiegeList" onMouseClicked="#secondPlayerSiegeListClicked" layoutX="498.0" layoutY="19.0" orientation="HORIZONTAL" prefHeight="74.0" prefWidth="562.0" />
+            <ListView fx:id="secondPlayerRangedList" onMouseClicked="#secondPlayerRangedListClicked" layoutX="498.0" layoutY="111.0" orientation="HORIZONTAL" prefHeight="74.0" prefWidth="562.0" />
+            <ListView fx:id="secondPlayerCloseCombatList" onMouseClicked="#secondPlayerCloseCombatListClicked" layoutX="498.0" layoutY="207.0" orientation="HORIZONTAL" prefHeight="74.0" prefWidth="562.0" />
+            <ListView fx:id="firstPlayerCloseCombatList" onMouseClicked="#firstPlayerCloseCombatListClicked" layoutX="498.0" layoutY="312.0" orientation="HORIZONTAL" prefHeight="74.0" prefWidth="562.0" />
+            <ListView fx:id="firstPlayerRangedList" onMouseClicked="#firstPlayerRangedListClicked" layoutX="498.0" layoutY="404.0" orientation="HORIZONTAL" prefHeight="74.0" prefWidth="562.0" />
+            <ListView fx:id="currentPlayerHand" onMouseClicked="#currentPlayerHandClicked" layoutX="406.0" layoutY="589.0" orientation="HORIZONTAL" prefHeight="88.0" prefWidth="652.0" />
             <ImageView fx:id="secondPlayerBurnedCards" fitHeight="98.0" fitWidth="75.0" layoutX="1083.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="firstPlayerCards" fitHeight="98.0" fitWidth="75.0" layoutX="1210.0" layoutY="582.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="firstPlayerBurnedCards" fitHeight="98.0" fitWidth="75.0" layoutX="1083.0" layoutY="582.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="secondPlayerCards" fitHeight="98.0" fitWidth="75.0" layoutX="1210.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true" />
             <StackPane fx:id="secondPlayerSiegeBoostPane" layoutX="401.0" layoutY="14.0">
-               <ImageView fx:id="secondPlayerSiegeBoost" fitHeight="74.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true" />
+               <ImageView fx:id="secondPlayerSiegeBoost" onMouseClicked="#secondPlayerSiegeBoostClicked" fitHeight="74.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true" />
             </StackPane>
             <StackPane fx:id="secondPlayerRangedBoostPane" layoutX="401.0" layoutY="106.0">
-               <ImageView fx:id="secondPlayerRangedBoost" fitHeight="74.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true" />
+               <ImageView fx:id="secondPlayerRangedBoost" onMouseClicked="#secondPlayerRangedBoostClicked" fitHeight="74.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true" />
             </StackPane>
             <StackPane fx:id="secondPlayerCloseCombatBoostPane" layoutX="401.0" layoutY="203.0">
-               <ImageView fx:id="secondPlayerCloseCombatBoost" fitHeight="74.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true" />
+               <ImageView fx:id="secondPlayerCloseCombatBoost" onMouseClicked="#secondPlayerCloseCombatBoostClicked" fitHeight="74.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true" />
             </StackPane>
             <StackPane fx:id="firstPlayerCloseCombatBoostPane" layoutX="401.0" layoutY="308.0">
-               <ImageView fx:id="firstPlayerCloseCombatBoost" fitHeight="74.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true" />
+               <ImageView fx:id="firstPlayerCloseCombatBoost" onMouseClicked="#firstPlayerCloseCombatBoostClicked" fitHeight="74.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true" />
             </StackPane>
             <StackPane fx:id="firstPlayerRangedBoostPane" layoutX="401.0" layoutY="401.0">
-               <ImageView fx:id="firstPlayerRangedBoost" fitHeight="74.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true" />
+               <ImageView fx:id="firstPlayerRangedBoost" onMouseClicked="#firstPlayerRangedBoostClicked" fitHeight="74.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true" />
             </StackPane>
             <StackPane fx:id="firstPlayerSiegeBoostPane" layoutX="401.0" layoutY="498.0">
-               <ImageView fx:id="firstPlayerSiegeBoost" fitHeight="74.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true" />
+               <ImageView fx:id="firstPlayerSiegeBoost" onMouseClicked="#firstPlayerSiegeBoostClicked" fitHeight="74.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true" />
             </StackPane>
-            <Button fx:id="secondPlayerPass" layoutX="230.0" layoutY="94.0" mnemonicParsing="false" text="Pass" />
-            <Button fx:id="firstPlayerPass" layoutX="230.0" layoutY="618.0" mnemonicParsing="false" text="Pass" />
+            <Button fx:id="secondPlayerPass" onMouseClicked="#secondPlayerPassClicked" layoutX="230.0" layoutY="94.0" mnemonicParsing="false" text="Pass" />
+            <Button fx:id="firstPlayerPass" onMouseClicked="#firstPlayerPassClicked" layoutX="230.0" layoutY="618.0" mnemonicParsing="false" text="Pass" />
             <StackPane fx:id="weatherCardPane" layoutX="100.0" layoutY="312.0">
-            <ImageView fx:id="weatherCard" fitHeight="97.0" fitWidth="193.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="weatherCard" onMouseClicked="#weatherCardClicked" fitHeight="97.0" fitWidth="193.0" pickOnBounds="true" preserveRatio="true" />
             </StackPane>
             <ImageView fx:id="secondPlayerFactionImage" fitHeight="36.0" fitWidth="28.0" layoutX="37.0" layoutY="196.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="firstPlayerFactionImage" fitHeight="36.0" fitWidth="28.0" layoutX="37.0" layoutY="514.0" pickOnBounds="true" preserveRatio="true" />

@@ -4,6 +4,8 @@ import enums.Ability;
 import enums.CardType;
 import enums.Place;
 import javafx.collections.ObservableList;
+import enums.CardType;
+import enums.Place;
 import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
 import model.Card;
