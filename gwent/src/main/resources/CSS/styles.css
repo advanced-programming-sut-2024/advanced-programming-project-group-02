@@ -1,3 +1,11 @@
 .highlight {
     -fx-background-color: yellow;
+    -fx-border-color: yellow;
+    -fx-border-width: 2;
+}
+
+.stack-highlight {
+    -fx-background-color: yellow;
+    -fx-border-color: yellow;
+    -fx-border-width: 2;
 }
