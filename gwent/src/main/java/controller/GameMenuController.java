@@ -281,7 +281,7 @@ public class GameMenuController {
     }
 
     private void unitCardHighlight(Card selectedCard, Game game, ListView secondPlayerList, ListView firstPlayerList) {
-        if (selectedCard.getAbility().contains(Ability.Spy)) {
+        if (selectedCard.getAbility().equals(Ability.Spy)) {
             if (game.getActivePlayer().equals(game.getPlayer1())) {
                 secondPlayerList.getStyleClass().add("highlight");
             } else {

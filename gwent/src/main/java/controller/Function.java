@@ -95,7 +95,7 @@ public class Function {
                     game.getGamePlayer2().setHand(cardList);
                     break;
             }
-            Ability ability = card.getAbility().get();
+            Ability ability = card.getAbility();
             switch (ability) {
                 case Muster:
                     muster(game, listView, card);
