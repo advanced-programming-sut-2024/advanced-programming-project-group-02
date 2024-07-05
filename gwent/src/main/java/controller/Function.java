@@ -30,7 +30,9 @@ public class Function{
     private static void unit(ImageView imageView, Card card){
 
     }
-    private static void commandersHorn(ListView listView,Card card){}
+    private static void commandersHorn(ListView listView,Card card){
+
+    }
     private static void commandersHorn(ImageView imageView,Card card){}
     private static void decoy(Place place,Card card){}
     private static void medic(Place place, Card card){}

@@ -14,19 +14,19 @@ public class Card {
     private int power;
     private int countOfCard;
     private boolean isHero;
-    private ArrayList<Ability> abilities;
+    private Ability ability;
     private CardType cardType;
     private Place place;
     private Image image;
 
-    public Card(String name, int ID, int power, int countOfCard, boolean isHero, ArrayList<Ability> abilities, CardType cardType, Place place, Image image) {
+    public Card(String name, int ID, int power, int countOfCard, boolean isHero, Ability ability, CardType cardType, Place place, Image image) {
         cards.add(this);
         this.name = name;
         this.ID = ID;
         this.power = power;
         this.countOfCard = countOfCard;
         this.isHero = isHero;
-        this.abilities = abilities;
+        this.ability = ability;
         this.cardType = cardType;
         this.place = place;
         this.image = image;
@@ -62,8 +62,8 @@ public class Card {
         return isHero;
     }
 
-    public ArrayList<Ability> getAbility() {
-        return abilities;
+    public Ability getAbility() {
+        return ability;
     }
 
     public CardType getCardType() {
