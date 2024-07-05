@@ -45,7 +45,7 @@ public class EachPlayerGame {
     }
 
     private void drawInitialHand() {
-        int handSize = 10;
+        int handSize = 30;
         int totalCardsInDeck = deck.values().stream().mapToInt(Integer::intValue).sum();
 
         if (totalCardsInDeck < handSize) {

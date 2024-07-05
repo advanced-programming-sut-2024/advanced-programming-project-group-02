@@ -1,18 +1,18 @@
 package controller;
 
+import enums.Ability;
 import enums.CardType;
 import enums.Place;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
 import model.*;
 import view.CardListCellFactory;
-import javax.swing.text.html.CSS;
-import java.util.regex.Matcher;
 
 public class GameMenuController {
 
@@ -104,10 +104,14 @@ public class GameMenuController {
     public Label firstPlayerCountOfCards;
     @FXML
     public Label secondPlayerCountOfCards;
+    public StackPane firstPlayerSiegeBoostPane;
+    public StackPane secondPlayerSiegeBoostPane;
+    public StackPane firstPlayerRangedBoostPane;
+    public StackPane secondPlayerRangedBoostPane;
+    public StackPane firstPlayerCloseCombatBoostPane;
+    public StackPane secondPlayerCloseCombatBoostPane;
+    public StackPane weatherCardPane;
 
-//    public static void slectionCard (Card card){
-//
-//    }
     @FXML
     public void initialize() {
         updateGameState();
@@ -120,6 +124,7 @@ public class GameMenuController {
         Faction factionPlayer2  = game.getPlayer2().getFaction();
         player1FactionName.setText(factionPlayer1.getName());
         player2FactionName.setText(factionPlayer2.getName());
+        showTurnInfo(game);
         firstPlayerFactionImage.setImage(factionPlayer1.getImage());
         secondPlayerFactionImage.setImage(factionPlayer2.getImage());
         firstPlayerLeaderCard.setImage(game.getPlayer1().getLeaderCard().getImage());
@@ -161,7 +166,6 @@ public class GameMenuController {
         secondPlayerCloseCombat.setText(String.valueOf(game.getGamePlayer2().getCloseCombatScore()));
         setFirstPlayerBoard(game.getGamePlayer1());
         setSecondPlayerBoard(game.getGamePlayer2());
-        showTurnInfo(game);
     }
 
     private void setFirstPlayerBoard(EachPlayerGame game) {
@@ -222,44 +226,30 @@ public class GameMenuController {
 
         if (selectedCard.isSpecial()) {
             if (selectedCard.getCardType().equals(CardType.Weather)) {
-                weatherCard.getStyleClass().add("highlight");
+                weatherCardPane.getStyleClass().add("stack-highlight");
             } else {
                 switch (selectedCard.getName()) {
                     case "Scorch":
-                        firstPlayerSiegeBoost.getStyleClass().add("highlight");
-                        firstPlayerRangedBoost.getStyleClass().add("highlight");
-                        firstPlayerCloseCombatBoost.getStyleClass().add("highlight");
-                        firstPlayerSiegeList.getStyleClass().add("highlight");
-                        firstPlayerRangedList.getStyleClass().add("highlight");
-                        firstPlayerCloseCombatList.getStyleClass().add("highlight");
-                        secondPlayerSiegeBoost.getStyleClass().add("highlight");
-                        secondPlayerRangedBoost.getStyleClass().add("highlight");
-                        secondPlayerCloseCombatBoost.getStyleClass().add("highlight");
-                        secondPlayerSiegeList.getStyleClass().add("highlight");
-                        secondPlayerRangedList.getStyleClass().add("highlight");
-                        secondPlayerCloseCombatList.getStyleClass().add("highlight");
+                        highlightAllStacks();
+                        highlightAllRows();
                         break;
-                    case "Commander’s horn" :
+                    case "Commander’s horn":
                     case "Mardoeme":
-                        if (game.getActivePlayer().equals(User.getLoggedInUser().getCurrentGame().getPlayer1())) {
-                            firstPlayerSiegeBoost.getStyleClass().add("highlight");
-                            firstPlayerRangedBoost.getStyleClass().add("highlight");
-                            firstPlayerCloseCombatBoost.getStyleClass().add("highlight");
+                        if (game.getActivePlayer().equals(game.getPlayer1())) {
+                            highlightStacks(firstPlayerCloseCombatBoostPane, firstPlayerRangedBoostPane, firstPlayerSiegeBoostPane);
                         } else {
-                            secondPlayerSiegeBoost.getStyleClass().add("highlight");
-                            secondPlayerRangedBoost.getStyleClass().add("highlight");
-                            secondPlayerCloseCombatBoost.getStyleClass().add("highlight");
+                            highlightStacks(secondPlayerCloseCombatBoostPane, secondPlayerRangedBoostPane, secondPlayerSiegeBoostPane);
                         }
                         break;
                     case "Decoy":
-                        if (game.getActivePlayer().equals(User.getLoggedInUser().getCurrentGame().getPlayer1())) {
-                            if (!game.getGamePlayer1().getCloseCombat().isEmpty()) firstPlayerCloseCombatList.getStyleClass().add("highlight");
-                            if (!game.getGamePlayer1().getRangedCombat().isEmpty()) firstPlayerRangedList.getStyleClass().add("highlight");
-                            if (!game.getGamePlayer1().getSiege().isEmpty()) firstPlayerSiegeList.getStyleClass().add("highlight");
+                        if (game.getActivePlayer().equals(game.getPlayer1())) {
+                            highlightIfNotEmpty(firstPlayerCloseCombatList, game.getGamePlayer1().getCloseCombat());
+                            highlightIfNotEmpty(firstPlayerRangedList, game.getGamePlayer1().getRangedCombat());
+                            highlightIfNotEmpty(firstPlayerSiegeList, game.getGamePlayer1().getSiege());
                         } else {
-                            if (!game.getGamePlayer2().getCloseCombat().isEmpty()) secondPlayerCloseCombatList.getStyleClass().add("highlight");
-                            if (!game.getGamePlayer2().getRangedCombat().isEmpty()) secondPlayerRangedList.getStyleClass().add("highlight");
-                            if (!game.getGamePlayer2().getSiege().isEmpty()) secondPlayerSiegeList.getStyleClass().add("highlight");
+                            highlightIfNotEmpty(secondPlayerCloseCombatList, game.getGamePlayer2().getCloseCombat());
+                            highlightIfNotEmpty(secondPlayerRangedList, game.getGamePlayer2().getRangedCombat());
+                            highlightIfNotEmpty(secondPlayerSiegeList, game.getGamePlayer2().getSiege());
                         }
                         break;
                     default:
@@ -269,16 +259,17 @@ public class GameMenuController {
         } else {
             switch (selectedCard.getPosition()) {
                 case closeCombat:
-                    firstPlayerCloseCombatList.getStyleClass().add("highlight");
-                    secondPlayerCloseCombatList.getStyleClass().add("highlight");
+                    unitCardHighlight(selectedCard, game, secondPlayerCloseCombatList, firstPlayerCloseCombatList);
                     break;
                 case rangedCombat:
-                    firstPlayerRangedList.getStyleClass().add("highlight");
-                    secondPlayerRangedList.getStyleClass().add("highlight");
+                    unitCardHighlight(selectedCard, game, secondPlayerRangedList, firstPlayerRangedList);
                     break;
                 case siege:
-                    firstPlayerSiegeList.getStyleClass().add("highlight");
-                    secondPlayerSiegeList.getStyleClass().add("highlight");
+                    unitCardHighlight(selectedCard, game, secondPlayerSiegeList, firstPlayerSiegeList);
+                    break;
+                case agile:
+                    unitCardHighlight(selectedCard, game, secondPlayerRangedList, firstPlayerRangedList);
+                    unitCardHighlight(selectedCard, game, secondPlayerCloseCombatList, firstPlayerCloseCombatList);
                     break;
                 default:
                     break;
@@ -286,6 +277,21 @@ public class GameMenuController {
         }
     }
 
+    private void unitCardHighlight(Card selectedCard, Game game, ListView secondPlayerList, ListView firstPlayerList) {
+        if (selectedCard.getAbility().contains(Ability.Spy)) {
+            if (User.getLoggedInUser().equals(game.getPlayer1())) {
+                secondPlayerList.getStyleClass().add("highlight");
+            } else {
+                firstPlayerList.getStyleClass().add("highlight");
+            }
+        } else {
+            if (User.getLoggedInUser().equals(game.getPlayer1())) {
+                firstPlayerList.getStyleClass().add("highlight");
+            } else {
+                secondPlayerList.getStyleClass().add("highlight");
+            }
+        }
+    }
 
     private void resetRowAndPlaceHighlights() {
         firstPlayerCloseCombatList.getStyleClass().remove("highlight");
@@ -294,29 +300,48 @@ public class GameMenuController {
         secondPlayerRangedList.getStyleClass().remove("highlight");
         firstPlayerSiegeList.getStyleClass().remove("highlight");
         secondPlayerSiegeList.getStyleClass().remove("highlight");
+
+        weatherCardPane.getStyleClass().remove("stack-highlight");
+
+        firstPlayerSiegeBoostPane.getStyleClass().remove("stack-highlight");
+        secondPlayerSiegeBoostPane.getStyleClass().remove("stack-highlight");
+        firstPlayerRangedBoostPane.getStyleClass().remove("stack-highlight");
+        secondPlayerRangedBoostPane.getStyleClass().remove("stack-highlight");
+        firstPlayerCloseCombatBoostPane.getStyleClass().remove("stack-highlight");
+        secondPlayerCloseCombatBoostPane.getStyleClass().remove("stack-highlight");
     }
 
-    private void addRowClickHandlers() {
-        firstPlayerCloseCombatList.setOnMouseClicked(event -> placeCardInRow(firstPlayerCloseCombatList));
-        secondPlayerCloseCombatList.setOnMouseClicked(event -> placeCardInRow(secondPlayerCloseCombatList));
-        firstPlayerRangedList.setOnMouseClicked(event -> placeCardInRow(firstPlayerRangedList));
-        secondPlayerRangedList.setOnMouseClicked(event -> placeCardInRow(secondPlayerRangedList));
-        firstPlayerSiegeList.setOnMouseClicked(event -> placeCardInRow(firstPlayerSiegeList));
-        secondPlayerSiegeList.setOnMouseClicked(event -> placeCardInRow(secondPlayerSiegeList));
+    private void highlightAllStacks() {
+        firstPlayerSiegeBoostPane.getStyleClass().add("stack-highlight");
+        firstPlayerRangedBoostPane.getStyleClass().add("stack-highlight");
+        firstPlayerCloseCombatBoostPane.getStyleClass().add("stack-highlight");
+        secondPlayerSiegeBoostPane.getStyleClass().add("stack-highlight");
+        secondPlayerRangedBoostPane.getStyleClass().add("stack-highlight");
+        secondPlayerCloseCombatBoostPane.getStyleClass().add("stack-highlight");
     }
 
-    private void placeCardInRow(ListView<Card> row) {
-        Card selectedCard = (Card) currentPlayerHand.getSelectionModel().getSelectedItem();
-        if (selectedCard != null) {
-            row.getItems().add(selectedCard);
-            currentPlayerHand.getItems().remove(selectedCard);
-            resetRowAndPlaceHighlights();
-            updateGameState();
+    private void highlightStacks(StackPane... stacks) {
+        for (StackPane stack : stacks) {
+            stack.getStyleClass().add("stack-highlight");
+        }
+    }
+
+    private void highlightIfNotEmpty(ListView listView, ObservableList<Card> list) {
+        if (!list.isEmpty()) {
+            listView.getStyleClass().add("highlight");
         }
     }
 
 
-    public boolean isEndRound(){return true;}
+    private void highlightAllRows() {
+        firstPlayerSiegeBoostPane.getStyleClass().add("highlight");
+        firstPlayerRangedBoostPane.getStyleClass().add("highlight");
+        firstPlayerCloseCombatBoostPane.getStyleClass().add("highlight");
+        secondPlayerSiegeBoostPane.getStyleClass().add("highlight");
+        secondPlayerRangedBoostPane.getStyleClass().add("highlight");
+        secondPlayerCloseCombatBoostPane.getStyleClass().add("highlight");
+    }
+
     public void Exit (MouseEvent mouseEvent){
         LoginRegisterMenuController.saveUsers();
         System.exit(0);
