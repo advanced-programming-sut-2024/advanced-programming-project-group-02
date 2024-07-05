@@ -118,7 +118,6 @@ public class EachPlayerGame {
     public ObservableList<Card> getRangedCombat() {
         return rangedCombat;
     }
-
     public void setRangedCombat(ObservableList<Card> rangedCombat) {
         this.rangedCombat = rangedCombat;
     }

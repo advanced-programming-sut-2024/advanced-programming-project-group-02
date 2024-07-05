@@ -1,17 +1,12 @@
 package controller;
 
-import enums.Ability;
 import enums.CardType;
 import enums.Place;
-import javafx.collections.ObservableList;
 import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
 import model.Card;
 import model.Game;
 import model.User;
-
-import javax.swing.text.View;
-import java.util.ArrayList;
 
 public class Function{
     public static GameMenuController gameMenuController;
