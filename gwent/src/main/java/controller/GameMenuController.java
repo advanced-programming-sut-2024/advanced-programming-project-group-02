@@ -107,12 +107,19 @@ public class GameMenuController {
     public Label firstPlayerCountOfCards;
     @FXML
     public Label secondPlayerCountOfCards;
+    @FXML
     public StackPane firstPlayerSiegeBoostPane;
+    @FXML
     public StackPane secondPlayerSiegeBoostPane;
+    @FXML
     public StackPane firstPlayerRangedBoostPane;
+    @FXML
     public StackPane secondPlayerRangedBoostPane;
+    @FXML
     public StackPane firstPlayerCloseCombatBoostPane;
+    @FXML
     public StackPane secondPlayerCloseCombatBoostPane;
+    @FXML
     public StackPane weatherCardPane;
 
     private Card selectedCard;
@@ -135,7 +142,7 @@ public class GameMenuController {
         updateGameState(game);
     }
 
-    private void updateGameState(Game game) {
+    public void updateGameState(Game game) {
         showTurnInfo(game);
         firstPlayerCountOfCards.setText(String.valueOf(game.getPlayer1().getDeck().size()));
         secondPlayerCountOfCards.setText(String.valueOf(game.getPlayer2().getDeck().size()));
