@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Function {
-    public static GameMenuController gameMenuController;
+    public GameMenuController gameMenuController;
 
     public void run(GameMenuController gameMenuController, ListView listView, Card card) {
         this.gameMenuController = gameMenuController;
@@ -31,11 +31,10 @@ public class Function {
         }
     }
 
-    public static void run(GameMenuController gameMenuController, ImageView imageView, Card card) {
+    public void run(GameMenuController gameMenuController, ImageView imageView, Card card) {
 
     }
-
-    private static void unit(Game game, ListView listView, Card card) {
+    private void unit(Game game, ListView listView, Card card) {
         User user = game.getActivePlayer();
         String Id = listView.getId();
         if (user.equals(game.getPlayer1())) {
@@ -50,6 +49,7 @@ public class Function {
                     siegeScores.computeIfAbsent(card, k -> new ArrayList<>()).add(hasCommandersHorn ? card.getPower() * 2 : card.getPower());
 
                     game.getGamePlayer1().setSiege(siegeList);
+                    game.getGamePlayer1().setSiegeScores(siegeScores);
 
                     ObservableList<Card> hand = game.getGamePlayer1().getHand();
                     hand.remove(card);
@@ -67,6 +67,7 @@ public class Function {
                     closeCombatScores.computeIfAbsent(card, k -> new ArrayList<>()).add(hasCommandersHorn ? card.getPower() * 2 : card.getPower());
 
                     game.getGamePlayer1().setCloseCombat(closeCombatList);
+                    game.getGamePlayer1().setCloseCombatScores(closeCombatScores);
 
                     hand = game.getGamePlayer1().getHand();
                     hand.remove(card);
@@ -84,6 +85,7 @@ public class Function {
                     rangedScores.computeIfAbsent(card, k -> new ArrayList<>()).add(hasCommandersHorn ? card.getPower() * 2 : card.getPower());
 
                     game.getGamePlayer1().setRangedCombat(rangedList);
+                    game.getGamePlayer1().setRangedCombatScores(rangedScores);
 
                     hand = game.getGamePlayer1().getHand();
                     hand.remove(card);
@@ -104,6 +106,7 @@ public class Function {
                     siegeScores.computeIfAbsent(card, k -> new ArrayList<>()).add(hasCommandersHorn ? card.getPower() * 2 : card.getPower());
 
                     game.getGamePlayer2().setSiege(siegeList);
+                    game.getGamePlayer2().setSiegeScores(siegeScores);
 
                     ObservableList<Card> hand = game.getGamePlayer2().getHand();
                     hand.remove(card);
@@ -117,10 +120,10 @@ public class Function {
                     closeCombatList.add(card);
 
                     hasCommandersHorn = closeCombatList.stream().anyMatch(c -> c.getAbility().equals(Ability.CommandersHorn));
-
                     closeCombatScores.computeIfAbsent(card, k -> new ArrayList<>()).add(hasCommandersHorn ? card.getPower() * 2 : card.getPower());
 
                     game.getGamePlayer2().setCloseCombat(closeCombatList);
+                    game.getGamePlayer2().setCloseCombatScores(closeCombatScores);
 
                     hand = game.getGamePlayer2().getHand();
                     hand.remove(card);
@@ -138,6 +141,7 @@ public class Function {
                     rangedScores.computeIfAbsent(card, k -> new ArrayList<>()).add(hasCommandersHorn ? card.getPower() * 2 : card.getPower());
 
                     game.getGamePlayer2().setRangedCombat(rangedList);
+                    game.getGamePlayer2().setRangedCombatScores(rangedScores);
 
                     hand = game.getGamePlayer2().getHand();
                     hand.remove(card);
@@ -150,7 +154,7 @@ public class Function {
 
     }
 
-    private static void abilitySwitch(Game game, ListView listView, Card card) {
+    private void abilitySwitch(Game game, ListView listView, Card card) {
         Ability ability = card.getAbility();
         switch (ability) {
             case Muster:
@@ -177,17 +181,13 @@ public class Function {
             case Mardoeme:
                 mardroeme(game, listView, card);
                 break;
-            case Berserker:
-                berserker(game, listView, card);
-                break;
-            case Transformers:
-                transformers(game, listView, card);
+            default:
                 break;
         }
     }
 
 
-    private static void commandersHorn(Game game, ListView<Card> listView, Card card) {
+    private void commandersHorn(Game game, ListView<Card> listView, Card card) {
         HashMap<Card, List<Integer>> cardScores = rowSwitch(game, listView);
 
         for (Map.Entry<Card, List<Integer>> entry : cardScores.entrySet()) {
@@ -201,10 +201,11 @@ public class Function {
             for (int i = 0; i < scores.size(); i++) {
                 scores.set(i, scores.get(i) * 2);
             }
+            setHashMap(game, listView, cardScores);
         }
     }
 
-    private static void moralBoost(Game game, ListView<Card> listView, Card thrownCard) {
+    private void tightBond(Game game, ListView<Card> listView, Card thrownCard) {
         HashMap<Card, List<Integer>> cardScores = rowSwitch(game, listView);
         List<Integer> thrownCardScores = cardScores.get(thrownCard);
         int sum = thrownCardScores.stream().mapToInt(Integer::intValue).sum();
@@ -214,13 +215,35 @@ public class Function {
         }
 
         cardScores.put(thrownCard, thrownCardScores);
+        setHashMap(game, listView, cardScores);
     }
 
-    private static void medic(Game game, ListView listView, Card card) {
-
+    private void setHashMap(Game game, ListView<Card> listView, HashMap<Card, List<Integer>> cardScores) {
+        switch (listView.getId()) {
+            case "firstPlayerCloseCombatList":
+                game.getGamePlayer1().setCloseCombatScores(cardScores);
+                break;
+            case "firstPlayerRangedList":
+                game.getGamePlayer1().setRangedCombatScores(cardScores);
+                break;
+            case "firstPlayerSiegeList":
+                game.getGamePlayer1().setSiegeScores(cardScores);
+                break;
+            case "secondPlayerCloseCombatList":
+                game.getGamePlayer2().setCloseCombatScores(cardScores);
+                break;
+            case "secondPlayerRangedList":
+                game.getGamePlayer2().setRangedCombatScores(cardScores);
+                break;
+            case "secondPlayerSiegeList":
+                game.getGamePlayer2().setSiegeScores(cardScores);
+                break;
+            default:
+                break;
+        }
     }
 
-    private static HashMap<Card, List<Integer>> rowSwitch(Game game, ListView listView) {
+    private HashMap<Card, List<Integer>> rowSwitch(Game game, ListView listView) {
         HashMap<Card, List<Integer>> cardScores = new HashMap<>();
         EachPlayerGame firstPlayerGame = game.getGamePlayer1();
         EachPlayerGame secondPlayerGame = game.getGamePlayer2();
@@ -250,29 +273,205 @@ public class Function {
         return cardScores;
     }
 
-    private static void muster(Game game, ListView listView, Card card) {
+    private void scorch(Game game, ListView listView, Card card) {
+        EachPlayerGame firstPlayerGame = game.getGamePlayer1();
+        EachPlayerGame secondPlayerGame = game.getGamePlayer2();
+        ObservableList<Card> firstPlayerCloseCombat = firstPlayerGame.getCloseCombat();
+        HashMap<Card, List<Integer>> firstPlayerCloseCombatScores = firstPlayerGame.getCloseCombatScores();
+        ObservableList<Card> firstPlayerRangedCombat = firstPlayerGame.getRangedCombat();
+        HashMap<Card, List<Integer>> firstPlayerRangedCombatScores = firstPlayerGame.getRangedCombatScores();
+        ObservableList<Card> firstPlayerSiege = firstPlayerGame.getSiege();
+        HashMap<Card, List<Integer>> firstPlayerSiegeScores = firstPlayerGame.getSiegeScores();
+        ObservableList<Card> secondPlayerCloseCombat = secondPlayerGame.getCloseCombat();
+        HashMap<Card, List<Integer>> secondPlayerCloseCombatScores = secondPlayerGame.getCloseCombatScores();
+        ObservableList<Card> secondPlayerRangedCombat = secondPlayerGame.getRangedCombat();
+        HashMap<Card, List<Integer>> secondPlayerRangedCombatScores = secondPlayerGame.getRangedCombatScores();
+        ObservableList<Card> secondPlayerSiege = secondPlayerGame.getSiege();
+        HashMap<Card, List<Integer>> secondPlayerSiegeScores = secondPlayerGame.getSiegeScores();
+
+        int highestScore = 0;
+
+        HashMap<Card, List<Integer>> cardScores = new HashMap<>();
+        if (!card.isSpecial()) {
+            switch (listView.getId()) {
+                case "firstPlayerSiegeList":
+                    highestScore = findHighestScore(highestScore, firstPlayerSiege, firstPlayerSiegeScores);
+                    removeCardWithHighestScore(firstPlayerSiege,firstPlayerSiegeScores,highestScore);
+                    break;
+                case "firstPlayerRangedList":
+                    highestScore = findHighestScore(highestScore, firstPlayerRangedCombat, firstPlayerRangedCombatScores);
+                    removeCardWithHighestScore(firstPlayerRangedCombat,firstPlayerRangedCombatScores,highestScore);
+                    break;
+                case "firstPlayerCloseCombatList":
+                    highestScore = findHighestScore(highestScore, firstPlayerCloseCombat, firstPlayerCloseCombatScores);
+                    removeCardWithHighestScore(firstPlayerCloseCombat,firstPlayerCloseCombatScores,highestScore);
+                    break;
+                case "secondPlayerCloseCombatList":
+                    highestScore = findHighestScore(highestScore, secondPlayerCloseCombat, secondPlayerCloseCombatScores);
+                    removeCardWithHighestScore(secondPlayerCloseCombat,secondPlayerCloseCombatScores,highestScore);
+                    break;
+                case "secondPlayerRangedList":
+                    highestScore = findHighestScore(highestScore, secondPlayerRangedCombat, secondPlayerRangedCombatScores);
+                    removeCardWithHighestScore(secondPlayerRangedCombat,secondPlayerRangedCombatScores,highestScore);
+                    break;
+                case "secondPlayerSiegeList":
+                    highestScore = findHighestScore(highestScore, secondPlayerSiege, secondPlayerSiegeScores);
+                    removeCardWithHighestScore(secondPlayerSiege,secondPlayerSiegeScores,highestScore);
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            highestScore = findHighestScore(highestScore, firstPlayerCloseCombat, firstPlayerCloseCombatScores);
+            highestScore = findHighestScore(highestScore, firstPlayerRangedCombat, firstPlayerRangedCombatScores);
+            highestScore = findHighestScore(highestScore, firstPlayerSiege, firstPlayerSiegeScores);
+            highestScore = findHighestScore(highestScore, secondPlayerCloseCombat, secondPlayerCloseCombatScores);
+            highestScore = findHighestScore(highestScore, secondPlayerRangedCombat, secondPlayerRangedCombatScores);
+            highestScore = findHighestScore(highestScore, secondPlayerSiege, secondPlayerSiegeScores);
+
+            removeCardWithHighestScore(firstPlayerSiege,firstPlayerSiegeScores,highestScore);
+            removeCardWithHighestScore(firstPlayerRangedCombat,firstPlayerRangedCombatScores,highestScore);
+            removeCardWithHighestScore(firstPlayerCloseCombat,firstPlayerCloseCombatScores,highestScore);
+            removeCardWithHighestScore(secondPlayerCloseCombat,secondPlayerCloseCombatScores,highestScore);
+            removeCardWithHighestScore(secondPlayerRangedCombat,secondPlayerRangedCombatScores,highestScore);
+            removeCardWithHighestScore(secondPlayerSiege,secondPlayerSiegeScores,highestScore);
+        }
     }
 
-    private static void spy(Game game, ListView listView, Card card) {
+    private void removeCardWithHighestScore(ObservableList<Card> list, HashMap<Card, List<Integer>> scores, int highestScore) {
+        for (Card card : list) {
+            List<Integer> values = scores.get(card);
+            if (values.stream().max(Integer::compare).orElse(0) == highestScore) values.remove(highestScore);
+            if (values.size() >= 1) scores.put(card, values);
+            else {
+                scores.remove(card);
+                list.remove(card);
+                addToBurnedCards(User.getLoggedInUser().getCurrentGame(),card);
+            }
+        }
     }
 
-    private static void tightBond(Game game, ListView listView, Card card) {
+    private void addToBurnedCards(Game game, Card card) {
+
     }
 
-    private static void scorch(Game game, ListView listView, Card card) {
+    private int findHighestScore(int highestScore, ObservableList<Card> cards, HashMap<Card, List<Integer>> cardsScore) {
+        for (Card card : cards) {
+            int maxScore = cardsScore.get(card).stream().max(Integer::compare).orElse(0);
+            if (maxScore > highestScore) {
+                highestScore = maxScore;
+            }
+        }
+        return highestScore;
     }
 
-    private static void berserker(Game game, ListView listView, Card card) {
+    private void mardroeme(Game game, ListView listView, Card card) {
+        if (game.getActivePlayer().equals(game.getPlayer1())) {
+            ObservableList<Card> list = game.getGamePlayer1().getCloseCombat();
+            for (Card card1 : list) {
+                if (card1.getName().equals("Berserker")) {
+                    HashMap<Card, List<Integer>> cardScores = game.getGamePlayer1().getCloseCombatScores();
+                    list.remove(card1);
+                    cardScores.remove(card1);
+                    game.getGamePlayer1().setCloseCombatScores(cardScores);
+                    game.getGamePlayer1().setCloseCombat(list);
+                    run(gameMenuController,listView,Card.getCardByName("Vildkaarl"));
+                }
+            }
+            list = game.getGamePlayer1().getRangedCombat();
+            for (Card card1 : list) {
+                if (card1.getName().equals("YoungBerserker")) {
+                    HashMap<Card, List<Integer>> cardScores = game.getGamePlayer1().getRangedCombatScores();
+                    list.remove(card1);
+                    cardScores.remove(card1);
+                    game.getGamePlayer1().setRangedCombatScores(cardScores);
+                    game.getGamePlayer1().setRangedCombat(list);
+                    run(gameMenuController,listView,Card.getCardByName("YoungVildkaarl"));
+                }
+            }
+        } else {
+            ObservableList<Card> list = game.getGamePlayer2().getCloseCombat();
+            for (Card card1 : list) {
+                if (card1.getName().equals("Berserker")) {
+                    HashMap<Card, List<Integer>> cardScores = game.getGamePlayer2().getCloseCombatScores();
+                    list.remove(card1);
+                    cardScores.remove(card1);
+                    game.getGamePlayer2().setCloseCombatScores(cardScores);
+                    game.getGamePlayer2().setCloseCombat(list);
+                    run(gameMenuController,listView,Card.getCardByName("Vildkaarl"));
+                }
+            }
+            list = game.getGamePlayer2().getRangedCombat();
+            for (Card card1 : list) {
+                if (card1.getName().equals("YoungBerserker")) {
+                    HashMap<Card, List<Integer>> cardScores = game.getGamePlayer2().getRangedCombatScores();
+                    list.remove(card1);
+                    cardScores.remove(card1);
+                    game.getGamePlayer2().setRangedCombatScores(cardScores);
+                    game.getGamePlayer2().setRangedCombat(list);
+                    run(gameMenuController,listView,Card.getCardByName("YoungVildkaarl"));
+                }
+            }
+        }
     }
 
-    private static void mardroeme(Game game, ListView listView, Card card) {
+    private void spy(Game game, ListView<Card> listView, Card card) {
+        EachPlayerGame activePlayerGame;
+        if (game.getActivePlayer().equals(game.getPlayer1())) {
+            activePlayerGame = game.getGamePlayer1();
+        } else {
+            activePlayerGame = game.getGamePlayer2();
+        }
+
+        HashMap<Card, Integer> deck = activePlayerGame.getDeck();
+        ObservableList<Card> hand = activePlayerGame.getHand();
+
+        List<Card> deckCards = new ArrayList<>();
+        for (Map.Entry<Card, Integer> entry : deck.entrySet()) {
+            for (int i = 0; i < entry.getValue(); i++) {
+                deckCards.add(entry.getKey());
+            }
+        }
+
+        if (deckCards.size() < 2) {
+            hand.addAll(deckCards);
+            deck.clear();
+        } else {
+            for (int i = 0; i < 2; i++) {
+                int randomIndex = (int) (Math.random() * deckCards.size());
+                Card randomCard = deckCards.get(randomIndex);
+
+                hand.add(randomCard);
+
+                if (deck.containsKey(randomCard)) {
+                    int count = deck.get(randomCard);
+                    if (count > 1) {
+                        deck.put(randomCard, count - 1);
+                    } else {
+                        deck.remove(randomCard);
+                    }
+                }
+                deckCards.remove(randomIndex);
+            }
+        }
+        activePlayerGame.setDeck(deck);
+        activePlayerGame.setHand(hand);
     }
 
-    private static void transformers(Game game, ListView listView, Card card) {
+
+
+    private void moralBoost(Game game, ListView listView, Card card) {
+    }
+
+    private void medic(Game game, ListView listView, Card card) {
+
+    }
+
+    private void muster(Game game, ListView listView, Card card) {
     }
 
 
-    private static void commandersHorn(Game game, ImageView imageView, Card card) {
+    private void commandersHorn(Game game, ImageView imageView, Card card) {
     }
 
     //3 method for transfer spell weather

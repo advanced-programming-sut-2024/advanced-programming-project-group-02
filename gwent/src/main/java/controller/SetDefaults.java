@@ -82,7 +82,7 @@ public class SetDefaults {
                 true, null, CardType.RangedUnit, Place.rangedCombat,
                 new Image(SetDefaults.class.getResourceAsStream("/images/cards/skellige/skellige_hjalmar.jpg")));
 
-        Card yongBerserkerCard = new Card("YongBerserker", 117, 2, 3,
+        Card yongBerserkerCard = new Card("YoungBerserker", 117, 2, 3,
                 false, Ability.Berserker, CardType.RangedUnit, Place.rangedCombat,
                 new Image(SetDefaults.class.getResourceAsStream("/images/cards/skellige/skellige_young_berserker.jpg")));
 

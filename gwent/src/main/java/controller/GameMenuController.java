@@ -13,6 +13,8 @@ import javafx.stage.Stage;
 import model.*;
 import view.CardListCellFactory;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -386,53 +388,161 @@ public class GameMenuController {
                         Game game = User.getLoggedInUser().getCurrentGame();
                         System.out.println("Selected card from secondary list: " + newSelection);
                         switch (listView.getId()) {
-                            case "firstPlayerCloseCombatList" :
-                                ObservableList list = game.getGamePlayer1().getCloseCombat();
-                                list.remove(selectedCard);
-                                game.getGamePlayer1().setCloseCombat(list);
-                                list = game.getGamePlayer1().getHand();
-                                list.add(selectedCard);
-                                game.getGamePlayer1().setHand(list);
+
+                            case "firstPlayerCloseCombatList":
+                                EachPlayerGame PlayerGame = game.getGamePlayer1();
+                                ObservableList<Card> List = PlayerGame.getCloseCombat();
+                                HashMap<Card, List<Integer>> Scores = PlayerGame.getCloseCombatScores();
+
+                                List.remove(newSelection);
+                                List.add(selectedCard);
+
+                                List<Integer> newSelectionScores = Scores.get(newSelection);
+                                if (newSelectionScores != null && newSelectionScores.size() > 1) {
+                                    newSelectionScores.remove(Collections.min(newSelectionScores));
+                                    Scores.put(newSelection, newSelectionScores);
+                                } else {
+                                    Scores.remove(newSelection);
+                                }
+
+                                Scores.computeIfAbsent(selectedCard, k -> new ArrayList<>()).add(selectedCard.getPower());
+
+                                PlayerGame.setCloseCombat(List);
+                                PlayerGame.setCloseCombatScores(Scores);
+
+                                ObservableList<Card> handList = PlayerGame.getHand();
+                                handList.add(newSelection);
+                                PlayerGame.setHand(handList);
                                 break;
+
                             case "firstPlayerRangedList" :
-                                list = game.getGamePlayer1().getRangedCombat();
-                                list.remove(selectedCard);
-                                game.getGamePlayer1().setRangedCombat(list);
-                                list = game.getGamePlayer1().getHand();
-                                list.add(selectedCard);
-                                game.getGamePlayer1().setHand(list);
+                                PlayerGame = game.getGamePlayer1();
+                                List = PlayerGame.getRangedCombat();
+                                Scores = PlayerGame.getRangedCombatScores();
+
+                                List.remove(newSelection);
+                                List.add(selectedCard);
+
+                                newSelectionScores = Scores.get(newSelection);
+                                if (newSelectionScores != null && newSelectionScores.size() > 1) {
+                                    newSelectionScores.remove(Collections.min(newSelectionScores));
+                                    Scores.put(newSelection, newSelectionScores);
+                                } else {
+                                    Scores.remove(newSelection);
+                                }
+
+                                Scores.computeIfAbsent(selectedCard, k -> new ArrayList<>()).add(selectedCard.getPower());
+
+                                PlayerGame.setRangedCombat(List);
+                                PlayerGame.setRangedCombatScores(Scores);
+
+                                handList = PlayerGame.getHand();
+                                handList.add(newSelection);
+                                PlayerGame.setHand(handList);
                                 break;
+
                             case "firstPlayerSiegeList" :
-                                list = game.getGamePlayer1().getSiege();
-                                list.remove(selectedCard);
-                                game.getGamePlayer1().setSiege(list);
-                                list = game.getGamePlayer1().getHand();
-                                list.add(selectedCard);
-                                game.getGamePlayer1().setHand(list);
+                                PlayerGame = game.getGamePlayer1();
+                                List = PlayerGame.getSiege();
+                                Scores = PlayerGame.getSiegeScores();
+
+                                List.remove(newSelection);
+                                List.add(selectedCard);
+
+                                newSelectionScores = Scores.get(newSelection);
+                                if (newSelectionScores != null && newSelectionScores.size() > 1) {
+                                    newSelectionScores.remove(Collections.min(newSelectionScores));
+                                    Scores.put(newSelection, newSelectionScores);
+                                } else {
+                                    Scores.remove(newSelection);
+                                }
+
+                                Scores.computeIfAbsent(selectedCard, k -> new ArrayList<>()).add(selectedCard.getPower());
+
+                                PlayerGame.setSiege(List);
+                                PlayerGame.setSiegeScores(Scores);
+
+                                handList = PlayerGame.getHand();
+                                handList.add(newSelection);
+                                PlayerGame.setHand(handList);
                                 break;
+
                             case "secondPlayerCloseCombatList" :
-                                list = game.getGamePlayer2().getCloseCombat();
-                                list.remove(selectedCard);
-                                game.getGamePlayer2().setCloseCombat(list);
-                                list = game.getGamePlayer2().getHand();
-                                list.add(selectedCard);
-                                game.getGamePlayer2().setHand(list);
+                                PlayerGame = game.getGamePlayer2();
+                                List = PlayerGame.getCloseCombat();
+                                Scores = PlayerGame.getCloseCombatScores();
+
+                                List.remove(newSelection);
+                                List.add(selectedCard);
+
+                                newSelectionScores = Scores.get(newSelection);
+                                if (newSelectionScores != null && newSelectionScores.size() > 1) {
+                                    newSelectionScores.remove(Collections.min(newSelectionScores));
+                                    Scores.put(newSelection, newSelectionScores);
+                                } else {
+                                    Scores.remove(newSelection);
+                                }
+
+                                Scores.computeIfAbsent(selectedCard, k -> new ArrayList<>()).add(selectedCard.getPower());
+
+                                PlayerGame.setCloseCombat(List);
+                                PlayerGame.setCloseCombatScores(Scores);
+
+                                handList = PlayerGame.getHand();
+                                handList.add(newSelection);
+                                PlayerGame.setHand(handList);
                                 break;
+
                             case "secondPlayerRangedList" :
-                                list = game.getGamePlayer2().getRangedCombat();
-                                list.remove(selectedCard);
-                                game.getGamePlayer2().setRangedCombat(list);
-                                list = game.getGamePlayer2().getHand();
-                                list.add(selectedCard);
-                                game.getGamePlayer2().setHand(list);
+                                PlayerGame = game.getGamePlayer2();
+                                List = PlayerGame.getRangedCombat();
+                                Scores = PlayerGame.getRangedCombatScores();
+
+                                List.remove(newSelection);
+                                List.add(selectedCard);
+
+                                newSelectionScores = Scores.get(newSelection);
+                                if (newSelectionScores != null && newSelectionScores.size() > 1) {
+                                    newSelectionScores.remove(Collections.min(newSelectionScores));
+                                    Scores.put(newSelection, newSelectionScores);
+                                } else {
+                                    Scores.remove(newSelection);
+                                }
+
+                                Scores.computeIfAbsent(selectedCard, k -> new ArrayList<>()).add(selectedCard.getPower());
+
+                                PlayerGame.setRangedCombat(List);
+                                PlayerGame.setRangedCombatScores(Scores);
+
+                                handList = PlayerGame.getHand();
+                                handList.add(newSelection);
+                                PlayerGame.setHand(handList);
                                 break;
+
                             case "secondPlayerSiegeList" :
-                                list = game.getGamePlayer2().getSiege();
-                                list.remove(selectedCard);
-                                game.getGamePlayer2().setSiege(list);
-                                list = game.getGamePlayer2().getHand();
-                                list.add(selectedCard);
-                                game.getGamePlayer2().setHand(list);
+                                PlayerGame = game.getGamePlayer2();
+                                List = PlayerGame.getSiege();
+                                Scores = PlayerGame.getSiegeScores();
+
+                                List.remove(newSelection);
+                                List.add(selectedCard);
+
+                                newSelectionScores = Scores.get(newSelection);
+                                if (newSelectionScores != null && newSelectionScores.size() > 1) {
+                                    newSelectionScores.remove(Collections.min(newSelectionScores));
+                                    Scores.put(newSelection, newSelectionScores);
+                                } else {
+                                    Scores.remove(newSelection);
+                                }
+
+                                Scores.computeIfAbsent(selectedCard, k -> new ArrayList<>()).add(selectedCard.getPower());
+
+                                PlayerGame.setSiege(List);
+                                PlayerGame.setSiegeScores(Scores);
+
+                                handList = PlayerGame.getHand();
+                                handList.add(newSelection);
+                                PlayerGame.setHand(handList);
                                 break;
 
                         }
@@ -608,23 +718,31 @@ public class GameMenuController {
 
     private void changeTurn() {
         calculateScoresWeather();
-        Game game = User.getLoggedInUser().getCurrentGame();
         isRoundEnd();
+        Game game = User.getLoggedInUser().getCurrentGame();
         game.setTurnNo(game.getTurnNo() + 1);
         if (game.getActivePlayer().equals(game.getPlayer1())) game.setActivePlayer(game.getPlayer2());
         else game.setActivePlayer(game.getPlayer1());
     }
 
-
-    private void updateScoresByWeatherCard(ObservableList<Card> cards, HashMap<Card, Integer> cardsScore){
+    private void updateScoresByWeatherCard(ObservableList<Card> cards, HashMap<Card, List<Integer>> cardsScore) {
         for (Card card : cards) {
-            if (!card.isHero() && (card.getPower() != 0)) {
-                cardsScore.put(card, 1);
+            if (!card.isHero() && card.getPower() != 0) {
+                List<Integer> scores = cardsScore.computeIfAbsent(card, k -> new ArrayList<>());
+                scores.clear();
+                for (int i = 0; i < cards.size(); i++) {
+                    scores.add(1);
+                }
             } else {
-                cardsScore.put(card, card.getPower());
+                List<Integer> scores = cardsScore.computeIfAbsent(card, k -> new ArrayList<>());
+                scores.clear();
+                for (int i = 0; i < cards.size(); i++) {
+                    scores.add(card.getPower());
+                }
             }
         }
     }
+
 
     private void calculateScoresWeather() {
         Game game = User.getLoggedInUser().getCurrentGame();
