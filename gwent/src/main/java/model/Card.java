@@ -50,6 +50,16 @@ public class Card {
         return null;
     }
 
+    public static Card getCardByName(String name){
+        ArrayList <Card> cards1 = new ArrayList<>();
+        for (Card card : cards1){
+            if (card.getName().equals(name)){
+                return card;
+            }
+        }
+        return null;
+    }
+
     public int getPower() {
         return power;
     }

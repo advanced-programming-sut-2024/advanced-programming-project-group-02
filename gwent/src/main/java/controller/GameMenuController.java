@@ -2,17 +2,20 @@ package controller;
 
 import enums.Ability;
 import enums.CardType;
-import enums.Place;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 import model.*;
 import view.CardListCellFactory;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class GameMenuController {
 
@@ -116,23 +119,24 @@ public class GameMenuController {
 
     @FXML
     public void initialize() {
-        updateGameState();
-    }
 
-    private void updateGameState() {
         Game game = User.getLoggedInUser().getCurrentGame();
         game.setGamePlayer2(new EachPlayerGame(game.getPlayer2()));
         Faction factionPlayer1  = game.getPlayer1().getFaction();
         Faction factionPlayer2  = game.getPlayer2().getFaction();
         player1FactionName.setText(factionPlayer1.getName());
         player2FactionName.setText(factionPlayer2.getName());
-        showTurnInfo(game);
         firstPlayerFactionImage.setImage(factionPlayer1.getImage());
         secondPlayerFactionImage.setImage(factionPlayer2.getImage());
         firstPlayerLeaderCard.setImage(game.getPlayer1().getLeaderCard().getImage());
         secondPlayerLeaderCard.setImage(game.getPlayer2().getLeaderCard().getImage());
-        firstPlayerCards.setImage(game.getPlayer1().getFaction().getImage());
-        secondPlayerCards.setImage(game.getPlayer2().getFaction().getImage());
+        firstPlayerCards.setImage(factionPlayer1.getImage());
+        secondPlayerCards.setImage(factionPlayer2.getImage());
+        updateGameState(game);
+    }
+
+    private void updateGameState(Game game) {
+        showTurnInfo(game);
         firstPlayerCountOfCards.setText(String.valueOf(game.getPlayer1().getDeck().size()));
         secondPlayerCountOfCards.setText(String.valueOf(game.getPlayer2().getDeck().size()));
         if (game.getGamePlayer1().getCrystals() == 1) firstPlayerCrystal2.setVisible(false);
@@ -233,7 +237,6 @@ public class GameMenuController {
             } else {
                 switch (selectedCard.getName()) {
                     case "Scorch":
-                        highlightAllStacks();
                         highlightAllRows();
                         break;
                     case "Commander’s horn":
@@ -352,18 +355,95 @@ public class GameMenuController {
 
     private void handleListViewClick(ListView<?> listView, Card selectedCard) {
         if (isHighlightedListView(listView)) {
-            Function function = new Function();
-            function.run(this, listView, selectedCard);
-            resetRowAndPlaceHighlights();
+            if (!selectedCard.equals(Card.getCardByName("Decoy"))) {
+                Function function = new Function();
+                function.run(this, listView, selectedCard);
+                resetRowAndPlaceHighlights();
+            } else {
+                List<Card> selectableCards = listView.getItems().stream()
+                        .filter(card -> card instanceof Card)
+                        .map(card -> (Card) card)
+                        .collect(Collectors.toList());
+                ListView<Card> secondaryListView = new ListView<>();
+                secondaryListView.getItems().addAll(selectableCards);
+                secondaryListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+
+                Stage secondaryStage = new Stage();
+                secondaryStage.setTitle("Select a Card");
+                secondaryStage.setScene(new Scene(secondaryListView));
+                secondaryStage.initOwner(listView.getScene().getWindow());
+                secondaryStage.show();
+
+                secondaryListView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+                    if (newSelection != null) {
+                        Game game = User.getLoggedInUser().getCurrentGame();
+                        System.out.println("Selected card from secondary list: " + newSelection);
+                        switch (listView.getId()) {
+                            case "firstPlayerCloseCombatList" :
+                                ObservableList list = game.getGamePlayer1().getCloseCombat();
+                                list.remove(selectedCard);
+                                game.getGamePlayer1().setCloseCombat(list);
+                                list = game.getGamePlayer1().getHand();
+                                list.add(selectedCard);
+                                game.getGamePlayer1().setHand(list);
+                                break;
+                            case "firstPlayerRangedList" :
+                                list = game.getGamePlayer1().getRangedCombat();
+                                list.remove(selectedCard);
+                                game.getGamePlayer1().setRangedCombat(list);
+                                list = game.getGamePlayer1().getHand();
+                                list.add(selectedCard);
+                                game.getGamePlayer1().setHand(list);
+                                break;
+                            case "firstPlayerSiegeList" :
+                                list = game.getGamePlayer1().getSiege();
+                                list.remove(selectedCard);
+                                game.getGamePlayer1().setSiege(list);
+                                list = game.getGamePlayer1().getHand();
+                                list.add(selectedCard);
+                                game.getGamePlayer1().setHand(list);
+                                break;
+                            case "secondPlayerCloseCombatList" :
+                                list = game.getGamePlayer2().getCloseCombat();
+                                list.remove(selectedCard);
+                                game.getGamePlayer2().setCloseCombat(list);
+                                list = game.getGamePlayer2().getHand();
+                                list.add(selectedCard);
+                                game.getGamePlayer2().setHand(list);
+                                break;
+                            case "secondPlayerRangedList" :
+                                list = game.getGamePlayer2().getRangedCombat();
+                                list.remove(selectedCard);
+                                game.getGamePlayer2().setRangedCombat(list);
+                                list = game.getGamePlayer2().getHand();
+                                list.add(selectedCard);
+                                game.getGamePlayer2().setHand(list);
+                                break;
+                            case "secondPlayerSiegeList" :
+                                list = game.getGamePlayer2().getSiege();
+                                list.remove(selectedCard);
+                                game.getGamePlayer2().setSiege(list);
+                                list = game.getGamePlayer2().getHand();
+                                list.add(selectedCard);
+                                game.getGamePlayer2().setHand(list);
+                                break;
+
+                        }
+                        secondaryStage.close();
+                    }
+                });
+            }
         }
+        changeTurn();
     }
 
     private void handleImageViewClick(ImageView imageView, Card selectedCard) {
         if (isHighlightedImageView(imageView)) {
             Function function = new Function();
             function.run(this, imageView, selectedCard);
-            resetRowAndPlaceHighlights();
         }
+        resetRowAndPlaceHighlights();
+        changeTurn();
     }
 
     private boolean isHighlightedListView(ListView<?> listView) {
@@ -483,9 +563,7 @@ public class GameMenuController {
     public void firstPlayerPassClicked(MouseEvent mouseEvent) {
         Game game = User.getLoggedInUser().getCurrentGame();
         game.getGamePlayer1().setPassedTheGame(true);
-        game.setTurnNo(game.getTurnNo() + 1);
-        game.setActivePlayer(game.getPlayer2());
-        isRoundEnd();
+        changeTurn();
     }
 
     @FXML
@@ -494,7 +572,7 @@ public class GameMenuController {
         game.getGamePlayer2().setPassedTheGame(true);
         game.setTurnNo(game.getTurnNo() + 1);
         game.setActivePlayer(game.getPlayer1());
-        isRoundEnd();
+        changeTurn();
     }
 
     private void isRoundEnd() {
@@ -521,4 +599,55 @@ public class GameMenuController {
     private void showWeatherCardInfo() {
     }
 
+    private void changeTurn() {
+        calculateScoresWeather();
+        Game game = User.getLoggedInUser().getCurrentGame();
+        isRoundEnd();
+        game.setTurnNo(game.getTurnNo() + 1);
+        if (game.getActivePlayer().equals(game.getPlayer1())) game.setActivePlayer(game.getPlayer2());
+        else game.setActivePlayer(game.getPlayer1());
+    }
+
+
+    private void updateScoresByWeatherCard(ObservableList<Card> cards, HashMap<Card, Integer> cardsScore){
+        for (Card card : cards) {
+            if (!card.isHero() && (card.getPower() != 0)) {
+                cardsScore.put(card, 1);
+            } else {
+                cardsScore.put(card, card.getPower());
+            }
+        }
+    }
+
+    private void calculateScoresWeather() {
+        Game game = User.getLoggedInUser().getCurrentGame();
+        EachPlayerGame firstPlayerGame = game.getGamePlayer1();
+        EachPlayerGame secondPlayerGame = game.getGamePlayer2();
+
+        switch (game.getWeatherCard().getName()) {
+            case "Biting Frost":
+                updateScoresByWeatherCard(firstPlayerGame.getCloseCombat(), firstPlayerGame.getCloseCombatScores());
+                updateScoresByWeatherCard(secondPlayerGame.getCloseCombat(), secondPlayerGame.getCloseCombatScores());
+                break;
+
+            case "Impenetrable Fog":
+                updateScoresByWeatherCard(firstPlayerGame.getRangedCombat(), firstPlayerGame.getRangedCombatScores());
+                updateScoresByWeatherCard(secondPlayerGame.getRangedCombat(), secondPlayerGame.getRangedCombatScores());
+                break;
+
+            case "Torrential Rain":
+                updateScoresByWeatherCard(firstPlayerGame.getSiege(), firstPlayerGame.getSiegeScores());
+                updateScoresByWeatherCard(secondPlayerGame.getSiege(), secondPlayerGame.getSiegeScores());
+                break;
+
+            case "Skellige Storm":
+                updateScoresByWeatherCard(firstPlayerGame.getRangedCombat(), firstPlayerGame.getRangedCombatScores());
+                updateScoresByWeatherCard(secondPlayerGame.getRangedCombat(), secondPlayerGame.getRangedCombatScores());
+                updateScoresByWeatherCard(firstPlayerGame.getSiege(), firstPlayerGame.getSiegeScores());
+                updateScoresByWeatherCard(secondPlayerGame.getSiege(), secondPlayerGame.getSiegeScores());
+                break;
+            default:
+                break;
+        }
+    }
 }

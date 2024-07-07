@@ -17,6 +17,9 @@ public class EachPlayerGame {
     private ObservableList<Card> closeCombat = FXCollections.observableArrayList();
     private ObservableList<Card> rangedCombat = FXCollections.observableArrayList();
     private ObservableList<Card> siege = FXCollections.observableArrayList();
+    private HashMap<Card,Integer> closeCombatScores = new HashMap<>();
+    private HashMap<Card,Integer> siegeScores = new HashMap<>();
+    private HashMap<Card,Integer> rangedCombatScores = new HashMap<>();
     private User player;
     private Faction faction;
     private int crystals;
@@ -118,6 +121,7 @@ public class EachPlayerGame {
     public ObservableList<Card> getRangedCombat() {
         return rangedCombat;
     }
+
     public void setRangedCombat(ObservableList<Card> rangedCombat) {
         this.rangedCombat = rangedCombat;
     }
@@ -155,6 +159,11 @@ public class EachPlayerGame {
     }
 
     public int getCloseCombatScore() {
+        int score = 0;
+        for (int value : closeCombatScores.values()) {
+            score += value;
+        }
+        closeCombatScore = score;
         return closeCombatScore;
     }
 
@@ -163,6 +172,11 @@ public class EachPlayerGame {
     }
 
     public int getRangedCombatScore() {
+        int score = 0;
+        for (int value : rangedCombatScores.values()) {
+            score += value;
+        }
+        rangedCombatScore = score;
         return rangedCombatScore;
     }
 
@@ -171,6 +185,11 @@ public class EachPlayerGame {
     }
 
     public int getSiegeScore() {
+        int score = 0;
+        for (int value : siegeScores.values()) {
+            score += value;
+        }
+        siegeScore = score;
         return siegeScore;
     }
 
@@ -221,5 +240,29 @@ public class EachPlayerGame {
 
     public void setLeaderCardUsed(boolean leaderCardUsed) {
         isLeaderCardUsed = leaderCardUsed;
+    }
+
+    public HashMap<Card, Integer> getCloseCombatScores() {
+        return closeCombatScores;
+    }
+
+    public void setCloseCombatScores(HashMap<Card, Integer> closeCombatScores) {
+        this.closeCombatScores = closeCombatScores;
+    }
+
+    public HashMap<Card, Integer> getSiegeScores() {
+        return siegeScores;
+    }
+
+    public void setSiegeScores(HashMap<Card, Integer> siegeScores) {
+        this.siegeScores = siegeScores;
+    }
+
+    public HashMap<Card, Integer> getRangedCombatScores() {
+        return rangedCombatScores;
+    }
+
+    public void setRangedCombatScores(HashMap<Card, Integer> rangedCombatScores) {
+        this.rangedCombatScores = rangedCombatScores;
     }
 }

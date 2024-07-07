@@ -30,7 +30,7 @@ public class Function{
     private static void unit(ImageView imageView, Card card){
 
     }
-    private static void commandersHorn(ListView listView,Card card){
+    private static void commandersHorn(Game game, ListView listView,Card card){
 
     }
     private static void commandersHorn(ImageView imageView,Card card){}
@@ -44,7 +44,6 @@ public class Function{
     private static void berserker(Place place,Card card){}
     private static void mardroeme(Place place,Card card){}
     private static void transformers(Place place,Card card){}
-    private static void nonAbility(Place place,Card card){}
 
     //3 method for transfer spell weather
 }
