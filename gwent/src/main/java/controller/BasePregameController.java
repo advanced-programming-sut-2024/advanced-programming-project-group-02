@@ -30,10 +30,10 @@ public abstract class BasePregameController {
     protected Label specialCards;
     @FXML
     protected Label heroCards;
-    //    @FXML
-//    protected Button downloadDeck;
-//    @FXML
-//    protected Button uploadDeck;
+    @FXML
+    protected Button downloadDeck;
+    @FXML
+    protected Button uploadDeck;
     @FXML
     protected Label totalUnitCardsStrength;
     @FXML
@@ -255,11 +255,13 @@ public abstract class BasePregameController {
                     cardsMap = new HashMap<>();
                 }
 
+                HashMap<Card, Integer> deck = new HashMap<>();
                 for (Map.Entry<Integer, Integer> entry : cardsMap.entrySet()) {
                     int idCard = entry.getKey();
                     Card card = Card.getCardByID(idCard);
                     if (card != null) {
-                        user.addToDeck(card);
+                        if (deck.containsKey(card)) deck.put(card, deck.get(card) + 1);
+                        else  deck.put(card, 1);
                     }
                 }
                 String faction = User.getLoggedInUser().getFaction().getName();

@@ -8,7 +8,8 @@ import java.util.*;
 
 public class EachPlayerGame {
 
-    private ObservableList<Card> hand = FXCollections.observableArrayList();
+    private ObservableList<Card> hand;
+    private SortedList<Card> sortedHand;
     private HashMap<Card, Integer> deck;
     private ObservableList<Card> burnedCards = FXCollections.observableArrayList();
     private ObservableList<Card> closeCombat = FXCollections.observableArrayList();
@@ -34,8 +35,9 @@ public class EachPlayerGame {
         this.deck = new HashMap<>(player.getDeck());
         this.player = player;
         faction = player.getFaction();
+        this.hand = FXCollections.observableArrayList();
+        this.sortedHand = new SortedList<>(hand, Comparator.comparingInt(Card::getPower));
         drawInitialHand();
-        hand = new SortedList<>(hand, Comparator.comparingInt(Card::getPower));
         passedTheGame = false;
         isLeaderCardUsed = false;
         closeCombatScore = 0;
@@ -45,26 +47,31 @@ public class EachPlayerGame {
     }
 
     private void drawInitialHand() {
-        int handSize = 10;
-        int totalCardsInDeck = deck.values().stream().mapToInt(Integer::intValue).sum();
-
-        if (totalCardsInDeck < handSize) {
-            throw new IllegalArgumentException("Deck does not contain enough cards to draw an initial hand.");
-        }
-
-        while (handSize > 0) {
-            Card randomCard = getRandomCardFromDeck();
-            int deckCount = deck.get(randomCard);
-
-            hand.add(randomCard);
-            deck.put(randomCard, deckCount - 1);
-
-            if (deck.get(randomCard) == 0) {
-                deck.remove(randomCard);
-            }
-
-            handSize--;
-        }
+//        int handSize = 10;
+//        int totalCardsInDeck = deck.values().stream().mapToInt(Integer::intValue).sum();
+//
+//        if (totalCardsInDeck < handSize) {
+//            throw new IllegalArgumentException("Deck does not contain enough cards to draw an initial hand.");
+//        }
+//
+//        while (handSize > 0) {
+//            Card randomCard = getRandomCardFromDeck();
+//            int deckCount = deck.get(randomCard);
+//
+//            hand.add(randomCard);
+//            deck.put(randomCard, deckCount - 1);
+//
+//            if (deck.get(randomCard) == 0) {
+//                deck.remove(randomCard);
+//            }
+//
+//            handSize--;
+//        }
+                        for (Card card : deck.keySet()) {
+                            for (int i = 0; i < deck.get(card); i++) {
+                                hand.add(card);
+                            }
+                        }
     }
 
     private Card getRandomCardFromDeck() {
@@ -87,8 +94,13 @@ public class EachPlayerGame {
         return hand;
     }
 
+    public SortedList<Card> getSortedHand() {
+        return sortedHand;
+    }
+
     public void setHand(ObservableList<Card> hand) {
         this.hand = hand;
+        this.sortedHand = new SortedList<>(hand, Comparator.comparingInt(Card::getPower));
     }
 
     public HashMap<Card, Integer> getDeck() {
