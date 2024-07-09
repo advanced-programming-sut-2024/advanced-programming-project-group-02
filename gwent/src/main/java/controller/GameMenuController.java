@@ -3,6 +3,7 @@ package controller;
 import enums.Ability;
 import enums.CardType;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -203,28 +204,34 @@ public class GameMenuController {
 
     public void showTurnInfo(Game game) {
         EachPlayerGame firstPlayerGame = game.getGamePlayer1();
-        EachPlayerGame secondPlayerGame = game.getGamePlayer1();
+        EachPlayerGame secondPlayerGame = game.getGamePlayer2();
+
         if (game.getPlayer1().equals(game.getActivePlayer())) {
-            currentPlayerHand.setItems(firstPlayerGame.getHand());
+            currentPlayerHand.setItems(firstPlayerGame.getSortedHand());
             ObservableList<Card> burnedCards = firstPlayerGame.getBurnedCards();
             if (!burnedCards.isEmpty()) {
                 Card lastBurnedCard = burnedCards.get(burnedCards.size() - 1);
                 firstPlayerBurnedCards.setImage(lastBurnedCard.getImage());
-            } else firstPlayerBurnedCards.setImage(null);
+            } else {
+                firstPlayerBurnedCards.setImage(null);
+            }
             if (firstPlayerGame.isLeaderCardUsed()) firstPlayerLeaderActive.setVisible(false);
             secondPlayerPass.setVisible(false);
             if (firstPlayerGame.isPassedTheGame()) firstPlayerPass.setVisible(false);
         } else {
-            currentPlayerHand.setItems(secondPlayerGame.getHand());
+            currentPlayerHand.setItems(secondPlayerGame.getSortedHand());
             ObservableList<Card> burnedCards = secondPlayerGame.getBurnedCards();
             if (!burnedCards.isEmpty()) {
                 Card lastBurnedCard = burnedCards.get(burnedCards.size() - 1);
                 secondPlayerBurnedCards.setImage(lastBurnedCard.getImage());
-            } else secondPlayerBurnedCards.setImage(null);
+            } else {
+                secondPlayerBurnedCards.setImage(null);
+            }
             if (secondPlayerGame.isLeaderCardUsed()) secondPlayerLeaderActive.setVisible(false);
             firstPlayerPass.setVisible(false);
             if (secondPlayerGame.isPassedTheGame()) secondPlayerPass.setVisible(false);
         }
+
         currentPlayerHand.setCellFactory(new CardListCellFactory(74, 39));
 
         currentPlayerHand.setOnMouseClicked(event -> {
@@ -235,7 +242,6 @@ public class GameMenuController {
                 highlightValidRowsAndPlaces(selectedCard);
             }
         });
-
     }
 
     private void highlightValidRowsAndPlaces(Card selectedCard) {
@@ -249,7 +255,7 @@ public class GameMenuController {
                     case "Scorch":
                         highlightAllRows();
                         break;
-                    case "Commander’s horn":
+                    case "Commander's Horn":
                     case "Mardoeme":
                         if (game.getActivePlayer().equals(game.getPlayer1())) {
                             highlightStacks(firstPlayerCloseCombatBoostPane, firstPlayerRangedBoostPane, firstPlayerSiegeBoostPane);
@@ -294,11 +300,19 @@ public class GameMenuController {
     }
 
     private void unitCardHighlight(Card selectedCard, Game game, ListView secondPlayerList, ListView firstPlayerList) {
-        if (selectedCard.getAbility().equals(Ability.Spy)) {
-            if (game.getActivePlayer().equals(game.getPlayer1())) {
-                secondPlayerList.getStyleClass().add("highlight");
+        if (selectedCard.getAbility() != null) {
+            if (selectedCard.getAbility().equals(Ability.Spy)) {
+                if (game.getActivePlayer().equals(game.getPlayer1())) {
+                    secondPlayerList.getStyleClass().add("highlight");
+                } else {
+                    firstPlayerList.getStyleClass().add("highlight");
+                }
             } else {
-                firstPlayerList.getStyleClass().add("highlight");
+                if (game.getActivePlayer().equals(game.getPlayer1())) {
+                    firstPlayerList.getStyleClass().add("highlight");
+                } else {
+                    secondPlayerList.getStyleClass().add("highlight");
+                }
             }
         } else {
             if (game.getActivePlayer().equals(game.getPlayer1())) {
@@ -325,15 +339,6 @@ public class GameMenuController {
         secondPlayerRangedBoostPane.getStyleClass().remove("stack-highlight");
         firstPlayerCloseCombatBoostPane.getStyleClass().remove("stack-highlight");
         secondPlayerCloseCombatBoostPane.getStyleClass().remove("stack-highlight");
-    }
-
-    private void highlightAllStacks() {
-        firstPlayerSiegeBoostPane.getStyleClass().add("stack-highlight");
-        firstPlayerRangedBoostPane.getStyleClass().add("stack-highlight");
-        firstPlayerCloseCombatBoostPane.getStyleClass().add("stack-highlight");
-        secondPlayerSiegeBoostPane.getStyleClass().add("stack-highlight");
-        secondPlayerRangedBoostPane.getStyleClass().add("stack-highlight");
-        secondPlayerCloseCombatBoostPane.getStyleClass().add("stack-highlight");
     }
 
     private void highlightStacks(StackPane... stacks) {
@@ -364,6 +369,7 @@ public class GameMenuController {
     }
 
     private void handleListViewClick(ListView<?> listView, Card selectedCard) {
+        if ((selectedCard == null)) return;
         if (isHighlightedListView(listView)) {
             if (!selectedCard.equals(Card.getCardByName("Decoy"))) {
                 Function function = new Function();
@@ -551,8 +557,8 @@ public class GameMenuController {
                     }
                 });
             }
+            changeTurn();
         }
-        changeTurn();
     }
 
     private void handleImageViewClick(ImageView imageView, Card selectedCard) {
@@ -560,7 +566,6 @@ public class GameMenuController {
             Function function = new Function();
             function.run(this, imageView, selectedCard);
         }
-        resetRowAndPlaceHighlights();
         changeTurn();
     }
 
@@ -695,14 +700,15 @@ public class GameMenuController {
     }
 
     private void isRoundEnd() {
+
+    }
+
+    private void endOfRound() {
         isGameEnd();
     }
 
-    private static void endOfRound() {
-
-    }
-
     private void isGameEnd() {
+
     }
 
     private void endOfGame() {
@@ -719,12 +725,13 @@ public class GameMenuController {
     }
 
     private void changeTurn() {
-        calculateScoresWeather();
+        if (User.getLoggedInUser().getCurrentGame().getWeatherCard() != null) calculateScoresWeather();
         isRoundEnd();
         Game game = User.getLoggedInUser().getCurrentGame();
         game.setTurnNo(game.getTurnNo() + 1);
         if (game.getActivePlayer().equals(game.getPlayer1())) game.setActivePlayer(game.getPlayer2());
         else game.setActivePlayer(game.getPlayer1());
+        updateGameState(game);
     }
 
     private void updateScoresByWeatherCard(ObservableList<Card> cards, HashMap<Card, List<Integer>> cardsScore) {

@@ -21,10 +21,6 @@ public class PregameMenuS extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        if ( LoginRegisterMenuController.isEmptyFile()) {
-            System.out.println("sfklj;dklash");
-            LoginRegisterMenuController.loadUsers();
-        }
         SetDefaults.run();
 
         Button closeButton = new Button("Close Application");

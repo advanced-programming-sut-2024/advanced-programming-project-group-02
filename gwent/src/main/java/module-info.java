@@ -1,14 +1,14 @@
+
 module my.javafx.app {
-    requires javafx.controls;
-    requires javafx.fxml;
-    requires com.google.gson;
-    requires java.desktop;
+        requires javafx.controls;
+        requires javafx.fxml;
+        requires com.google.gson;
+        requires java.desktop;
 
-    opens view to javafx.fxml, javafx.graphics;
-    opens controller to javafx.fxml;
+        opens view to javafx.fxml;
+        opens controller to javafx.fxml;
 
-    exports view;
-    exports controller;
-    exports model;
-
-}
+        exports view;
+        exports controller;
+        exports model;
+        }

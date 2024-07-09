@@ -61,27 +61,26 @@ public class PregameMenuSController extends BasePregameController {
 //            }
 //        }
         User user = User.getLoggedInUser();
+                                ObservableList<String> leaderNames = FXCollections.observableArrayList();
+                                for (Card leader : Faction.getFactionByName("Skellige").getLeaderCards()) {
+                                    leaderNames.add(leader.getName());
+                                }
+                                leaderChoiceBox.setItems(leaderNames);
+                                leaderChoiceBox.setValue(user.getLeaderCard().getName());
+                                leaderChoiceBox.setOnAction(event -> handleLeaderChange());
 
-        ObservableList<String> leaderNames = FXCollections.observableArrayList();
-        for (Card leader : Faction.getFactionByName("Skellige").getLeaderCards()) {
-            leaderNames.add(leader.getName());
-        }
-        leaderChoiceBox.setItems(leaderNames);
-        leaderChoiceBox.setValue(user.getLeaderCard().getName());
-        leaderChoiceBox.setOnAction(event -> handleLeaderChange());
+                                leaderImage.setImage(user.getLeaderCard().getImage());
 
-        leaderImage.setImage(user.getLeaderCard().getImage());
+                                skelligeCards = FXCollections.observableArrayList();
+                                userDeck = FXCollections.observableArrayList();
 
-        skelligeCards = FXCollections.observableArrayList();
-        userDeck = FXCollections.observableArrayList();
-
-        for (Card card : Faction.getFactionByName("Skellige").getCards()) {
-            for (int i = 0; i < card.getCountOfCard() ; i++) {
-                userDeck.add(card);
-                User.getLoggedInUser().addToDeck(card);
-            }
-        }
-        updateLabels();
+                                for (Card card : Faction.getFactionByName("Skellige").getCards()) {
+                                    for (int i = 0; i < card.getCountOfCard() ; i++) {
+                                        userDeck.add(card);
+                                        User.getLoggedInUser().addToDeck(card);
+                                    }
+                                }
+                                updateLabels();
 
         SortedList<Card> sortedSkelligeCards = new SortedList<>(skelligeCards, Comparator.comparingInt(Card::getID));
         SortedList<Card> sortedUserDeck = new SortedList<>(userDeck, Comparator.comparingInt(Card::getID));

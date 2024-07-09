@@ -71,7 +71,7 @@ public class SetDefaults {
                 new Image(SetDefaults.class.getResourceAsStream("/images/cards/skellige/skellige_dimun_pirate.jpg")));
 
         Card clanBrokvarArcherCard = new Card("ClanBrokvarArcher", 114, 6, 3,
-                false, null, CardType.RangedUnit, Place.rangedCombat,
+                false, null, CardType.CloseCombatUnit, Place.closeCombat,
                 new Image(SetDefaults.class.getResourceAsStream("/images/cards/skellige/skellige_craite_warrior.jpg")));
 
         Card ermionCard = new Card("Ermion", 115, 8, 1,
