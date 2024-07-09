@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 public class User {
 
-    private static ArrayList<User> users = new ArrayList<>();
+    public static ArrayList<User> users = new ArrayList<>();
     private static ArrayList<Game> games = new ArrayList<>();
 
     private static User loggedInUser;
