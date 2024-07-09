@@ -9,6 +9,9 @@ public class Game {
     private Card weatherCard;
     private User player1;
     private User player2;
+    private User firstRoundWinner;
+    private User secondRoundWinner;
+    private User thirdRoundWinner;
     private Date date;
     private EachPlayerGame GamePlayer1;
     private EachPlayerGame GamePlayer2;
@@ -104,6 +107,30 @@ public class Game {
 
     public void setActivePlayer(User activePlayer) {
         this.activePlayer = activePlayer;
+    }
+
+    public User getFirstRoundWinner() {
+        return firstRoundWinner;
+    }
+
+    public void setFirstRoundWinner(User firstRoundWinner) {
+        this.firstRoundWinner = firstRoundWinner;
+    }
+
+    public User getSecondRoundWinner() {
+        return secondRoundWinner;
+    }
+
+    public void setSecondRoundWinner(User secondRoundWinner) {
+        this.secondRoundWinner = secondRoundWinner;
+    }
+
+    public User getThirdRoundWinner() {
+        return thirdRoundWinner;
+    }
+
+    public void setThirdRoundWinner(User thirdRoundWinner) {
+        this.thirdRoundWinner = thirdRoundWinner;
     }
 
     @Override

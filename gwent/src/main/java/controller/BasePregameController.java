@@ -134,6 +134,11 @@ public abstract class BasePregameController {
             showAlert("Insufficient Unit Cards", "You need at least 22 unit cards to start the game.");
             return;
         }
+//
+//        if (user.getSpecialCards() > 9) {
+//            showAlert("Too Many Special Cards", "You can have a maximum of 9 special cards in your deck.");
+//            return;
+//        }
 
         if (user.getCurrentGame() != null) {
             startGame();
@@ -310,9 +315,9 @@ public abstract class BasePregameController {
                     default:
                         return;
                 }
-                System.out.println("Deck loaded successfully from: " + selectedFile.getAbsolutePath()); //test
+                System.out.println("Deck loaded successfully from: " + selectedFile.getAbsolutePath());
             } catch (FileNotFoundException e) {
-                System.out.println("File not found: " + selectedFile.getAbsolutePath());  //test
+                System.out.println("File not found: " + selectedFile.getAbsolutePath());
             } catch (IOException e) {
                 e.printStackTrace();
             }

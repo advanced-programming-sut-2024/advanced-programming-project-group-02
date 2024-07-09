@@ -40,111 +40,127 @@ public class Function {
         if (user.equals(game.getPlayer1())) {
             switch (Id) {
                 case "firstPlayerSiegeList":
-                    ObservableList<Card> siegeList = game.getGamePlayer1().getSiege();
-                    HashMap<Card, List<Integer>> siegeScores = game.getGamePlayer1().getSiegeScores();
-                    siegeList.add(card);
-                    if (card.getAbility() != null) {
-                        boolean hasCommandersHorn = siegeList.stream()
-                                .filter(cards -> cards.getAbility() != null)
-                                .anyMatch(cards -> cards.getAbility().equals(Ability.CommandersHorn));
-                        siegeScores.computeIfAbsent(card, k -> new ArrayList<>()).add(hasCommandersHorn ? card.getPower() * 2 : card.getPower());
+                    ObservableList<Card>  list = game.getGamePlayer1().getSiege();
+                    HashMap<Card, List<Integer>> scoresList = game.getGamePlayer1().getSiegeScores();
+                    list.add(card);
+
+                    int power = card.getPower();
+                    if (!card.isHero() && scoresList.keySet().stream()
+                            .anyMatch(c -> c.getAbility() != null && c.getAbility().equals(Ability.CommandersHorn))) {
+                        power *= 2;
                     }
-                    game.getGamePlayer1().setSiege(siegeList);
-                    game.getGamePlayer1().setSiegeScores(siegeScores);
+
+                    List<Integer> scores = scoresList.getOrDefault(card, new ArrayList<>());
+                    scores.add(power);
+                    scoresList.put(card, scores);
+
+                    game.getGamePlayer1().setSiege(list);
+                    game.getGamePlayer1().setSiegeScores(scoresList);
 
                     ObservableList<Card> hand = game.getGamePlayer1().getHand();
-                    Platform.runLater(() -> {
-                        hand.remove(card);
-                        game.getGamePlayer1().setHand(hand);
-                    });
+                    hand.remove(card);
+                    game.getGamePlayer1().setHand(hand);
 
                     break;
 
                 case "firstPlayerCloseCombatList":
-                    ObservableList<Card> closeCombatList = game.getGamePlayer1().getCloseCombat();
-                    HashMap<Card, List<Integer>> closeCombatScores = game.getGamePlayer1().getCloseCombatScores();
-                    closeCombatList.add(card);
-                    if (card.getAbility() != null) {
-                        boolean hasCommandersHorn = closeCombatList.stream()
-                                .filter(cards -> cards.getAbility() != null)
-                                .anyMatch(cards -> cards.getAbility().equals(Ability.CommandersHorn));
-                        closeCombatScores.computeIfAbsent(card, k -> new ArrayList<>()).add(hasCommandersHorn ? card.getPower() * 2 : card.getPower());
+                    list = game.getGamePlayer1().getCloseCombat();
+                    scoresList = game.getGamePlayer1().getCloseCombatScores();
+                    list.add(card);
+
+                    power = card.getPower();
+                    if (!card.isHero() && scoresList.keySet().stream()
+                            .anyMatch(c -> c.getAbility() != null && c.getAbility().equals(Ability.CommandersHorn))) {
+                        power *= 2;
                     }
-                    game.getGamePlayer1().setCloseCombat(closeCombatList);
-                    game.getGamePlayer1().setCloseCombatScores(closeCombatScores);
+
+                    scores = scoresList.getOrDefault(card, new ArrayList<>());
+                    scores.add(power);
+                    scoresList.put(card, scores);
+
+                    game.getGamePlayer1().setCloseCombat(list);
+                    game.getGamePlayer1().setCloseCombatScores(scoresList);
 
                     hand = game.getGamePlayer1().getHand();
-                    Platform.runLater(() -> {
-                        hand.remove(card);
-                        game.getGamePlayer1().setHand(hand);
-                    });
+                    hand.remove(card);
+                    game.getGamePlayer1().setHand(hand);
 
                     break;
 
                 case "firstPlayerRangedList":
-                    ObservableList<Card> rangedList = game.getGamePlayer1().getRangedCombat();
-                    HashMap<Card, List<Integer>> rangedScores = game.getGamePlayer1().getRangedCombatScores();
-                    rangedList.add(card);
-                    if (card.getAbility() != null) {
-                        boolean hasCommandersHorn = rangedList.stream()
-                                .filter(cards -> cards.getAbility() != null)
-                                .anyMatch(cards -> cards.getAbility().equals(Ability.CommandersHorn));
-                        rangedScores.computeIfAbsent(card, k -> new ArrayList<>()).add(hasCommandersHorn ? card.getPower() * 2 : card.getPower());
+                    list = game.getGamePlayer1().getRangedCombat();
+                    scoresList = game.getGamePlayer1().getRangedCombatScores();
+                    list.add(card);
+
+                    power = card.getPower();
+                    if (!card.isHero() && scoresList.keySet().stream()
+                            .anyMatch(c -> c.getAbility() != null && c.getAbility().equals(Ability.CommandersHorn))) {
+                        power *= 2;
                     }
-                    game.getGamePlayer1().setRangedCombat(rangedList);
-                    game.getGamePlayer1().setRangedCombatScores(rangedScores);
+
+                    scores = scoresList.getOrDefault(card, new ArrayList<>());
+                    scores.add(power);
+                    scoresList.put(card, scores);
+
+                    game.getGamePlayer1().setRangedCombat(list);
+                    game.getGamePlayer1().setRangedCombatScores(scoresList);
 
                     hand = game.getGamePlayer1().getHand();
-                    Platform.runLater(() -> {
-                        hand.remove(card);
-                        game.getGamePlayer1().setHand(hand);
-                    });
+                    hand.remove(card);
+                    game.getGamePlayer1().setHand(hand);
 
                     break;
+
             }
             abilitySwitch(game, listView, card);
         }
         if (user.equals(game.getPlayer2())) {
             switch (Id) {
                 case "secondPlayerSiegeList":
-                    ObservableList<Card> siegeList = game.getGamePlayer2().getSiege();
-                    HashMap<Card, List<Integer>> siegeScores = game.getGamePlayer2().getSiegeScores();
-                    siegeList.add(card);
-                    if (card.getAbility() != null) {
-                        boolean hasCommandersHorn = siegeList.stream()
-                                .filter(cards -> cards.getAbility() != null)
-                                .anyMatch(cards -> cards.getAbility().equals(Ability.CommandersHorn));
-                        siegeScores.computeIfAbsent(card, k -> new ArrayList<>()).add(hasCommandersHorn ? card.getPower() * 2 : card.getPower());
+                    ObservableList<Card>  list = game.getGamePlayer2().getSiege();
+                    HashMap<Card, List<Integer>> scoresList = game.getGamePlayer2().getSiegeScores();
+                    list.add(card);
+
+                    int power = card.getPower();
+                    if (!card.isHero() && scoresList.keySet().stream()
+                            .anyMatch(c -> c.getAbility() != null && c.getAbility().equals(Ability.CommandersHorn))) {
+                        power *= 2;
                     }
-                    game.getGamePlayer2().setSiege(siegeList);
-                    game.getGamePlayer2().setSiegeScores(siegeScores);
+
+                    List<Integer> scores = scoresList.getOrDefault(card, new ArrayList<>());
+                    scores.add(power);
+                    scoresList.put(card, scores);
+
+                    game.getGamePlayer2().setSiege(list);
+                    game.getGamePlayer2().setSiegeScores(scoresList);
 
                     ObservableList<Card> hand = game.getGamePlayer2().getHand();
-                    Platform.runLater(() -> {
-                        hand.remove(card);
-                        game.getGamePlayer2().setHand(hand);
-                    });
+                    hand.remove(card);
+                    game.getGamePlayer2().setHand(hand);
 
                     break;
 
                 case "secondPlayerCloseCombatList":
-                    ObservableList<Card> closeCombatList = game.getGamePlayer2().getCloseCombat();
-                    HashMap<Card, List<Integer>> closeCombatScores = game.getGamePlayer2().getCloseCombatScores();
-                    closeCombatList.add(card);
-                    if (card.getAbility() != null) {
-                        boolean hasCommandersHorn = closeCombatList.stream()
-                                .filter(cards -> cards.getAbility() != null)
-                                .anyMatch(cards -> cards.getAbility().equals(Ability.CommandersHorn));
-                        closeCombatScores.computeIfAbsent(card, k -> new ArrayList<>()).add(hasCommandersHorn ? card.getPower() * 2 : card.getPower());
+                    list = game.getGamePlayer2().getCloseCombat();
+                    scoresList = game.getGamePlayer2().getCloseCombatScores();
+                    list.add(card);
+
+                    power = card.getPower();
+                    if (!card.isHero() && scoresList.keySet().stream()
+                            .anyMatch(c -> c.getAbility() != null && c.getAbility().equals(Ability.CommandersHorn))) {
+                        power *= 2;
                     }
-                    game.getGamePlayer2().setCloseCombat(closeCombatList);
-                    game.getGamePlayer2().setCloseCombatScores(closeCombatScores);
+
+                    scores = scoresList.getOrDefault(card, new ArrayList<>());
+                    scores.add(power);
+                    scoresList.put(card, scores);
+
+                    game.getGamePlayer2().setCloseCombat(list);
+                    game.getGamePlayer2().setCloseCombatScores(scoresList);
 
                     hand = game.getGamePlayer2().getHand();
-                    Platform.runLater(() -> {
-                        hand.remove(card);
-                        game.getGamePlayer2().setHand(hand);
-                    });
+                    hand.remove(card);
+                    game.getGamePlayer2().setHand(hand);
 
                     break;
 
@@ -163,10 +179,8 @@ public class Function {
                     game.getGamePlayer2().setRangedCombatScores(rangedScores);
 
                     hand = game.getGamePlayer2().getHand();
-                    Platform.runLater(() -> {
-                        hand.remove(card);
-                        game.getGamePlayer2().setHand(hand);
-                    });
+                    hand.remove(card);
+                    game.getGamePlayer2().setHand(hand);
 
                     break;
             }
@@ -212,26 +226,33 @@ public class Function {
 
     private void commandersHorn(Game game, ListView<Card> listView, Card card) {
         HashMap<Card, List<Integer>> cardScores = rowSwitch(game, listView);
+        Boolean isThereCH = false;
+        for (Card card1 : cardScores.keySet()) {
+            if (card1.getAbility().equals(Ability.CommandersHorn)) isThereCH = true;
+        }
+        if (!isThereCH){
+            for (Card card2 : cardScores.keySet()) {
+                List<Integer> scores = cardScores.get(card2);
 
-        for (Map.Entry<Card, List<Integer>> entry : cardScores.entrySet()) {
-            Card currentCard = entry.getKey();
-            List<Integer> scores = entry.getValue();
+                if (card2.isHero() || card2.equals(card)) {
+                    continue;
+                }
 
-            if (currentCard.isHero() || currentCard.equals(card)) {
-                continue;
+                for (int i = 0; i < scores.size(); i++) {
+                    scores.set(i, scores.get(i) * 2);
+                }
+                setHashMap(game, listView, cardScores);
             }
-
-            for (int i = 0; i < scores.size(); i++) {
-                scores.set(i, scores.get(i) * 2);
-            }
-            setHashMap(game, listView, cardScores);
         }
     }
 
     private void tightBond(Game game, ListView<Card> listView, Card thrownCard) {
         HashMap<Card, List<Integer>> cardScores = rowSwitch(game, listView);
         List<Integer> thrownCardScores = cardScores.get(thrownCard);
-        int sum = thrownCardScores.stream().mapToInt(Integer::intValue).sum();
+        int sum = 0;
+        for (Integer score : thrownCardScores) {
+            sum += score;
+        }
 
         for (int i = 0; i < thrownCardScores.size(); i++) {
             thrownCardScores.set(i, sum);

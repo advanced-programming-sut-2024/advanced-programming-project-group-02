@@ -11,9 +11,7 @@ import model.Card;
 import model.Faction;
 import model.User;
 import view.CardListCellFactory;
-
 import java.util.Comparator;
-import java.util.Map;
 
 public class PregameMenuSController extends BasePregameController {
 
@@ -60,7 +58,7 @@ public class PregameMenuSController extends BasePregameController {
 //                skelligeCards.add(card);
 //            }
 //        }
-        User user = User.getLoggedInUser();
+                                User user = User.getLoggedInUser();
                                 ObservableList<String> leaderNames = FXCollections.observableArrayList();
                                 for (Card leader : Faction.getFactionByName("Skellige").getLeaderCards()) {
                                     leaderNames.add(leader.getName());
