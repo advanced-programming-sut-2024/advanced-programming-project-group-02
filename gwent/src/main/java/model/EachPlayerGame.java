@@ -45,25 +45,30 @@ public class EachPlayerGame {
     }
 
     private void drawInitialHand() {
-        int handSize = 10;
-        int totalCardsInDeck = deck.values().stream().mapToInt(Integer::intValue).sum();
-
-        if (totalCardsInDeck < handSize) {
-            throw new IllegalArgumentException("Deck does not contain enough cards to draw an initial hand.");
-        }
-
-        while (handSize > 0) {
-            Card randomCard = getRandomCardFromDeck();
-            int deckCount = deck.get(randomCard);
-
-            hand.add(randomCard);
-            deck.put(randomCard, deckCount - 1);
-
-            if (deck.get(randomCard) == 0) {
-                deck.remove(randomCard);
+//        int handSize = 10;
+//        int totalCardsInDeck = deck.values().stream().mapToInt(Integer::intValue).sum();
+//
+//        if (totalCardsInDeck < handSize) {
+//            throw new IllegalArgumentException("Deck does not contain enough cards to draw an initial hand.");
+//        }
+//
+//        while (handSize > 0) {
+//            Card randomCard = getRandomCardFromDeck();
+//            int deckCount = deck.get(randomCard);
+//
+//            hand.add(randomCard);
+//            deck.put(randomCard, deckCount - 1);
+//
+//            if (deck.get(randomCard) == 0) {
+//                deck.remove(randomCard);
+//            }
+//
+//            handSize--;
+//        }
+        for (Card card : deck.keySet()) {
+            for (int i = 0; i < deck.get(card); i++) {
+                hand.add(card);
             }
-
-            handSize--;
         }
     }
 
