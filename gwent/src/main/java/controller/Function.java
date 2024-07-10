@@ -228,6 +228,7 @@ public class Function {
         HashMap<Card, List<Integer>> cardScores = rowSwitch(game, listView);
         Boolean isThereCH = false;
         for (Card card1 : cardScores.keySet()) {
+            if (card1.getAbility() == null) continue;
             if (card1.getAbility().equals(Ability.CommandersHorn)) isThereCH = true;
         }
         if (!isThereCH){

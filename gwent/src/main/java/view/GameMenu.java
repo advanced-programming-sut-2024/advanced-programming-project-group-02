@@ -9,10 +9,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 
+import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.awt.event.KeyEvent;
+import java.util.Optional;
 
 public class GameMenu extends Application {
     private GameMenuController gameMenuController = new GameMenuController();
@@ -38,14 +40,15 @@ public class GameMenu extends Application {
         launch(args);
     }
 
-//    private void closeApplication(Stage stage) {
-//        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-//        alert.setTitle("Exit Confirmation");
-//        alert.setHeaderText(null);
-//        alert.setContentText("Are you sure you want to exit?");
-//        Optional<ButtonType> result = alert.showAndWait();
-//        if (result.isPresent() && result.get() == ButtonType.OK) {
-//            stage.close();
-//        }
-//    }
+    private void closeApplication(Stage stage) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Exit Confirmation");
+        alert.setHeaderText(null);
+        alert.setContentText("Are you sure you want to exit?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            System.out.println("hehehe");
+            stage.close();
+        }
+    }
 }
