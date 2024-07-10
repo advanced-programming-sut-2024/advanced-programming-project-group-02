@@ -1022,13 +1022,11 @@ public class GameMenuController {
         User user = game.getActivePlayer();
         if (user.equals(game.getPlayer1())) {
             game.getGamePlayer1().setCrystals(2);
-            firstPlayerCrystal1.setVisible(true);
-            firstPlayerCrystal2.setVisible(true);
+            updateGameState(game);
         }
         if (user.equals(game.getPlayer2())) {
             game.getGamePlayer2().setCrystals(2);
-            secondPlayerCrystal1.setVisible(true);
-            secondPlayerCrystal2.setVisible(true);
+            updateGameState(game);
         }
     }
 
@@ -1226,10 +1224,7 @@ public class GameMenuController {
     private void moveTwoRandomCardsFromDiscardToHand(EachPlayerGame playerGame) {
         ObservableList<Card> discard = playerGame.getBurnedCards();
         ObservableList<Card> hand = playerGame.getHand();
-
-        if (discard.size() < 2) {
-            return;
-        }
+        if (discard.size() < 2) return;
 
         Collections.shuffle(discard);
         for (int i = 0; i < 2; i++) {
@@ -1245,20 +1240,14 @@ public class GameMenuController {
         ObservableList<Card> discard = playerGame.getBurnedCards();
 
         discard.addAll(playerGame.getCloseCombat());
-        playerGame.getCloseCombat().clear();
-        playerGame.getCloseCombatScores().clear();
         playerGame.setCloseCombat(FXCollections.observableArrayList());
         playerGame.setCloseCombatScores(new HashMap<>());
 
         discard.addAll(playerGame.getRangedCombat());
-        playerGame.getRangedCombat().clear();
-        playerGame.getRangedCombatScores().clear();
         playerGame.setRangedCombat(FXCollections.observableArrayList());
         playerGame.setRangedCombatScores(new HashMap<>());
 
         discard.addAll(playerGame.getSiege());
-        playerGame.getSiege().clear();
-        playerGame.getSiegeScores().clear();
         playerGame.setSiege(FXCollections.observableArrayList());
         playerGame.setSiegeScores(new HashMap<>());
 
@@ -1326,15 +1315,50 @@ public class GameMenuController {
         playerGame.setHand(hand);
         playerGame.setDeck(deck);
     }
-
     private void monsters() {
-        Game game = User.getLoggedInUser().getCurrentGame();
-        if (game.getPlayer1().getFaction().equals(Faction.getFactionByName("Monsters"))) {
-
-        }
-        if (game.getPlayer2().getFaction().equals(Faction.getFactionByName("Monsters"))) {
-
-        }
+//        Game game = User.getLoggedInUser().getCurrentGame();
+//        EachPlayerGame firstPlayerGame = game.getGamePlayer1();
+//        EachPlayerGame secondPlayerGame = game.getGamePlayer2();
+//
+//        if (game.getPlayer1().getFaction().equals(Faction.getFactionByName("Monsters"))) {
+//            handleMonstersFaction(firstPlayerGame);
+//        }
+//        if (game.getPlayer2().getFaction().equals(Faction.getFactionByName("Monsters"))) {
+//            handleMonstersFaction(secondPlayerGame);
+//        }
     }
+//
+//    private void handleMonstersFaction(EachPlayerGame playerGame) {
+//        List<Card> nonHeroNonSpellCards = new ArrayList<>();
+//        addNonHeroNonSpellCards(playerGame.getCloseCombat(), nonHeroNonSpellCards);
+//        addNonHeroNonSpellCards(playerGame.getRangedCombat(), nonHeroNonSpellCards);
+//        addNonHeroNonSpellCards(playerGame.getSiege(), nonHeroNonSpellCards);
+//
+//        if (!nonHeroNonSpellCards.isEmpty()) {
+//            Random random = new Random();
+//            Card cardToKeep = nonHeroNonSpellCards.get(random.nextInt(nonHeroNonSpellCards.size()));
+//
+//            playerGame.getCloseCombat().removeIf(card -> moveCardToDiscard(card, cardToKeep, playerGame));
+//            playerGame.getRangedCombat().removeIf(card -> moveCardToDiscard(card, cardToKeep, playerGame));
+//            playerGame.getSiege().removeIf(card -> moveCardToDiscard(card, cardToKeep, playerGame));
+//        }
+//    }
+//
+//    private void addNonHeroNonSpellCards(ObservableList<Card> row, List<Card> nonHeroNonSpellCards) {
+//        for (Card card : row) {
+//            if (!card.isHero() && !card.isSpecial()) {
+//                nonHeroNonSpellCards.add(card);
+//            }
+//        }
+//    }
+//
+//    private boolean moveCardToDiscard(Card card, Card cardToKeep, EachPlayerGame playerGame) {
+//        if (!card.equals(cardToKeep) && !card.isHero() && !card.isSpecial()) {
+//            playerGame.getDiscard().add(card);
+//            return true;
+//        }
+//        return false;
+//    }
+
 
 }

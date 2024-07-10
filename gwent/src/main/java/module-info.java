@@ -18,4 +18,4 @@ module my.javafx.app {
         exports view;
         exports controller;
         exports model;
-        }
+}
