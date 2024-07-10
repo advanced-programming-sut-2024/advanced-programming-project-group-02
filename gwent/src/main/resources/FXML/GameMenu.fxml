@@ -106,7 +106,7 @@
                </font>
             </Label>
             <ListView fx:id="firstPlayerSiegeList" layoutX="498.0" layoutY="500.0" onMouseClicked="#firstPlayerSiegeListClicked" orientation="HORIZONTAL" prefHeight="74.0" prefWidth="562.0" />
-            <ListView fx:id="secondPlayerSiegeList" layoutX="498.0" layoutY="19.0" onMouseClicked="#secondPlayerSiegeListClicked" orientation="HORIZONTAL" prefHeight="74.0" prefWidth="562.0" />
+            <ListView fx:id="secondPlayerSiegeList" layoutX="497.0" layoutY="19.0" onMouseClicked="#secondPlayerSiegeListClicked" orientation="HORIZONTAL" prefHeight="74.0" prefWidth="562.0" />
             <ListView fx:id="secondPlayerRangedList" layoutX="498.0" layoutY="111.0" onMouseClicked="#secondPlayerRangedListClicked" orientation="HORIZONTAL" prefHeight="74.0" prefWidth="562.0" />
             <ListView fx:id="secondPlayerCloseCombatList" layoutX="498.0" layoutY="207.0" onMouseClicked="#secondPlayerCloseCombatListClicked" orientation="HORIZONTAL" prefHeight="74.0" prefWidth="562.0" />
             <ListView fx:id="firstPlayerCloseCombatList" layoutX="498.0" layoutY="312.0" onMouseClicked="#firstPlayerCloseCombatListClicked" orientation="HORIZONTAL" prefHeight="74.0" prefWidth="562.0" />
@@ -193,6 +193,30 @@
                </font></Label>
             <Label fx:id="firstPlayerTotalDiscard" layoutX="1106.0" layoutY="546.0" prefHeight="18.0" prefWidth="52.0" textFill="WHITE" />
             <Label fx:id="secondPlayerTotalDiscard" layoutX="1106.0" layoutY="162.0" prefHeight="18.0" prefWidth="52.0" textFill="WHITE" />
+            <ImageView fx:id="secondPlayerSiegeWeather" fitHeight="81.0" fitWidth="562.0" layoutX="498.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@../images/GameBoard/overlay_rain.png" />
+               </image></ImageView>
+            <ImageView fx:id="secondPlayerRangedWeather" fitHeight="82.0" fitWidth="562.0" layoutX="500.0" layoutY="107.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@../images/GameBoard/overlay_fog.png" />
+               </image></ImageView>
+            <ImageView fx:id="secondPlayerCloseCombatLWeather" fitHeight="97.0" fitWidth="562.0" layoutX="498.0" layoutY="203.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@../images/GameBoard/overlay_frost.png" />
+               </image></ImageView>
+            <ImageView fx:id="firstPlayerCloseCombatWeather" fitHeight="81.0" fitWidth="562.0" layoutX="500.0" layoutY="307.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@../images/GameBoard/overlay_frost.png" />
+               </image></ImageView>
+            <ImageView fx:id="firstPlayerRangedWeather" fitHeight="88.0" fitWidth="562.0" layoutX="499.0" layoutY="400.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@../images/GameBoard/overlay_fog.png" />
+               </image></ImageView>
+            <ImageView fx:id="firstPlayerSiegeWeather" fitHeight="88.0" fitWidth="562.0" layoutX="497.0" layoutY="499.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@../images/GameBoard/overlay_rain.png" />
+               </image></ImageView>
          </children>
       </AnchorPane>
    </children>

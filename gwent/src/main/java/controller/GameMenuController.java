@@ -128,6 +128,12 @@ public class GameMenuController {
     public StackPane weatherCardPane;
     public Label firstPlayerTotalDiscard;
     public Label secondPlayerTotalDiscard;
+    public ImageView secondPlayerSiegeWeather;
+    public ImageView secondPlayerRangedWeather;
+    public ImageView secondPlayerCloseCombatLWeather;
+    public ImageView firstPlayerCloseCombatWeather;
+    public ImageView firstPlayerRangedWeather;
+    public ImageView firstPlayerSiegeWeather;
 
     private Card selectedCard;
 
@@ -1004,6 +1010,7 @@ public class GameMenuController {
             case "Biting Frost":
                 updateScoresByWeatherCard(firstPlayerGame.getCloseCombat(), firstPlayerGame.getCloseCombatScores());
                 updateScoresByWeatherCard(secondPlayerGame.getCloseCombat(), secondPlayerGame.getCloseCombatScores());
+                firstPlayerCloseCombatWeather.setVisible(true);
                 break;
 
             case "Impenetrable Fog":
@@ -1469,6 +1476,15 @@ public class GameMenuController {
     }
 
     private void showWeatherCardInfo() {
+    }
+
+    private void clearWeather (){
+        secondPlayerSiegeWeather.setVisible(false);
+        secondPlayerRangedWeather.setVisible(false);
+        secondPlayerCloseCombatLWeather.setVisible(false);
+        firstPlayerCloseCombatWeather.setVisible(false);
+        firstPlayerRangedWeather.setVisible(false);
+        firstPlayerSiegeWeather.setVisible(false);
     }
 
 }
