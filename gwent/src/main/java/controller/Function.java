@@ -718,39 +718,83 @@ public class Function {
     }
 
     private void spell(Game game, ImageView imageView, Card card) {
-        User user = game.getActivePlayer();
         String Id = imageView.getId();
-        switch (Id) {
-            case "firstPlayerCloseCombatBoost":
-                Image image = card.getImage();
-                imageView.setImage(image);
-                ObservableList<Card> hand = game.getGamePlayer1().getHand();
-                Platform.runLater(() -> {
-                    hand.remove(card);
-                    game.getGamePlayer1().setHand(hand);
-                });
-                break;
-            case "firstPlayerRangedBoost":
-            case "firstPlayerSiegeBoost":
-                image = card.getImage();
-                imageView.setImage(image);
-                hand = game.getGamePlayer1().getHand();
-                Platform.runLater(() -> {
-                    hand.remove(card);
-                    game.getGamePlayer1().setHand(hand);
-                });
-                break;
-            case "secondPlayerSiegeBoost":
-            case "secondPlayerCloseCombatBoost":
-            case "secondPlayerRangedBoost":
-                image = card.getImage();
-                imageView.setImage(image);
-                hand = game.getGamePlayer2().getHand();
-                Platform.runLater(() -> {
-                    hand.remove(card);
-                    game.getGamePlayer2().setHand(hand);
-                });
-                break;
+        ObservableList<Card> hand;
+
+        User user = game.getActivePlayer();
+        Image image;
+        if (user.equals(game.getPlayer1())){
+            switch (Id) {
+                case "firstPlayerCloseCombatBoost":
+                    image = card.getImage();
+                    imageView.setImage(image);
+                    hand = game.getGamePlayer1().getHand();
+                    ObservableList<Card> finalHand = hand;
+                    Platform.runLater(() -> {
+                        finalHand.remove(card);
+                        game.getGamePlayer1().setHand(finalHand);
+                    });
+                    gameMenuController.firstPlayerCloseCombatBoost.setImage(image);
+                    break;
+                case "firstPlayerRangedBoost":
+                    image = card.getImage();
+                    imageView.setImage(image);
+                    hand = game.getGamePlayer1().getHand();
+                    finalHand = hand;
+                    finalHand.remove(card);
+                    game.getGamePlayer1().setHand(finalHand);
+                    gameMenuController.firstPlayerRangedBoost.setImage(image);
+                    break;
+                case "firstPlayerSiegeBoost":
+                    image = card.getImage();
+                    imageView.setImage(image);
+                    hand = game.getGamePlayer1().getHand();
+                    finalHand = hand;
+                    Platform.runLater(() -> {
+                        finalHand.remove(card);
+                        game.getGamePlayer1().setHand(finalHand);
+                    });
+                    gameMenuController.firstPlayerSiegeBoost.setImage(image);
+                    break;
+            }
+        }
+        if (user.equals(game.getPlayer2())){
+            switch (Id){
+                case "secondPlayerSiegeBoost":
+                    image = card.getImage();
+                    imageView.setImage(image);
+                    hand = game.getGamePlayer2().getHand();
+                    ObservableList<Card> finalHand = hand;
+                    Platform.runLater(() -> {
+                        finalHand.remove(card);
+                        game.getGamePlayer2().setHand(finalHand);
+                    });
+                    gameMenuController.secondPlayerSiegeBoost.setImage(image);
+                    break;
+                case "secondPlayerCloseCombatBoost":
+                    image = card.getImage();
+                    imageView.setImage(image);
+                    hand = game.getGamePlayer2().getHand();
+                    finalHand = hand;
+                    Platform.runLater(() -> {
+                        finalHand.remove(card);
+                        game.getGamePlayer2().setHand(finalHand);
+                    });
+                    gameMenuController.secondPlayerCloseCombatBoost.setImage(image);
+                    break;
+                case "secondPlayerRangedBoost":
+                    image = card.getImage();
+                    imageView.setImage(image);
+                    hand = game.getGamePlayer2().getHand();
+                    finalHand = hand;
+                    Platform.runLater(() -> {
+                        finalHand.remove(card);
+                        game.getGamePlayer2().setHand(finalHand);
+                    });
+                    gameMenuController.secondPlayerRangedBoost.setImage(image);
+                    break;
+            }
+
         }
         if (card.getAbility() != null) {
             switch (card.getAbility()) {
@@ -936,16 +980,14 @@ public class Function {
         User user = game.getActivePlayer();
         if (user.equals(game.getPlayer1())) {
             Image image = card.getImage();
-            imageView.setImage(image);
+            gameMenuController.weatherCard.setImage(image);
             ObservableList<Card> hand1 = game.getGamePlayer1().getHand();
-            Platform.runLater(() -> {
-                hand1.remove(card);
-                game.getGamePlayer1().setHand(hand1);
-            });
+            hand1.remove(card);
+            game.getGamePlayer1().setHand(hand1);
         }
         if (user.equals(game.getPlayer2())) {
             Image image = card.getImage();
-            imageView.setImage(image);
+            gameMenuController.weatherCard.setImage(image);
             ObservableList<Card> hand2 = game.getGamePlayer2().getHand();
             Platform.runLater(() -> {
                 hand2.remove(card);
