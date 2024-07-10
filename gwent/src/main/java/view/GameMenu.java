@@ -6,15 +6,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 
+import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
-<<<<<<< HEAD
+
 import java.awt.event.KeyEvent;
 import java.util.Optional;
-=======
->>>>>>> f0bfa961e11637952dd6312da82e9dea04a1d291
 
 public class GameMenu extends Application {
     private GameMenuController gameMenuController = new GameMenuController();

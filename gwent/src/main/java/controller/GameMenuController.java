@@ -872,7 +872,7 @@ public class GameMenuController {
         EachPlayerGame firstPlayerGame = game.getGamePlayer1();
         EachPlayerGame secondPlayerGame = game.getGamePlayer2();
 
-        if (firstPlayerGame.getCrystals() == 0 ) {
+        if (firstPlayerGame.getCrystals() == 0) {
             if (secondPlayerGame.getCrystals() == 0) game.setStatement(Statement.Tie);
             else game.setStatement(Statement.Player2WonTheGame);
         } else game.setStatement(Statement.Player1WonTheGame);
@@ -907,8 +907,7 @@ public class GameMenuController {
         game.setTurnNo(game.getTurnNo() + 1);
         if (game.getActivePlayer().equals(game.getPlayer1()) || game.getGamePlayer1().isPassedTheGame()) {
             game.setActivePlayer(game.getPlayer2());
-        }
-        else if (game.getActivePlayer().equals(game.getPlayer2()) || game.getGamePlayer2().isPassedTheGame()) {
+        } else if (game.getActivePlayer().equals(game.getPlayer2()) || game.getGamePlayer2().isPassedTheGame()) {
             game.setActivePlayer(game.getPlayer1());
         }
         updateGameState(game);
@@ -993,8 +992,8 @@ public class GameMenuController {
             deck.remove(card);
             if (count != 1) deck.put(card, count - 1);
             game.getGamePlayer1().setDeck(deck);
-            int total = Integer.parseInt(firstPlayerRemainingCards.getText());
-            firstPlayerRemainingCards.setText(String.valueOf(total - 1));
+            int newCountOfDeck = deck.size();
+            firstPlayerRemainingCards.setText(String.valueOf(newCountOfDeck));
         }
         if (user.equals(game.getPlayer2())) {
             deck = game.getGamePlayer2().getDeck();
@@ -1012,8 +1011,8 @@ public class GameMenuController {
             game.getGamePlayer2().setHand(hand);
             deck.remove(card);
             game.getGamePlayer2().setDeck(deck);
-            int total = Integer.parseInt(secondPlayerRemainingCards.getText());
-            secondPlayerRemainingCards.setText(String.valueOf(total - 1));
+            int newCountOfDeck = deck.size();
+            firstPlayerRemainingCards.setText(String.valueOf(newCountOfDeck));
         }
     }
 
@@ -1076,13 +1075,17 @@ public class GameMenuController {
         if (user.equals(game.getPlayer2())) {
             game.getGamePlayer1().setPassedTheGame(true);
         }
+        endOfRound();
         changeTurn();
     }
 
     public void cheatPassGame() {   //namayesh e barandeh
         Game game = User.getLoggedInUser().getCurrentGame();
-        User user = game.getActivePlayer();
-        changeTurn();
+        endOfRound();
+        int crystal1 = game.getGamePlayer1().getCrystals();
+        int crystal2 = game.getGamePlayer2().getCrystals();
+        if (crystal2 > crystal1)  game.getGamePlayer1().setCrystals(0);
+        if (crystal2 < crystal1) game.getGamePlayer2().setCrystals(0);
         endOfGame();
     }
 
