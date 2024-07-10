@@ -1,18 +1,14 @@
 package view;
 
 import controller.GameMenuController;
-import controller.LoginRegisterMenuController;
-import controller.SetDefaults;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
-import java.awt.event.KeyEvent;
 
 public class GameMenu extends Application {
     private GameMenuController gameMenuController = new GameMenuController();

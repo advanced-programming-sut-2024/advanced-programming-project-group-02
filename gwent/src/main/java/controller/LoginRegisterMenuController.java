@@ -79,14 +79,11 @@ public class LoginRegisterMenuController {
         boolean notARobot = this.notARobotCheckBox.isSelected();
 
         if (usernameText == null || usernameText.isEmpty() ||
-                passwordText == null || passwordText.isEmpty() ||
                 emailText == null || emailText.isEmpty() ||
-                nicknameText == null || nicknameText.isEmpty() ||
-                passwordConfirmText == null || passwordConfirmText.isEmpty()) {
+                nicknameText == null || nicknameText.isEmpty()) {
             showAlert("Invalid Input", "Please fill in all the fields.");
             return;
         }
-
         if (!notARobot) {
             showAlert("Verification Error", "Please confirm you are not a robot.");
             return;
@@ -151,7 +148,7 @@ public class LoginRegisterMenuController {
     }
 
 
-    public static void loadUsers () {
+    public static void loadUsers() {
         try (Reader reader = new FileReader(FILE_PATH)) {
             for (Map.Entry<String, User> entry : usersMap.entrySet()) {
                 User value = entry.getValue();
@@ -329,7 +326,7 @@ public class LoginRegisterMenuController {
         return new String(characters);
     }
 
-    private boolean showAlertConfirmed (String title, String message){
+    private boolean showAlertConfirmed(String title, String message) {
         if (showAlertConfirmed) {
             return true;
         }
@@ -351,6 +348,7 @@ public class LoginRegisterMenuController {
         }
         return false;
     }
+
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle(title);

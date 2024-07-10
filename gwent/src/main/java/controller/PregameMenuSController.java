@@ -81,7 +81,6 @@ public class PregameMenuSController extends BasePregameController {
                                     }
                                 }
                                 updateLabels();
-
         SortedList<Card> sortedSkelligeCards = new SortedList<>(skelligeCards, Comparator.comparingInt(Card::getID));
         SortedList<Card> sortedUserDeck = new SortedList<>(userDeck, Comparator.comparingInt(Card::getID));
 

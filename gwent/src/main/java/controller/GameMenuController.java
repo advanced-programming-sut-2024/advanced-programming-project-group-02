@@ -812,6 +812,8 @@ public class GameMenuController {
             deck.remove(card);
             if (count != 1) deck.put(card, count - 1);
             game.getGamePlayer1().setDeck(deck);
+            int total = Integer.parseInt(firstPlayerRemainingCards.getText());
+            firstPlayerRemainingCards.setText(String.valueOf(total - 1));
         }
         if (user.equals(game.getPlayer2())) {
             deck = game.getGamePlayer2().getDeck();
@@ -829,6 +831,8 @@ public class GameMenuController {
             game.getGamePlayer2().setHand(hand);
             deck.remove(card);
             game.getGamePlayer2().setDeck(deck);
+            int total = Integer.parseInt(secondPlayerRemainingCards.getText());
+            secondPlayerRemainingCards.setText(String.valueOf(total - 1));
         }
     }
 
@@ -837,9 +841,13 @@ public class GameMenuController {
         User user = game.getActivePlayer();
         if (user.equals(game.getPlayer1())) {
             game.getGamePlayer1().setCrystals(2);
+            firstPlayerCrystal1.setVisible(true);
+            firstPlayerCrystal2.setVisible(true);
         }
         if (user.equals(game.getPlayer2())) {
             game.getGamePlayer2().setCrystals(2);
+            secondPlayerCrystal1.setVisible(true);
+            secondPlayerCrystal2.setVisible(true);
         }
     }
 
@@ -890,7 +898,7 @@ public class GameMenuController {
         changeTurn();
     }
 
-    public void cheatPassGame(){   //namayesh e barandeh
+    public void cheatPassGame() {   //namayesh e barandeh
         Game game = User.getLoggedInUser().getCurrentGame();
         User user = game.getActivePlayer();
         changeTurn();
@@ -913,7 +921,7 @@ public class GameMenuController {
         if (event.getCode() == KeyCode.P) {
             cheatPassRound();
         }
-        if (event.getCode() == KeyCode.G){
+        if (event.getCode() == KeyCode.G) {
             cheatPassGame();
         }
     }
