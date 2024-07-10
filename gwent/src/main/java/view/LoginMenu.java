@@ -13,15 +13,16 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.util.Objects;
 import java.util.Optional;
 
-public class
-LoginMenu extends Application {
+public class LoginMenu extends Application {
     public static Stage stage;
 
     @Override
     public void start(Stage stage) throws Exception {
+//        if (LoginRegisterMenuController.isEmptyFile()) {
+//            LoginRegisterMenuController.loadUsers();
+//        }
         SetDefaults.run();
 
         Button closeButton = new Button("Close Application");
@@ -56,8 +57,8 @@ LoginMenu extends Application {
         alert.setContentText("Are you sure you want to exit?");
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
+            MusicPlayer.stopBackgroundMusic(); // توقف موسیقی پس‌زمینه هنگام خروج از برنامه
             stage.close();
         }
     }
-
 }

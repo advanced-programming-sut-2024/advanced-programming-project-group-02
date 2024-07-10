@@ -85,14 +85,11 @@ public class LoginRegisterMenuController {
         boolean notARobot = this.notARobotCheckBox.isSelected();
 
         if (usernameText == null || usernameText.isEmpty() ||
-                passwordText == null || passwordText.isEmpty() ||
                 emailText == null || emailText.isEmpty() ||
-                nicknameText == null || nicknameText.isEmpty() ||
-                passwordConfirmText == null || passwordConfirmText.isEmpty()) {
+                nicknameText == null || nicknameText.isEmpty()) {
             showAlert("Invalid Input", "Please fill in all the fields.");
             return;
         }
-
         if (!notARobot) {
             showAlert("Verification Error", "Please confirm you are not a robot.");
             return;
@@ -155,6 +152,7 @@ public class LoginRegisterMenuController {
             loginUsername.clear();
         }
     }
+
     public static void loadUsers() {
 //        List <User> users;
 //        if (checkFile()) {
@@ -181,10 +179,10 @@ public class LoginRegisterMenuController {
 //        }
     }
 
-    public static boolean isEmptyFile() {
-        File file = new File(USERS_FILE);
-        return file.length() == 0;
-    }
+//    public static boolean isEmptyFile() {
+//        File file = new File(USERS_FILE);
+//        return file.length() == 0;
+//    }
 
     private static boolean checkFile() {
         File file = new File(USERS_FILE);
@@ -329,7 +327,7 @@ public class LoginRegisterMenuController {
         return new String(characters);
     }
 
-    private boolean showAlertConfirmed (String title, String message){
+    private boolean showAlertConfirmed(String title, String message) {
         if (showAlertConfirmed) {
             return true;
         }
@@ -340,6 +338,13 @@ public class LoginRegisterMenuController {
         Optional<ButtonType> buttonType = alert.showAndWait();
         if (buttonType.isPresent() && buttonType.get().equals(ButtonType.OK)) {
             showAlertConfirmed = true;
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isEmptyFile() {
+        if (gson == null) {
             return true;
         }
         return false;

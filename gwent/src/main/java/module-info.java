@@ -4,6 +4,7 @@ module my.javafx.app {
         requires javafx.fxml;
         requires com.google.gson;
         requires java.desktop;
+        requires javafx.media;
         requires java.persistence;
         requires org.hibernate.orm.core;
         requires java.sql;
