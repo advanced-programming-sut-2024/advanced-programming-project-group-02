@@ -978,21 +978,28 @@ public class Function {
 
     private void weather(Game game, ImageView imageView, Card card) {
         User user = game.getActivePlayer();
+        gameMenuController.weatherCard.setImage(card.getImage());
         if (user.equals(game.getPlayer1())) {
-            Image image = card.getImage();
-            gameMenuController.weatherCard.setImage(image);
+//<<<<<<< HEAD
+//            Image image = card.getImage();
+//            gameMenuController.weatherCard.setImage(image);
+//            ObservableList<Card> hand1 = game.getGamePlayer1().getHand();
+//            hand1.remove(card);
+//            game.getGamePlayer1().setHand(hand1);
+//        }
+//        if (user.equals(game.getPlayer2())) {
+//            Image image = card.getImage();
+//            gameMenuController.weatherCard.setImage(image);
+//=======
             ObservableList<Card> hand1 = game.getGamePlayer1().getHand();
-            hand1.remove(card);
-            game.getGamePlayer1().setHand(hand1);
+                hand1.remove(card);
+                game.getGamePlayer1().setHand(hand1);
         }
-        if (user.equals(game.getPlayer2())) {
-            Image image = card.getImage();
-            gameMenuController.weatherCard.setImage(image);
+        else if (user.equals(game.getPlayer2())) {
+//>>>>>>> 57bfa4a5ed3f1e97b60b54e01477f551c0a43976
             ObservableList<Card> hand2 = game.getGamePlayer2().getHand();
-            Platform.runLater(() -> {
                 hand2.remove(card);
                 game.getGamePlayer2().setHand(hand2);
-            });
         }
 
     }
