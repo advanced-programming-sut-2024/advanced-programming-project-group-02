@@ -934,23 +934,16 @@ public class Function {
 
     private void weather(Game game, ImageView imageView, Card card) {
         User user = game.getActivePlayer();
+        gameMenuController.weatherCard.setImage(card.getImage());
         if (user.equals(game.getPlayer1())) {
-            Image image = card.getImage();
-            imageView.setImage(image);
             ObservableList<Card> hand1 = game.getGamePlayer1().getHand();
-            Platform.runLater(() -> {
                 hand1.remove(card);
                 game.getGamePlayer1().setHand(hand1);
-            });
         }
-        if (user.equals(game.getPlayer2())) {
-            Image image = card.getImage();
-            imageView.setImage(image);
+        else if (user.equals(game.getPlayer2())) {
             ObservableList<Card> hand2 = game.getGamePlayer2().getHand();
-            Platform.runLater(() -> {
                 hand2.remove(card);
                 game.getGamePlayer2().setHand(hand2);
-            });
         }
 
     }

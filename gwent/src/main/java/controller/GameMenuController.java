@@ -2,7 +2,6 @@ package controller;
 
 import enums.Ability;
 import enums.CardType;
-import enums.Place;
 import enums.Statement;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -606,7 +605,24 @@ public class GameMenuController {
     }
 
     private boolean isHighlightedImageView(ImageView imageView) {
-        return imageView.getStyleClass().contains("highlight");
+        switch (imageView.getId()) {
+            case "weatherCard" :
+                return weatherCardPane.getStyleClass().contains("stack-highlight");
+            case "secondPlayerSiegeBoost" :
+                return secondPlayerSiegeBoostPane.getStyleClass().contains("stack-highlight");
+            case "secondPlayerRangedBoost" :
+                return secondPlayerRangedBoostPane.getStyleClass().contains("stack-highlight");
+            case "secondPlayerCloseCombatBoost" :
+                return secondPlayerCloseCombatBoostPane.getStyleClass().contains("stack-highlight");
+            case "firstPlayerCloseCombatBoost" :
+                return firstPlayerCloseCombatBoostPane.getStyleClass().contains("stack-highlight");
+            case "firstPlayerRangedBoost" :
+                return firstPlayerRangedBoostPane.getStyleClass().contains("stack-highlight");
+            case "firstPlayerSiegeBoost" :
+                return firstPlayerSiegeBoostPane.getStyleClass().contains("stack-highlight");
+            default:
+                return false;
+        }
     }
 
     @FXML
@@ -669,7 +685,9 @@ public class GameMenuController {
     public void weatherCardClicked(MouseEvent event) {
         ImageView imageView = weatherCard;
         System.out.println("weatherCardClicked: " + selectedCard.getName());
-        if (isHighlightedImageView(weatherCard)) handleImageViewClick(imageView, selectedCard);
+        if (isHighlightedImageView(imageView)) {
+            handleImageViewClick(imageView, selectedCard);
+        }
         else if (weatherCard != null) showWeatherCardInfo();
     }
 
@@ -807,6 +825,24 @@ public class GameMenuController {
             handleDraw(game, firstPlayerGame, secondPlayerGame, RoundNo);
         }
 
+        boolean isThereCow1 = false;
+        boolean isThereKambi1 = false;
+        boolean isThereCow2 = false;
+        boolean isThereKambi2 = false;
+
+        if ((firstPlayerGame.getRangedCombat() != null) && (firstPlayerGame.getRangedCombat().contains(Card.getCardByName("Cow")))) {
+            isThereCow1 = true;
+        }
+        if ((firstPlayerGame.getCloseCombat() != null) && (firstPlayerGame.getCloseCombat().contains(Card.getCardByName("Kambi")))) {
+            isThereKambi1 = true;
+        }
+        if ((secondPlayerGame.getRangedCombat() != null) && (secondPlayerGame.getRangedCombat().contains(Card.getCardByName("Cow")))) {
+            isThereCow2 = true;
+        }
+        if ((secondPlayerGame.getCloseCombat() != null) && (secondPlayerGame.getCloseCombat().contains(Card.getCardByName("Kambi")))) {
+            isThereKambi2 = true;
+        }
+
         switch (RoundNo) {
             case 1 :
                 northernRealms();
@@ -818,6 +854,41 @@ public class GameMenuController {
                 northernRealms();
                 monsters();
                 clearBoard();
+        }
+
+        isThereCow(firstPlayerGame, isThereCow1);
+        isThereCow(secondPlayerGame, isThereCow2);
+        isThereKambi(firstPlayerGame, isThereKambi1);
+        isThereKambi(secondPlayerGame, isThereKambi2);
+    }
+
+    private void isThereKambi(EachPlayerGame playerGame, boolean isThereKambi) {
+        if (isThereKambi) {
+            HashMap<Card, List<Integer>> listScores = playerGame.getRangedCombatScores();
+            ObservableList<Card> list = playerGame.getRangedCombat();
+            Card kambiCard = Card.getCardByName("Kambi");
+            list.add(kambiCard);
+            List<Integer> scores = listScores.get(kambiCard);
+            scores.add(scores.size(), 8);
+            listScores.put(kambiCard, scores);
+
+            playerGame.setRangedCombatScores(listScores);
+            playerGame.setRangedCombat(list);
+        }
+    }
+
+    private void isThereCow(EachPlayerGame playerGame, boolean isThereCow) {
+        if (isThereCow) {
+            HashMap<Card, List<Integer>> listScores = playerGame.getRangedCombatScores();
+            ObservableList<Card> list = playerGame.getRangedCombat();
+            Card cowCard = Card.getCardByName("Cow");
+            list.add(cowCard);
+            List<Integer> scores = listScores.get(cowCard);
+            scores.add(scores.size(), 8);
+            listScores.put(cowCard, scores);
+
+            playerGame.setRangedCombatScores(listScores);
+            playerGame.setRangedCombat(list);
         }
     }
 
@@ -890,15 +961,6 @@ public class GameMenuController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public void secondPlayerLeaderCardClicked(MouseEvent mouseEvent) {
-    }
-
-    public void firstPlayerLeaderCardClicked(MouseEvent mouseEvent) {
-    }
-
-    private void showWeatherCardInfo() {
     }
 
     private void changeTurn() {
@@ -1398,6 +1460,15 @@ public class GameMenuController {
                 nonHeroNonSpellCards.add(card);
             }
         }
+    }
+
+    public void secondPlayerLeaderCardClicked(MouseEvent mouseEvent) {
+    }
+
+    public void firstPlayerLeaderCardClicked(MouseEvent mouseEvent) {
+    }
+
+    private void showWeatherCardInfo() {
     }
 
 }
