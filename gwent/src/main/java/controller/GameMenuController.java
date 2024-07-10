@@ -2,6 +2,7 @@ package controller;
 
 import enums.Ability;
 import enums.CardType;
+import enums.Statement;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -16,6 +17,8 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import model.*;
 import view.CardListCellFactory;
+import view.EndOfTheGame;
+import view.GameMenu;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -744,15 +747,15 @@ public class GameMenuController {
                 break;
             case 2:
                 processRound(game, firstPlayerGame, secondPlayerGame, 2);
+                isGameEnd();
                 break;
             case 3:
                 processRound(game, firstPlayerGame, secondPlayerGame, 3);
-                break;
-            case 4:
                 endOfGame();
+                break;
         }
 
-
+        game.setRoundNo(game.getRoundNo() + 1);
     }
 
     private void processRound(Game game, EachPlayerGame firstPlayerGame, EachPlayerGame secondPlayerGame, int RoundNo) {
@@ -805,7 +808,6 @@ public class GameMenuController {
     private void handleDraw(Game game, EachPlayerGame firstPlayerGame, EachPlayerGame secondPlayerGame, int RoundNo) {
         if (firstPlayerGame.getFaction().equals(Faction.getFactionByName("Nilfgaard"))) {
             if (secondPlayerGame.getFaction().equals(Faction.getFactionByName("Nilfgaard"))) {
-                setRoundWinner(game, firstPlayerGame, secondPlayerGame, RoundNo, null);
                 firstPlayerGame.setCrystals(firstPlayerGame.getCrystals() - 1);
                 secondPlayerGame.setCrystals(secondPlayerGame.getCrystals() - 1);
             } else {
@@ -824,8 +826,34 @@ public class GameMenuController {
         }
     }
 
-    private void endOfGame() {
+    private void isGameEnd() {
+        Game game = User.getLoggedInUser().getCurrentGame();
+        if (game.getGamePlayer1().getCrystals() == 0 || game.getGamePlayer2().getCrystals() == 0) endOfGame();
+    }
 
+    private void endOfGame() {
+        Game game = User.getLoggedInUser().getCurrentGame();
+        EachPlayerGame firstPlayerGame = game.getGamePlayer1();
+        EachPlayerGame secondPlayerGame = game.getGamePlayer2();
+
+        if (firstPlayerGame.getCrystals() == 0 ) {
+            if (secondPlayerGame.getCrystals() == 0) game.setStatement(Statement.Tie);
+            else game.setStatement(Statement.Player2WonTheGame);
+        } else game.setStatement(Statement.Player1WonTheGame);
+
+        ArrayList<Game> games = game.getPlayer1().getGames();
+        games.add(game);
+        game.getPlayer1().setGames(games);
+        games = game.getPlayer2().getGames();
+        games.add(game);
+        game.getPlayer2().setGames(games);
+
+        EndOfTheGame endOfTheGame = new EndOfTheGame();
+        try {
+            endOfTheGame.start(GameMenu.stage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void secondPlayerLeaderCardClicked(MouseEvent mouseEvent) {

@@ -1,7 +1,6 @@
 package view;
 
 import controller.LoginRegisterMenuController;
-import controller.SetDefaults;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,15 +13,11 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import java.util.Optional;
 
-public class MainMenu extends Application {
+public class EndOfTheGame extends Application {
     public static Stage stage;
 
     @Override
     public void start(Stage stage) throws Exception {
-        if (!LoginRegisterMenuController.isEmptyFile()) {
-            LoginRegisterMenuController.loadUsers();
-        }
-        SetDefaults.run();
 
         Button closeButton = new Button("Close Application");
         closeButton.setOnAction(e -> closeApplication(stage));
@@ -30,15 +25,13 @@ public class MainMenu extends Application {
         VBox layout = new VBox(10);
         layout.getChildren().add(closeButton);
 
-        MainMenu.stage = stage;
-        Parent root = FXMLLoader.load(getClass().getResource("/FXML/MainMenu.fxml"));
+        EndOfTheGame.stage = stage;
+        Parent root = FXMLLoader.load((getClass().getResource("/FXML/EndOfTheGame.fxml")));
         Scene scene = new Scene(root);
         stage.setScene(scene);
-        stage.setTitle("Main Menu");
-        stage.getIcons().add(new Image(getClass().getResourceAsStream("/Images/GwentIcon.jpg")));
+        stage.setTitle("Game Done");
+        stage.getIcons().add(new Image((getClass().getResourceAsStream("/Images/GwentIcon.jpg"))));
         stage.show();
-
-        Runtime.getRuntime().addShutdownHook(new Thread(LoginRegisterMenuController::saveUsers));
 
         stage.setOnCloseRequest(event -> {
             event.consume();
@@ -48,7 +41,6 @@ public class MainMenu extends Application {
     }
 
     public static void main(String[] args) {
-        LoginRegisterMenuController.loadUsers();
         launch(args);
     }
 
@@ -62,4 +54,5 @@ public class MainMenu extends Application {
             stage.close();
         }
     }
+
 }
