@@ -1,16 +1,152 @@
 package controller;
 
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import model.User;
+import view.MainMenu;
+import view.ProfileMenu;
 
 import java.util.regex.Matcher;
 
 public class ProfileMenuController {
-    public static void showCommands() {}
-    public static void changeUserName(Matcher matcher) {}
-    public static void changeNickname(Matcher matcher) {}
-    public static void changePassword(Matcher matcher) {}
-    public static void changeEmail(Matcher matcher) {}
-    public static void showUserInfo(Matcher matcher) {}
-    public static void showGameHistory(Matcher matcher) {}
+
+    public static void showUserInfo(Matcher matcher) {
+    }
+
+    public static void showGameHistory(Matcher matcher) {
+    }
+
+    //##################################
+    //##################################
+    //##################################
+    //##################################
+    //##################################
+    //##################################
+    public Label usernameLabel;
+    public Label nicknameLabel;
+    public Label emailLabel;
+
+    public TextField username;
+    public TextField nickname;
+    public TextField email;
+    public PasswordField password;
+    public PasswordField oldPassword;
+
+
+
+    public void initialize() {
+        editLabel();
+    }
+
+    private void editLabel() {
+        setEmailLabel();
+        setNicknameLabel();
+        setUsernameLabel();
+    }
+
+    public void centralmenu(MouseEvent mouseEvent) {
+        try {
+            new MainMenu().start(ProfileMenu.stage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setUsernameLabel() {
+        String u = User.getLoggedInUser().getUsername();
+        usernameLabel.setText("username: " + u);
+
+    }
+
+    public void setNicknameLabel() {
+        String u = User.getLoggedInUser().getNickname();
+        nicknameLabel.setText("nickname: " + u);
+
+    }
+
+    public void setEmailLabel() {
+        String u = User.getLoggedInUser().getEmail();
+        emailLabel.setText("email: " + u);
+
+    }
+
+    public void changeUsername(MouseEvent mouseEvent) {
+        editUsername(username);
+        setUsernameLabel();
+        username.clear();
+    }
+
+    public void changePassword(MouseEvent mouseEvent) {
+        editPassword(password , oldPassword);
+        password.clear();
+        oldPassword.clear();
+    }
+
+    public void changeEmail(MouseEvent mouseEvent) {
+        editEmail(email);
+        setEmailLabel();
+        email.clear();
+    }
+
+    public void changeNickname(MouseEvent mouseEvent) {
+        editNickname(nickname);
+        setNicknameLabel();
+        nickname.clear();
+    }
+
+
+    public static void editUsername(TextField textField) {
+        String username = textField.getText();
+        if (!LoginRegisterMenuController.isUsableUsername(username)) {
+            LoginRegisterMenuController.showAlert("Invalid username", "Your username can only contain uppercase and lowercase letters, numbers or the dash character");
+            return;
+        }
+        if (User.isThereUserWithName(username)) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Invalid Username");
+            alert.setHeaderText("username already exists");
+            alert.show();
+            return;
+        }
+        User.getLoggedInUser().setUsername(username);
+    }
+
+    public static void editPassword(PasswordField passwordField, PasswordField oldPass) {
+        String password = passwordField.getText();
+        String oldPassword = oldPass.getText();
+        if (!oldPassword.equals(User.getLoggedInUser().getPassword())) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Wrong Password");
+            alert.setHeaderText("OLd password is wrong");
+            alert.show();
+            return;
+        }
+        if (!LoginRegisterMenuController.isPasswordWeak(password)) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Invalid Password");
+            alert.setHeaderText("password is not strong enough");
+            alert.show();
+            return;
+        }
+        User.getLoggedInUser().setPassword(password);
+        LoginRegisterMenuController.showAlert("done" , "password changed");
+
+    }
+
+    public static void editNickname(TextField textField) {
+        String nickname = textField.getText();
+        User.getLoggedInUser().setNickname(nickname);
+    }
+
+    public static void editEmail(TextField textField) {
+        String email = textField.getText();
+        if (!LoginRegisterMenuController.isValidEmailAddress(email)) {
+            LoginRegisterMenuController.showAlert("Invalid email", "The email entered is invalid.");
+            return;
+        }
+        User.getLoggedInUser().setEmail(email);
+
+    }
+
 
 }

@@ -15,6 +15,7 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="gwent" options="--module-path &quot;$PROJECT_DIR$/../../../../../../Program Files/Eclipse Adoptium/jdk-21.0.2.13-hotspot/lib/jmods&quot;" />
+      <module name="my-javafx-app" options="" />
     </option>
   </component>
 </project>

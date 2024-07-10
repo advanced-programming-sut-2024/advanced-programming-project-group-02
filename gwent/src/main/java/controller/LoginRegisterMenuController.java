@@ -114,13 +114,7 @@ public class LoginRegisterMenuController {
             }
             goToQuestionMenu();
         }
-
-        email.clear();
-        username.clear();
-        password.clear();
-        nickname.clear();
-        passwordConfirm.clear();
-    }
+}
 
 
     public void loginUser(MouseEvent mouseEvent) {
@@ -292,8 +286,8 @@ public class LoginRegisterMenuController {
     }
 
     public static boolean isUsableUsername(String username) {
-        String checkUsable = "(\\d)?[A-Z]?[a-z]?(-)?";
-        if (!getCommandMatcher(username, checkUsable).matches()) {
+        String checkUsable = "[0-9a-zA-z\\-]*";
+        if (getCommandMatcher(username, checkUsable).matches()) {
             return true;
         }
         return false;
@@ -351,7 +345,7 @@ public class LoginRegisterMenuController {
         }
         return false;
     }
-    private void showAlert(String title, String message) {
+    public static void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle(title);
         alert.setHeaderText(null);
