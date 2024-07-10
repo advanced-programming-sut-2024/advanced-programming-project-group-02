@@ -1319,49 +1319,85 @@ public class GameMenuController {
         playerGame.setDeck(deck);
     }
     private void monsters() {
-//        Game game = User.getLoggedInUser().getCurrentGame();
-//        EachPlayerGame firstPlayerGame = game.getGamePlayer1();
-//        EachPlayerGame secondPlayerGame = game.getGamePlayer2();
-//
-//        if (game.getPlayer1().getFaction().equals(Faction.getFactionByName("Monsters"))) {
-//            handleMonstersFaction(firstPlayerGame);
-//        }
-//        if (game.getPlayer2().getFaction().equals(Faction.getFactionByName("Monsters"))) {
-//            handleMonstersFaction(secondPlayerGame);
-//        }
-    }
-//
-//    private void handleMonstersFaction(EachPlayerGame playerGame) {
-//        List<Card> nonHeroNonSpellCards = new ArrayList<>();
-//        addNonHeroNonSpellCards(playerGame.getCloseCombat(), nonHeroNonSpellCards);
-//        addNonHeroNonSpellCards(playerGame.getRangedCombat(), nonHeroNonSpellCards);
-//        addNonHeroNonSpellCards(playerGame.getSiege(), nonHeroNonSpellCards);
-//
-//        if (!nonHeroNonSpellCards.isEmpty()) {
-//            Random random = new Random();
-//            Card cardToKeep = nonHeroNonSpellCards.get(random.nextInt(nonHeroNonSpellCards.size()));
-//
-//            playerGame.getCloseCombat().removeIf(card -> moveCardToDiscard(card, cardToKeep, playerGame));
-//            playerGame.getRangedCombat().removeIf(card -> moveCardToDiscard(card, cardToKeep, playerGame));
-//            playerGame.getSiege().removeIf(card -> moveCardToDiscard(card, cardToKeep, playerGame));
-//        }
-//    }
-//
-//    private void addNonHeroNonSpellCards(ObservableList<Card> row, List<Card> nonHeroNonSpellCards) {
-//        for (Card card : row) {
-//            if (!card.isHero() && !card.isSpecial()) {
-//                nonHeroNonSpellCards.add(card);
-//            }
-//        }
-//    }
-//
-//    private boolean moveCardToDiscard(Card card, Card cardToKeep, EachPlayerGame playerGame) {
-//        if (!card.equals(cardToKeep) && !card.isHero() && !card.isSpecial()) {
-//            playerGame.getDiscard().add(card);
-//            return true;
-//        }
-//        return false;
-//    }
+        Game game = User.getLoggedInUser().getCurrentGame();
+        EachPlayerGame firstPlayerGame = game.getGamePlayer1();
+        EachPlayerGame secondPlayerGame = game.getGamePlayer2();
 
+        if (game.getPlayer1().getFaction().equals(Faction.getFactionByName("Monsters"))) {
+            handleMonstersFaction(firstPlayerGame);
+        }
+        if (game.getPlayer2().getFaction().equals(Faction.getFactionByName("Monsters"))) {
+            handleMonstersFaction(secondPlayerGame);
+        }
+    }
+
+    private void handleMonstersFaction(EachPlayerGame playerGame) {
+        List<Card> nonHeroNonSpellCards = new ArrayList<>();
+        addNonHeroNonSpellCards(playerGame.getCloseCombat(), nonHeroNonSpellCards);
+        addNonHeroNonSpellCards(playerGame.getRangedCombat(), nonHeroNonSpellCards);
+        addNonHeroNonSpellCards(playerGame.getSiege(), nonHeroNonSpellCards);
+
+        if (!nonHeroNonSpellCards.isEmpty()) {
+            Random random = new Random();
+            Card cardToKeep = nonHeroNonSpellCards.get(random.nextInt(nonHeroNonSpellCards.size()));
+
+            HashMap<Card, List<Integer>> listScores = playerGame.getCloseCombatScores();
+            ObservableList<Card> list = playerGame.getCloseCombat();
+            if (!list.contains(cardToKeep)) {
+                listScores.clear();
+                list.clear();
+            } else {
+                listScores.clear();
+                list.clear();
+                list.add(cardToKeep);
+                List<Integer> scores = new ArrayList<>();
+                scores.add(0,cardToKeep.getPower());
+                listScores.put(cardToKeep, scores);
+            }
+            playerGame.setRangedCombatScores(listScores);
+            playerGame.setCloseCombat(list);
+
+            listScores = playerGame.getRangedCombatScores();
+            list = playerGame.getRangedCombat();
+            if (!list.contains(cardToKeep)) {
+                listScores.clear();
+                list.clear();
+            } else {
+                listScores.clear();
+                list.clear();
+                list.add(cardToKeep);
+                List<Integer> scores = new ArrayList<>();
+                scores.add(0,cardToKeep.getPower());
+                listScores.put(cardToKeep, scores);
+            }
+            playerGame.setRangedCombatScores(listScores);
+            playerGame.setRangedCombat(list);
+
+            listScores = playerGame.getRangedCombatScores();
+            list = playerGame.getSiege();
+            if (!list.contains(cardToKeep)) {
+                listScores.clear();
+                list.clear();
+            } else {
+                listScores.clear();
+                list.clear();
+                list.add(cardToKeep);
+                List<Integer> scores = new ArrayList<>();
+                scores.add(0,cardToKeep.getPower());
+                listScores.put(cardToKeep, scores);
+            }
+            playerGame.setSiegeScores(listScores);
+            playerGame.setSiege(list);
+
+        }
+    }
+
+    private void addNonHeroNonSpellCards(ObservableList<Card> row, List<Card> nonHeroNonSpellCards) {
+        for (Card card : row) {
+            if (!card.isHero() && !card.isSpecial()) {
+                nonHeroNonSpellCards.add(card);
+            }
+        }
+    }
 
 }
