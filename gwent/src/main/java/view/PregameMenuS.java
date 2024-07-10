@@ -21,17 +21,13 @@ public class PregameMenuS extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        if ( LoginRegisterMenuController.isEmptyFile()) {
-            System.out.println("sfklj;dklash");
-            LoginRegisterMenuController.loadUsers();
-        }
         SetDefaults.run();
 
-        Button closeButton = new Button("Close Application");
-        closeButton.setOnAction(e -> closeApplication(stage));
-
-        VBox layout = new VBox(10);
-        layout.getChildren().add(closeButton);
+//        Button closeButton = new Button("Close Application");
+//        closeButton.setOnAction(e -> closeApplication(stage));
+//
+//        VBox layout = new VBox(10);
+//        layout.getChildren().add(closeButton);
 
         view.PregameMenuS.stage = stage;
         Parent root = FXMLLoader.load((getClass().getResource("/FXML/PregameMenuS.fxml")));
@@ -41,11 +37,11 @@ public class PregameMenuS extends Application {
         stage.getIcons().add(new Image((getClass().getResourceAsStream("/Images/GwentIcon.jpg"))));
         stage.show();
 
-        stage.setOnCloseRequest(event -> {
-            event.consume();
-            LoginRegisterMenuController.saveUsers();
-            closeApplication(stage);
-        });
+//        stage.setOnCloseRequest(event -> {
+//            event.consume();
+//            LoginRegisterMenuController.saveUsers();
+//            closeApplication(stage);
+//        });
     }
 
     public static void main(String[] args) {

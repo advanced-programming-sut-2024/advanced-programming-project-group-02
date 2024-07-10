@@ -4,11 +4,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.*;
 
 public class EachPlayerGame {
 
-    private ObservableList<Card> hand = FXCollections.observableArrayList();
+    private ObservableList<Card> hand;
+    private SortedList<Card> sortedHand;
     private HashMap<Card, Integer> deck;
     private ObservableList<Card> burnedCards = FXCollections.observableArrayList();
     private ObservableList<Card> closeCombat = FXCollections.observableArrayList();
@@ -19,6 +21,9 @@ public class EachPlayerGame {
     private HashMap<Card, List<Integer>> rangedCombatScores = new HashMap<>();
     private User player;
     private Faction faction;
+    private int firstRoundScore;
+    private int secondRoundScore;
+    private int thirdRoundScore;
     private int crystals;
     private int closeCombatScore;
     private int rangedCombatScore;
@@ -31,11 +36,12 @@ public class EachPlayerGame {
     private final Random random = new Random();
 
     public EachPlayerGame(User player) {
-        this.deck = new HashMap<>(player.getDeck());
+        this.deck = player.getDeck();
         this.player = player;
         faction = player.getFaction();
+        this.hand = FXCollections.observableArrayList();
+        this.sortedHand = new SortedList<>(hand, Comparator.comparingInt(Card::getPower));
         drawInitialHand();
-        hand = new SortedList<>(hand, Comparator.comparingInt(Card::getPower));
         passedTheGame = false;
         isLeaderCardUsed = false;
         closeCombatScore = 0;
@@ -54,17 +60,20 @@ public class EachPlayerGame {
 
         while (handSize > 0) {
             Card randomCard = getRandomCardFromDeck();
-            int deckCount = deck.get(randomCard);
+            int deckCount = deck.get(randomCard) - 1;
 
             hand.add(randomCard);
-            deck.put(randomCard, deckCount - 1);
-
-            if (deck.get(randomCard) == 0) {
-                deck.remove(randomCard);
-            }
+            if (deckCount != 0) deck.put(randomCard, deckCount);
+            else deck.remove(randomCard);
 
             handSize--;
         }
+//                        for (Card card : deck.keySet()) {
+//                            for (int i = 0; i < deck.get(card); i++) {
+//                                hand.add(card);
+//                            }
+//                        }
+//                        deck.clear();
     }
 
     private Card getRandomCardFromDeck() {
@@ -87,12 +96,49 @@ public class EachPlayerGame {
         return hand;
     }
 
+    public SortedList<Card> getSortedHand() {
+        return hand.sorted(Comparator.comparingInt(Card::getPower));
+    }
+
     public void setHand(ObservableList<Card> hand) {
         this.hand = hand;
+        this.sortedHand = new SortedList<>(hand, Comparator.comparingInt(Card::getPower));
     }
 
     public HashMap<Card, Integer> getDeck() {
         return deck;
+    }
+
+    public int getNumberOfCardsInDeck() {
+        int total = 0;
+        for (Card card : deck.keySet()) {
+            total += deck.get(card);
+        }
+        return total;
+    }
+
+    public int getFirstRoundScore() {
+        return firstRoundScore;
+    }
+
+    public void setFirstRoundScore(int firstRoundScore) {
+        this.firstRoundScore = firstRoundScore;
+    }
+
+    public int getSecondRoundScore() {
+        return secondRoundScore;
+    }
+
+    public void setSecondRoundScore(int secondRoundScore) {
+        this.secondRoundScore = secondRoundScore;
+    }
+
+    public int getThirdRoundScore() {
+        return thirdRoundScore;
+    }
+
+    public void setThirdRoundScore(int thirdRoundScore) {
+        this.thirdRoundScore = thirdRoundScore;
     }
 
     public void setDeck(HashMap<Card, Integer> deck) {
@@ -156,10 +202,14 @@ public class EachPlayerGame {
     }
 
     public int getCloseCombatScore() {
-        return closeCombatScores.values().stream()
-                .flatMap(Collection::stream)
-                .mapToInt(Integer::intValue)
-                .sum();
+        HashMap<Card , List<Integer>> list = closeCombatScores;
+        int total = 0;
+        for (Card card : list.keySet()) {
+            for (Integer score : list.get(card)) {
+                total += score;
+            }
+        }
+        return total;
     }
 
     public void setCloseCombatScore(int closeCombatScore) {
@@ -167,10 +217,14 @@ public class EachPlayerGame {
     }
 
     public int getRangedCombatScore() {
-        return rangedCombatScores.values().stream()
-                .flatMap(Collection::stream)
-                .mapToInt(Integer::intValue)
-                .sum();
+        HashMap<Card , List<Integer>> list = rangedCombatScores;
+        int total = 0;
+        for (Card card : list.keySet()) {
+            for (Integer score : list.get(card)) {
+                total += score;
+            }
+        }
+        return total;
     }
 
     public void setRangedCombatScore(int rangedCombatScore) {
@@ -178,10 +232,14 @@ public class EachPlayerGame {
     }
 
     public int getSiegeScore() {
-        return siegeScores.values().stream()
-                .flatMap(Collection::stream)
-                .mapToInt(Integer::intValue)
-                .sum();
+        HashMap<Card , List<Integer>> list = siegeScores;
+        int total = 0;
+        for (Card card : list.keySet()) {
+            for (Integer score : list.get(card)) {
+                total += score;
+            }
+        }
+        return total;
     }
 
     public void setSiegeScore(int siegeScore) {

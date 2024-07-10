@@ -30,10 +30,10 @@ public abstract class BasePregameController {
     protected Label specialCards;
     @FXML
     protected Label heroCards;
-    //    @FXML
-//    protected Button downloadDeck;
-//    @FXML
-//    protected Button uploadDeck;
+    @FXML
+    protected Button downloadDeck;
+    @FXML
+    protected Button uploadDeck;
     @FXML
     protected Label totalUnitCardsStrength;
     @FXML
@@ -134,6 +134,11 @@ public abstract class BasePregameController {
             showAlert("Insufficient Unit Cards", "You need at least 22 unit cards to start the game.");
             return;
         }
+//
+//        if (user.getSpecialCards() > 9) {
+//            showAlert("Too Many Special Cards", "You can have a maximum of 9 special cards in your deck.");
+//            return;
+//        }
 
         if (user.getCurrentGame() != null) {
             startGame();
@@ -255,11 +260,13 @@ public abstract class BasePregameController {
                     cardsMap = new HashMap<>();
                 }
 
+                HashMap<Card, Integer> deck = new HashMap<>();
                 for (Map.Entry<Integer, Integer> entry : cardsMap.entrySet()) {
                     int idCard = entry.getKey();
                     Card card = Card.getCardByID(idCard);
                     if (card != null) {
-                        user.addToDeck(card);
+                        if (deck.containsKey(card)) deck.put(card, deck.get(card) + 1);
+                        else  deck.put(card, 1);
                     }
                 }
                 String faction = User.getLoggedInUser().getFaction().getName();
@@ -308,9 +315,9 @@ public abstract class BasePregameController {
                     default:
                         return;
                 }
-                System.out.println("Deck loaded successfully from: " + selectedFile.getAbsolutePath()); //test
+                System.out.println("Deck loaded successfully from: " + selectedFile.getAbsolutePath());
             } catch (FileNotFoundException e) {
-                System.out.println("File not found: " + selectedFile.getAbsolutePath());  //test
+                System.out.println("File not found: " + selectedFile.getAbsolutePath());
             } catch (IOException e) {
                 e.printStackTrace();
             }

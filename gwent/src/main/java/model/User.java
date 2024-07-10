@@ -7,8 +7,8 @@ import java.util.HashMap;
 
 public class User {
 
-    private static ArrayList<User> users = new ArrayList<>();
-    private static ArrayList<Game> games = new ArrayList<>();
+    public static ArrayList<User> users = new ArrayList<>();
+    private ArrayList<Game> games = new ArrayList<>();
 
     private static User loggedInUser;
 
@@ -184,16 +184,16 @@ public class User {
     }
 
 
-    public static ArrayList<Game> getGames() {
+    public ArrayList<Game> getGames() {
 
         return games;
 
     }
 
 
-    public static void setGames(ArrayList<Game> games) {
+    public void setGames(ArrayList<Game> games) {
 
-        User.games = games;
+        this.games = games;
 
     }
 
@@ -247,16 +247,6 @@ public class User {
         deck.put(card, count + 1);
 
 
-        totalCardsInDeck++;
-
-        if (card.isSpecial()) specialCards++;
-
-        else numberOfUnitCards++;
-
-        if (card.isHero()) heroCards++;
-
-        totalUnitCardsStrength += card.getPower();
-
     }
 
 
@@ -273,17 +263,6 @@ public class User {
             deck.remove(card);
 
         }
-
-
-        totalCardsInDeck--;
-
-        if (card.isSpecial()) specialCards--;
-
-        else numberOfUnitCards--;
-
-        if (card.isHero()) heroCards--;
-
-        totalUnitCardsStrength -= card.getPower();
 
     }
 
@@ -387,35 +366,55 @@ public class User {
 
     public int getTotalCardsInDeck() {
 
-        return totalCardsInDeck;
+        int total = 0;
+        for (Card card : deck.keySet()) {
+            total += deck.get(card);
+        }
+        return total;
 
     }
 
 
     public int getNumberOfUnitCards() {
 
-        return numberOfUnitCards;
+        int total = 0;
+        for (Card card : deck.keySet()) {
+            if (!card.isSpecial() && !card.isHero()) total += deck.get(card);
+        }
+        return total;
 
     }
 
 
     public int getSpecialCards() {
 
-        return specialCards;
+        int total = 0;
+        for (Card card : deck.keySet()) {
+            if (card.isSpecial()) total += deck.get(card);
+        }
+        return total;
 
     }
 
 
     public int getTotalUnitCardsStrength() {
 
-        return totalUnitCardsStrength;
+        int total = 0;
+        for (Card card : deck.keySet()) {
+            total += card.getPower() * deck.get(card);
+        }
+        return total;
 
     }
 
 
     public int getHeroCards() {
 
-        return heroCards;
+        int total = 0;
+        for (Card card : deck.keySet()) {
+            if (card.isHero()) total += deck.get(card);
+        }
+        return total;
 
     }
 

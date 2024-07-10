@@ -1,30 +1,27 @@
 package view;
 
-import controller.LoginRegisterMenuController;
-import controller.SetDefaults;
+import controller.GameMenuController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
+
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+<<<<<<< HEAD
+import java.awt.event.KeyEvent;
 import java.util.Optional;
+=======
+>>>>>>> f0bfa961e11637952dd6312da82e9dea04a1d291
 
 public class GameMenu extends Application {
+    private GameMenuController gameMenuController = new GameMenuController();
     public static Stage stage;
 
     @Override
     public void start(Stage stage) throws Exception {
-//        Button closeButton = new Button("Close Application");
-//        closeButton.setOnAction(e -> closeApplication(stage));
-//
-//        VBox layout = new VBox(10);
-//        layout.getChildren().add(closeButton);
 
         GameMenu.stage = stage;
         Parent root = FXMLLoader.load((getClass().getResource("/FXML/GameMenu.fxml")));
@@ -34,20 +31,24 @@ public class GameMenu extends Application {
         stage.setTitle("Game Menu");
         stage.getIcons().add(new Image((getClass().getResourceAsStream("/Images/GwentIcon.jpg"))));
         stage.show();
+
+        scene.setOnKeyPressed(event -> gameMenuController.handleKeyPress(event));
+
     }
 
     public static void main(String[] args) {
         launch(args);
     }
 
-//    private void closeApplication(Stage stage) {
-//        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-//        alert.setTitle("Exit Confirmation");
-//        alert.setHeaderText(null);
-//        alert.setContentText("Are you sure you want to exit?");
-//        Optional<ButtonType> result = alert.showAndWait();
-//        if (result.isPresent() && result.get() == ButtonType.OK) {
-//            stage.close();
-//        }
-//    }
+    private void closeApplication(Stage stage) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Exit Confirmation");
+        alert.setHeaderText(null);
+        alert.setContentText("Are you sure you want to exit?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            System.out.println("hehehe");
+            stage.close();
+        }
+    }
 }

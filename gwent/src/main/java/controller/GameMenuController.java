@@ -2,21 +2,25 @@ package controller;
 
 import enums.Ability;
 import enums.CardType;
+import enums.Place;
+import enums.Statement;
+import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import model.*;
 import view.CardListCellFactory;
+import view.EndOfTheGame;
+import view.GameMenu;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class GameMenuController {
@@ -102,9 +106,9 @@ public class GameMenuController {
     @FXML
     public ImageView firstPlayerFactionImage;
     @FXML
-    public ImageView secondPlayerLeaderActive;
+    public static ImageView secondPlayerLeaderActive;
     @FXML
-    public ImageView firstPlayerLeaderActive;
+    public static ImageView firstPlayerLeaderActive;
     @FXML
     public Label firstPlayerCountOfCards;
     @FXML
@@ -123,16 +127,21 @@ public class GameMenuController {
     public StackPane secondPlayerCloseCombatBoostPane;
     @FXML
     public StackPane weatherCardPane;
+    public Label firstPlayerTotalDiscard;
+    public Label secondPlayerTotalDiscard;
 
     private Card selectedCard;
+
+    private Random random = new Random();
+
 
     @FXML
     public void initialize() {
 
         Game game = User.getLoggedInUser().getCurrentGame();
         game.setGamePlayer2(new EachPlayerGame(game.getPlayer2()));
-        Faction factionPlayer1  = game.getPlayer1().getFaction();
-        Faction factionPlayer2  = game.getPlayer2().getFaction();
+        Faction factionPlayer1 = game.getPlayer1().getFaction();
+        Faction factionPlayer2 = game.getPlayer2().getFaction();
         player1FactionName.setText(factionPlayer1.getName());
         player2FactionName.setText(factionPlayer2.getName());
         firstPlayerFactionImage.setImage(factionPlayer1.getImage());
@@ -141,13 +150,50 @@ public class GameMenuController {
         secondPlayerLeaderCard.setImage(game.getPlayer2().getLeaderCard().getImage());
         firstPlayerCards.setImage(factionPlayer1.getImage());
         secondPlayerCards.setImage(factionPlayer2.getImage());
+        firstPlayerCrystal1.setVisible(true);
+        secondPlayerCrystal1.setVisible(true);
+        firstPlayerCrystal2.setVisible(true);
+        secondPlayerCrystal2.setVisible(true);
+        if (factionPlayer1.equals(Faction.getFactionByName("Scoia'tael"))) {
+            if (factionPlayer2.equals(Faction.getFactionByName("Scoia'tael"))) {
+                boolean random = this.random.nextBoolean();
+                if (random) game.setActivePlayer(game.getPlayer1());
+                else game.setActivePlayer(game.getPlayer2());
+            } else {
+                game.setActivePlayer(game.getPlayer1());
+            }
+        } else {
+            if (factionPlayer2.equals(Faction.getFactionByName("Scoia'tael"))) {
+                game.setActivePlayer(game.getPlayer2());
+            } else {
+                boolean random = this.random.nextBoolean();
+                if (random) game.setActivePlayer(game.getPlayer1());
+                else game.setActivePlayer(game.getPlayer2());
+            }
+        }
         updateGameState(game);
     }
 
     public void updateGameState(Game game) {
         showTurnInfo(game);
-        firstPlayerCountOfCards.setText(String.valueOf(game.getPlayer1().getDeck().size()));
-        secondPlayerCountOfCards.setText(String.valueOf(game.getPlayer2().getDeck().size()));
+        ObservableList<Card> burnedCards = game.getGamePlayer1().getBurnedCards();
+        if (!burnedCards.isEmpty()) {
+            Card lastBurnedCard = burnedCards.get(burnedCards.size() - 1);
+            firstPlayerBurnedCards.setImage(lastBurnedCard.getImage());
+        } else {
+            firstPlayerBurnedCards.setImage(null);
+        }
+        burnedCards = game.getGamePlayer2().getBurnedCards();
+        if (!burnedCards.isEmpty()) {
+            Card lastBurnedCard = burnedCards.get(burnedCards.size() - 1);
+            secondPlayerBurnedCards.setImage(lastBurnedCard.getImage());
+        } else {
+            secondPlayerBurnedCards.setImage(null);
+        }
+        firstPlayerTotalDiscard.setText(String.valueOf(game.getGamePlayer1().getBurnedCards().size()));
+        secondPlayerTotalDiscard.setText(String.valueOf(game.getGamePlayer2().getBurnedCards().size()));
+        firstPlayerCountOfCards.setText(String.valueOf(game.getGamePlayer1().getNumberOfCardsInDeck()));
+        secondPlayerCountOfCards.setText(String.valueOf(game.getGamePlayer2().getNumberOfCardsInDeck()));
         if (game.getGamePlayer1().getCrystals() == 1) firstPlayerCrystal2.setVisible(false);
         if (game.getGamePlayer2().getCrystals() == 1) secondPlayerCrystal2.setVisible(false);
         firstPlayerRemainingCards.setText(String.valueOf(game.getGamePlayer1().getHand().size()));
@@ -185,46 +231,38 @@ public class GameMenuController {
 
     private void setFirstPlayerBoard(EachPlayerGame game) {
         firstPlayerCloseCombatList.setItems(game.getCloseCombat());
-        firstPlayerCloseCombatList.setCellFactory(new CardListCellFactory(74,39));
+        firstPlayerCloseCombatList.setCellFactory(new CardListCellFactory(74, 39));
         firstPlayerRangedList.setItems(game.getRangedCombat());
-        firstPlayerRangedList.setCellFactory(new CardListCellFactory(74,39));
+        firstPlayerRangedList.setCellFactory(new CardListCellFactory(74, 39));
         firstPlayerSiegeList.setItems(game.getSiege());
-        firstPlayerSiegeList.setCellFactory(new CardListCellFactory(74,39));
+        firstPlayerSiegeList.setCellFactory(new CardListCellFactory(74, 39));
     }
 
     private void setSecondPlayerBoard(EachPlayerGame game) {
         secondPlayerCloseCombatList.setItems(game.getCloseCombat());
-        secondPlayerCloseCombatList.setCellFactory(new CardListCellFactory(74,39));
+        secondPlayerCloseCombatList.setCellFactory(new CardListCellFactory(74, 39));
         secondPlayerRangedList.setItems(game.getRangedCombat());
-        secondPlayerRangedList.setCellFactory(new CardListCellFactory(74,39));
+        secondPlayerRangedList.setCellFactory(new CardListCellFactory(74, 39));
         secondPlayerSiegeList.setItems(game.getSiege());
-        secondPlayerSiegeList.setCellFactory(new CardListCellFactory(74,39));
+        secondPlayerSiegeList.setCellFactory(new CardListCellFactory(74, 39));
     }
 
-    public void showTurnInfo (Game game){
+    public void showTurnInfo(Game game) {
         EachPlayerGame firstPlayerGame = game.getGamePlayer1();
-        EachPlayerGame secondPlayerGame = game.getGamePlayer1();
+        EachPlayerGame secondPlayerGame = game.getGamePlayer2();
+
         if (game.getPlayer1().equals(game.getActivePlayer())) {
-            currentPlayerHand.setItems(firstPlayerGame.getHand());
-            ObservableList<Card> burnedCards = firstPlayerGame.getBurnedCards();
-            if (!burnedCards.isEmpty()) {
-                Card lastBurnedCard = burnedCards.get(burnedCards.size() - 1);
-                    firstPlayerBurnedCards.setImage(lastBurnedCard.getImage());
-            } else firstPlayerBurnedCards.setImage(null);
+            currentPlayerHand.setItems(firstPlayerGame.getSortedHand());
             if (firstPlayerGame.isLeaderCardUsed()) firstPlayerLeaderActive.setVisible(false);
             secondPlayerPass.setVisible(false);
-            if (firstPlayerGame.isPassedTheGame()) firstPlayerPass.setVisible(false);
+            firstPlayerPass.setVisible(!firstPlayerGame.isPassedTheGame());
         } else {
-            currentPlayerHand.setItems(secondPlayerGame.getHand());
-            ObservableList<Card> burnedCards = secondPlayerGame.getBurnedCards();
-            if (!burnedCards.isEmpty()) {
-                Card lastBurnedCard = burnedCards.get(burnedCards.size() - 1);
-                secondPlayerBurnedCards.setImage(lastBurnedCard.getImage());
-            } else secondPlayerBurnedCards.setImage(null);
+            currentPlayerHand.setItems(secondPlayerGame.getSortedHand());
             if (secondPlayerGame.isLeaderCardUsed()) secondPlayerLeaderActive.setVisible(false);
             firstPlayerPass.setVisible(false);
-            if (secondPlayerGame.isPassedTheGame()) secondPlayerPass.setVisible(false);
+            secondPlayerPass.setVisible(!secondPlayerGame.isPassedTheGame());
         }
+
         currentPlayerHand.setCellFactory(new CardListCellFactory(74, 39));
 
         currentPlayerHand.setOnMouseClicked(event -> {
@@ -235,8 +273,8 @@ public class GameMenuController {
                 highlightValidRowsAndPlaces(selectedCard);
             }
         });
-
     }
+
     private void highlightValidRowsAndPlaces(Card selectedCard) {
         Game game = User.getLoggedInUser().getCurrentGame();
 
@@ -248,7 +286,7 @@ public class GameMenuController {
                     case "Scorch":
                         highlightAllRows();
                         break;
-                    case "Commander’s horn":
+                    case "Commander's Horn":
                     case "Mardoeme":
                         if (game.getActivePlayer().equals(game.getPlayer1())) {
                             highlightStacks(firstPlayerCloseCombatBoostPane, firstPlayerRangedBoostPane, firstPlayerSiegeBoostPane);
@@ -293,11 +331,19 @@ public class GameMenuController {
     }
 
     private void unitCardHighlight(Card selectedCard, Game game, ListView secondPlayerList, ListView firstPlayerList) {
-        if (selectedCard.getAbility().equals(Ability.Spy)) {
-            if (game.getActivePlayer().equals(game.getPlayer1())) {
-                secondPlayerList.getStyleClass().add("highlight");
+        if (selectedCard.getAbility() != null) {
+            if (selectedCard.getAbility().equals(Ability.Spy)) {
+                if (game.getActivePlayer().equals(game.getPlayer1())) {
+                    secondPlayerList.getStyleClass().add("highlight");
+                } else {
+                    firstPlayerList.getStyleClass().add("highlight");
+                }
             } else {
-                firstPlayerList.getStyleClass().add("highlight");
+                if (game.getActivePlayer().equals(game.getPlayer1())) {
+                    firstPlayerList.getStyleClass().add("highlight");
+                } else {
+                    secondPlayerList.getStyleClass().add("highlight");
+                }
             }
         } else {
             if (game.getActivePlayer().equals(game.getPlayer1())) {
@@ -326,15 +372,6 @@ public class GameMenuController {
         secondPlayerCloseCombatBoostPane.getStyleClass().remove("stack-highlight");
     }
 
-    private void highlightAllStacks() {
-        firstPlayerSiegeBoostPane.getStyleClass().add("stack-highlight");
-        firstPlayerRangedBoostPane.getStyleClass().add("stack-highlight");
-        firstPlayerCloseCombatBoostPane.getStyleClass().add("stack-highlight");
-        secondPlayerSiegeBoostPane.getStyleClass().add("stack-highlight");
-        secondPlayerRangedBoostPane.getStyleClass().add("stack-highlight");
-        secondPlayerCloseCombatBoostPane.getStyleClass().add("stack-highlight");
-    }
-
     private void highlightStacks(StackPane... stacks) {
         for (StackPane stack : stacks) {
             stack.getStyleClass().add("stack-highlight");
@@ -357,12 +394,13 @@ public class GameMenuController {
         secondPlayerCloseCombatList.getStyleClass().add("highlight");
     }
 
-    public void Exit (MouseEvent mouseEvent){
+    public void Exit(MouseEvent mouseEvent) {
         LoginRegisterMenuController.saveUsers();
         System.exit(0);
     }
 
     private void handleListViewClick(ListView<?> listView, Card selectedCard) {
+        if ((selectedCard == null)) return;
         if (isHighlightedListView(listView)) {
             if (!selectedCard.equals(Card.getCardByName("Decoy"))) {
                 Function function = new Function();
@@ -415,7 +453,7 @@ public class GameMenuController {
                                 PlayerGame.setHand(handList);
                                 break;
 
-                            case "firstPlayerRangedList" :
+                            case "firstPlayerRangedList":
                                 PlayerGame = game.getGamePlayer1();
                                 List = PlayerGame.getRangedCombat();
                                 Scores = PlayerGame.getRangedCombatScores();
@@ -441,7 +479,7 @@ public class GameMenuController {
                                 PlayerGame.setHand(handList);
                                 break;
 
-                            case "firstPlayerSiegeList" :
+                            case "firstPlayerSiegeList":
                                 PlayerGame = game.getGamePlayer1();
                                 List = PlayerGame.getSiege();
                                 Scores = PlayerGame.getSiegeScores();
@@ -467,7 +505,7 @@ public class GameMenuController {
                                 PlayerGame.setHand(handList);
                                 break;
 
-                            case "secondPlayerCloseCombatList" :
+                            case "secondPlayerCloseCombatList":
                                 PlayerGame = game.getGamePlayer2();
                                 List = PlayerGame.getCloseCombat();
                                 Scores = PlayerGame.getCloseCombatScores();
@@ -493,7 +531,7 @@ public class GameMenuController {
                                 PlayerGame.setHand(handList);
                                 break;
 
-                            case "secondPlayerRangedList" :
+                            case "secondPlayerRangedList":
                                 PlayerGame = game.getGamePlayer2();
                                 List = PlayerGame.getRangedCombat();
                                 Scores = PlayerGame.getRangedCombatScores();
@@ -519,7 +557,7 @@ public class GameMenuController {
                                 PlayerGame.setHand(handList);
                                 break;
 
-                            case "secondPlayerSiegeList" :
+                            case "secondPlayerSiegeList":
                                 PlayerGame = game.getGamePlayer2();
                                 List = PlayerGame.getSiege();
                                 Scores = PlayerGame.getSiegeScores();
@@ -550,8 +588,8 @@ public class GameMenuController {
                     }
                 });
             }
+            changeTurn();
         }
-        changeTurn();
     }
 
     private void handleImageViewClick(ImageView imageView, Card selectedCard) {
@@ -559,7 +597,7 @@ public class GameMenuController {
             Function function = new Function();
             function.run(this, imageView, selectedCard);
         }
-        resetRowAndPlaceHighlights();
+        updateGameState(User.getLoggedInUser().getCurrentGame());
         changeTurn();
     }
 
@@ -576,7 +614,7 @@ public class GameMenuController {
         ListView<?> listView = currentPlayerHand;
         Card selectedCard = this.selectedCard;
         System.out.println("currentPlayerHandClicked: " + selectedCard.getName());
-        handleListViewClick(listView, selectedCard);
+        if (selectedCard != null) handleListViewClick(listView, selectedCard);
     }
 
     @FXML
@@ -584,7 +622,7 @@ public class GameMenuController {
         ListView<?> listView = firstPlayerCloseCombatList;
         Card selectedCard = this.selectedCard;
         System.out.println("firstPlayerCloseCombatListClicked: " + selectedCard.getName());
-        handleListViewClick(listView, selectedCard);
+        if (selectedCard != null) handleListViewClick(listView, selectedCard);
     }
 
     @FXML
@@ -592,7 +630,7 @@ public class GameMenuController {
         ListView<?> listView = firstPlayerRangedList;
         Card selectedCard = this.selectedCard;
         System.out.println("firstPlayerRangedListClicked: " + selectedCard.getName());
-        handleListViewClick(listView, selectedCard);
+        if (selectedCard != null) handleListViewClick(listView, selectedCard);
     }
 
     @FXML
@@ -600,7 +638,7 @@ public class GameMenuController {
         ListView<?> listView = firstPlayerSiegeList;
         Card selectedCard = this.selectedCard;
         System.out.println("firstPlayerSiegeListClicked: " + selectedCard.getName());
-        handleListViewClick(listView, selectedCard);
+        if (selectedCard != null) handleListViewClick(listView, selectedCard);
     }
 
     @FXML
@@ -608,7 +646,7 @@ public class GameMenuController {
         ListView<?> listView = secondPlayerCloseCombatList;
         Card selectedCard = this.selectedCard;
         System.out.println("secondPlayerCloseCombatListClicked: " + selectedCard.getName());
-        handleListViewClick(listView, selectedCard);
+        if (selectedCard != null) handleListViewClick(listView, selectedCard);
     }
 
     @FXML
@@ -616,7 +654,7 @@ public class GameMenuController {
         ListView<?> listView = secondPlayerRangedList;
         Card selectedCard = this.selectedCard;
         System.out.println("secondPlayerRangedListClicked: " + selectedCard.getName());
-        handleListViewClick(listView, selectedCard);
+        if (selectedCard != null) handleListViewClick(listView, selectedCard);
     }
 
     @FXML
@@ -624,8 +662,9 @@ public class GameMenuController {
         ListView<?> listView = secondPlayerSiegeList;
         Card selectedCard = this.selectedCard;
         System.out.println("secondPlayerSiegeListClicked: " + selectedCard.getName());
-        handleListViewClick(listView, selectedCard);
+        if (selectedCard != null) handleListViewClick(listView, selectedCard);
     }
+
     @FXML
     public void weatherCardClicked(MouseEvent event) {
         ImageView imageView = weatherCard;
@@ -638,48 +677,49 @@ public class GameMenuController {
     public void firstPlayerSiegeBoostClicked(MouseEvent event) {
         ImageView imageView = firstPlayerSiegeBoost;
         System.out.println("firstPlayerSiegeBoostClicked: " + selectedCard.getName());
-        handleImageViewClick(imageView, selectedCard);
+        if (selectedCard != null) handleImageViewClick(imageView, selectedCard);
     }
 
     @FXML
     public void firstPlayerRangedBoostClicked(MouseEvent event) {
         ImageView imageView = firstPlayerRangedBoost;
         System.out.println("firstPlayerRangedBoostClicked: " + selectedCard.getName());
-        handleImageViewClick(imageView, selectedCard);
+        if (selectedCard != null) handleImageViewClick(imageView, selectedCard);
     }
 
     @FXML
     public void firstPlayerCloseCombatBoostClicked(MouseEvent event) {
         ImageView imageView = firstPlayerCloseCombatBoost;
         System.out.println("firstPlayerCloseCombatBoostClicked: " + selectedCard.getName());
-        handleImageViewClick(imageView, selectedCard);
+        if (selectedCard != null) handleImageViewClick(imageView, selectedCard);
     }
 
     @FXML
     public void secondPlayerCloseCombatBoostClicked(MouseEvent event) {
         ImageView imageView = secondPlayerCloseCombatBoost;
         System.out.println("secondPlayerCloseCombatBoostClicked: " + selectedCard.getName());
-        handleImageViewClick(imageView, selectedCard);
+        if (selectedCard != null) handleImageViewClick(imageView, selectedCard);
     }
 
     @FXML
     public void secondPlayerRangedBoostClicked(MouseEvent event) {
         ImageView imageView = secondPlayerRangedBoost;
         System.out.println("secondPlayerRangedBoostClicked: " + selectedCard.getName());
-        handleImageViewClick(imageView, selectedCard);
+        if (selectedCard != null) handleImageViewClick(imageView, selectedCard);
     }
 
     @FXML
     public void secondPlayerSiegeBoostClicked(MouseEvent event) {
         ImageView imageView = secondPlayerSiegeBoost;
         System.out.println("secondPlayerSiegeBoostClicked: " + selectedCard.getName());
-        handleImageViewClick(imageView, selectedCard);
+        if (selectedCard != null) handleImageViewClick(imageView, selectedCard);
     }
 
     @FXML
     public void firstPlayerPassClicked(MouseEvent mouseEvent) {
         Game game = User.getLoggedInUser().getCurrentGame();
         game.getGamePlayer1().setPassedTheGame(true);
+        updateGameState(game);
         changeTurn();
     }
 
@@ -687,24 +727,169 @@ public class GameMenuController {
     public void secondPlayerPassClicked(MouseEvent mouseEvent) {
         Game game = User.getLoggedInUser().getCurrentGame();
         game.getGamePlayer2().setPassedTheGame(true);
-        game.setTurnNo(game.getTurnNo() + 1);
-        game.setActivePlayer(game.getPlayer1());
+        updateGameState(game);
         changeTurn();
     }
 
     private void isRoundEnd() {
-        isGameEnd();
+        Game game = User.getLoggedInUser().getCurrentGame();
+        EachPlayerGame firstPlayerGame = game.getGamePlayer1();
+        EachPlayerGame secondPlayerGame = game.getGamePlayer2();
+
+        boolean firstPlayerPassed = firstPlayerGame.isPassedTheGame() ||
+                (firstPlayerGame.getHand().isEmpty() && firstPlayerGame.isLeaderCardUsed());
+        boolean secondPlayerPassed = secondPlayerGame.isPassedTheGame() ||
+                (secondPlayerGame.getHand().isEmpty() && secondPlayerGame.isLeaderCardUsed());
+        if (firstPlayerPassed && secondPlayerPassed) endOfRound();
     }
 
     private void endOfRound() {
+        Game game = User.getLoggedInUser().getCurrentGame();
+        System.out.println("End of round number " + game.getRoundNo());
+        EachPlayerGame firstPlayerGame = game.getGamePlayer1();
+        EachPlayerGame secondPlayerGame = game.getGamePlayer2();
+        firstPlayerGame.setPassedTheGame(false);
+        secondPlayerGame.setPassedTheGame(false);
 
+        switch (game.getRoundNo()) {
+            case 1:
+                processRound(game, firstPlayerGame, secondPlayerGame, 1);
+                showNextRoundAlert();
+                break;
+            case 2:
+                processRound(game, firstPlayerGame, secondPlayerGame, 2);
+                if (firstPlayerGame.getCrystals() != 0 && secondPlayerGame.getCrystals() != 0) showNextRoundAlert();
+                isGameEnd();
+                break;
+            case 3:
+                processRound(game, firstPlayerGame, secondPlayerGame, 3);
+                endOfGame();
+                break;
+        }
+
+        game.setRoundNo(game.getRoundNo() + 1);
+        updateGameState(game);
+    }
+
+    private void showNextRoundAlert() {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Next Round");
+            alert.setHeaderText(null);
+            alert.setContentText("The next round is beginning!");
+
+            alert.showAndWait();
+        });
+    }
+
+    private void processRound(Game game, EachPlayerGame firstPlayerGame, EachPlayerGame secondPlayerGame, int RoundNo) {
+
+        switch (RoundNo) {
+            case 1:
+                firstPlayerGame.setFirstRoundScore(firstPlayerGame.getTotalBoardPower());
+                secondPlayerGame.setFirstRoundScore(secondPlayerGame.getTotalBoardPower());
+                break;
+            case 2:
+                firstPlayerGame.setSecondRoundScore(firstPlayerGame.getTotalBoardPower());
+                secondPlayerGame.setSecondRoundScore(secondPlayerGame.getTotalBoardPower());
+                break;
+            case 3:
+                firstPlayerGame.setThirdRoundScore(firstPlayerGame.getTotalBoardPower());
+                secondPlayerGame.setThirdRoundScore(secondPlayerGame.getTotalBoardPower());
+                break;
+        }
+
+        if (firstPlayerGame.getTotalBoardPower() > secondPlayerGame.getTotalBoardPower()) {
+            setRoundWinner(game, firstPlayerGame, secondPlayerGame, RoundNo, game.getPlayer1());
+        } else if (firstPlayerGame.getTotalBoardPower() < secondPlayerGame.getTotalBoardPower()) {
+            setRoundWinner(game, firstPlayerGame, secondPlayerGame, RoundNo, game.getPlayer2());
+        } else {
+            handleDraw(game, firstPlayerGame, secondPlayerGame, RoundNo);
+        }
+
+        switch (RoundNo) {
+            case 1 :
+                northernRealms();
+                monsters();
+                clearBoard();
+                break;
+            case 2 :
+                skellige();
+                northernRealms();
+                monsters();
+                clearBoard();
+        }
+    }
+
+    private void setRoundWinner(Game game, EachPlayerGame firstPlayerGame, EachPlayerGame secondPlayerGame, int RoundNo, User winner) {
+        switch (RoundNo) {
+            case 1:
+                game.setFirstRoundWinner(winner);
+                break;
+            case 2:
+                game.setSecondRoundWinner(winner);
+                break;
+            case 3:
+                game.setThirdRoundWinner(winner);
+                break;
+        }
+        if (winner == null) {
+            System.out.println("draw");
+            firstPlayerGame.setCrystals(firstPlayerGame.getCrystals() - 1);
+            secondPlayerGame.setCrystals(secondPlayerGame.getCrystals() - 1);
+        }else if (winner.equals(game.getPlayer1())) {
+            System.out.println("first player won the round");
+            secondPlayerGame.setCrystals(secondPlayerGame.getCrystals() - 1);
+        } else {
+            System.out.println("second player won the round");
+            firstPlayerGame.setCrystals(firstPlayerGame.getCrystals() - 1);
+        }
+    }
+
+    private void handleDraw(Game game, EachPlayerGame firstPlayerGame, EachPlayerGame secondPlayerGame, int RoundNo) {
+        if (firstPlayerGame.getFaction().equals(Faction.getFactionByName("Nilfgaard"))) {
+            if (secondPlayerGame.getFaction().equals(Faction.getFactionByName("Nilfgaard"))) {
+                setRoundWinner(game, firstPlayerGame, secondPlayerGame, RoundNo, null);
+            } else {
+                setRoundWinner(game, firstPlayerGame, secondPlayerGame, RoundNo, game.getPlayer1());
+            }
+        } else {
+            if (secondPlayerGame.getFaction().equals(Faction.getFactionByName("Nilfgaard"))) {
+                setRoundWinner(game, firstPlayerGame, secondPlayerGame, RoundNo, game.getPlayer2());
+            } else {
+                setRoundWinner(game, firstPlayerGame, secondPlayerGame, RoundNo, null);
+            }
+        }
     }
 
     private void isGameEnd() {
+        Game game = User.getLoggedInUser().getCurrentGame();
+        if (game.getGamePlayer1().getCrystals() == 0 || game.getGamePlayer2().getCrystals() == 0) endOfGame();
     }
 
     private void endOfGame() {
+        Game game = User.getLoggedInUser().getCurrentGame();
+        EachPlayerGame firstPlayerGame = game.getGamePlayer1();
+        EachPlayerGame secondPlayerGame = game.getGamePlayer2();
 
+        if (firstPlayerGame.getCrystals() == 0 ) {
+            if (secondPlayerGame.getCrystals() == 0) game.setStatement(Statement.Tie);
+            else game.setStatement(Statement.Player2WonTheGame);
+        } else game.setStatement(Statement.Player1WonTheGame);
+
+        ArrayList<Game> games = game.getPlayer1().getGames();
+        games.add(game);
+        game.getPlayer1().setGames(games);
+        games = game.getPlayer2().getGames();
+        games.add(game);
+        game.getPlayer2().setGames(games);
+
+        EndOfTheGame endOfTheGame = new EndOfTheGame();
+        try {
+            endOfTheGame.start(GameMenu.stage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void secondPlayerLeaderCardClicked(MouseEvent mouseEvent) {
@@ -717,12 +902,17 @@ public class GameMenuController {
     }
 
     private void changeTurn() {
-        calculateScoresWeather();
-        isRoundEnd();
+        if (User.getLoggedInUser().getCurrentGame().getWeatherCard() != null) calculateScoresWeather();
         Game game = User.getLoggedInUser().getCurrentGame();
         game.setTurnNo(game.getTurnNo() + 1);
-        if (game.getActivePlayer().equals(game.getPlayer1())) game.setActivePlayer(game.getPlayer2());
-        else game.setActivePlayer(game.getPlayer1());
+        if (game.getActivePlayer().equals(game.getPlayer1()) || game.getGamePlayer1().isPassedTheGame()) {
+            game.setActivePlayer(game.getPlayer2());
+        }
+        else if (game.getActivePlayer().equals(game.getPlayer2()) || game.getGamePlayer2().isPassedTheGame()) {
+            game.setActivePlayer(game.getPlayer1());
+        }
+        updateGameState(game);
+        isRoundEnd();
     }
 
     private void updateScoresByWeatherCard(ObservableList<Card> cards, HashMap<Card, List<Integer>> cardsScore) {
@@ -775,4 +965,376 @@ public class GameMenuController {
                 break;
         }
     }
+
+    public void cheatAddCardToHand() {
+        Game game = User.getLoggedInUser().getCurrentGame();
+        User user = game.getActivePlayer();
+        Card card = null;
+        HashMap<Card, Integer> deck;    // this Integer is count
+        ObservableList<Card> hand;
+        Random random = new Random();
+        int count = 0;
+        if (user.equals(game.getPlayer1())) {
+            deck = game.getGamePlayer1().getDeck();
+            int index = random.nextInt(deck.size());
+            int i = 0;
+            for (Map.Entry<Card, Integer> entry : deck.entrySet()) {
+                if (i == index) {
+                    card = entry.getKey();
+                    count = entry.getValue();
+                }
+                i++;
+            }
+            hand = game.getGamePlayer1().getHand();
+            for (int j = 0; j < count; j++) {
+                hand.add(card);
+            }
+            game.getGamePlayer1().setHand(hand);
+            deck.remove(card);
+            if (count != 1) deck.put(card, count - 1);
+            game.getGamePlayer1().setDeck(deck);
+            int total = Integer.parseInt(firstPlayerRemainingCards.getText());
+            firstPlayerRemainingCards.setText(String.valueOf(total - 1));
+        }
+        if (user.equals(game.getPlayer2())) {
+            deck = game.getGamePlayer2().getDeck();
+            int index = random.nextInt(deck.size());
+            int i = 0;
+            for (Map.Entry<Card, Integer> entry : deck.entrySet()) {
+                if (i == index) {
+                    card = entry.getKey();
+
+                }
+                i++;
+            }
+            hand = game.getGamePlayer2().getHand();
+            hand.add(card);
+            game.getGamePlayer2().setHand(hand);
+            deck.remove(card);
+            game.getGamePlayer2().setDeck(deck);
+            int total = Integer.parseInt(secondPlayerRemainingCards.getText());
+            secondPlayerRemainingCards.setText(String.valueOf(total - 1));
+        }
+    }
+
+    public void cheatSetDefaultCrystal() {
+        Game game = User.getLoggedInUser().getCurrentGame();
+        User user = game.getActivePlayer();
+        if (user.equals(game.getPlayer1())) {
+            game.getGamePlayer1().setCrystals(2);
+            firstPlayerCrystal1.setVisible(true);
+            firstPlayerCrystal2.setVisible(true);
+        }
+        if (user.equals(game.getPlayer2())) {
+            game.getGamePlayer2().setCrystals(2);
+            secondPlayerCrystal1.setVisible(true);
+            secondPlayerCrystal2.setVisible(true);
+        }
+    }
+
+    public void cheatReturnTheBurnedCards() {
+        Game game = User.getLoggedInUser().getCurrentGame();
+        User user = game.getActivePlayer();
+        ObservableList<Card> hand;
+        ObservableList<Card> burnedCards;
+        if (user.equals(game.getPlayer1())) {
+            hand = game.getGamePlayer1().getHand();
+            burnedCards = game.getGamePlayer1().getBurnedCards();
+            hand.addAll(burnedCards);
+            game.getGamePlayer1().setHand(hand);
+            game.getGamePlayer1().setBurnedCards(null);
+        }
+        if (user.equals(game.getPlayer2())) {
+            hand = game.getGamePlayer2().getHand();
+            burnedCards = game.getGamePlayer2().getBurnedCards();
+            hand.addAll(burnedCards);
+            game.getGamePlayer2().setHand(hand);
+            game.getGamePlayer2().setBurnedCards(null);
+        }
+    }
+
+    public void cheatLeaderDefault() {
+        Game game = User.getLoggedInUser().getCurrentGame();
+        User user = game.getActivePlayer();
+        if (user.equals(game.getPlayer1())) {
+            game.getGamePlayer1().setLeaderCardUsed(false);
+            firstPlayerLeaderActive.setVisible(true);
+        }
+        if (user.equals(game.getPlayer2())) {
+            game.getGamePlayer2().setLeaderCardUsed(false);
+            secondPlayerLeaderActive.setVisible(true);
+
+        }
+    }
+
+    public void cheatPassRound() {  // pass round harif
+        Game game = User.getLoggedInUser().getCurrentGame();
+        User user = game.getActivePlayer();
+        if (user.equals(game.getPlayer1())) {
+            game.getGamePlayer2().setPassedTheGame(true);
+        }
+        if (user.equals(game.getPlayer2())) {
+            game.getGamePlayer1().setPassedTheGame(true);
+        }
+        changeTurn();
+    }
+
+    public void cheatPassGame() {   //namayesh e barandeh
+        Game game = User.getLoggedInUser().getCurrentGame();
+        User user = game.getActivePlayer();
+        changeTurn();
+        endOfGame();
+    }
+
+    public void handleKeyPress(javafx.scene.input.KeyEvent event) {
+        if (event.getCode() == KeyCode.A) {
+            cheatAddCardToHand();
+        }
+        if (event.getCode() == KeyCode.S) {
+            cheatSetDefaultCrystal();
+        }
+        if (event.getCode() == KeyCode.R) {
+            cheatReturnTheBurnedCards();
+        }
+        if (event.getCode() == KeyCode.L) {
+            cheatLeaderDefault();
+        }
+        if (event.getCode() == KeyCode.P) {
+            cheatPassRound();
+        }
+        if (event.getCode() == KeyCode.G) {
+            cheatPassGame();
+        }
+    }
+
+    private void clearBoard() {
+        Game game = User.getLoggedInUser().getCurrentGame();
+        if ((game.getRoundNo() == 2 && !game.getPlayer1().getFaction().equals(Faction.getFactionByName("Skellige")) &&
+                !game.getPlayer1().getFaction().equals(Faction.getFactionByName("Northern Realms")) &&
+                !game.getPlayer1().getFaction().equals(Faction.getFactionByName("Monsters"))) ||
+                (game.getRoundNo() == 1 && !game.getPlayer1().getFaction().equals(Faction.getFactionByName("Northern Realms")) &&
+                !game.getPlayer1().getFaction().equals(Faction.getFactionByName("Monsters"))))  {
+            HashMap<Card, List<Integer>> list = game.getGamePlayer1().getCloseCombatScores();
+            ObservableList<Card> discard = game.getGamePlayer1().getBurnedCards();
+            for (Card card : list.keySet()) {
+                for (int i = 0; i < list.get(card).size(); i++) {
+                    discard.add(card);
+                }
+            }
+            list.clear();
+            game.getGamePlayer1().setCloseCombatScores(list);
+
+            ObservableList<Card> cards = game.getGamePlayer1().getCloseCombat();
+            cards.clear();
+            game.getGamePlayer1().setCloseCombat(cards);
+
+            list = game.getGamePlayer1().getRangedCombatScores();
+            for (Card card : list.keySet()) {
+                for (int i = 0; i < list.get(card).size(); i++) {
+                    discard.add(card);
+                }
+            }
+            list.clear();
+            game.getGamePlayer1().setRangedCombatScores(list);
+
+            cards = game.getGamePlayer1().getRangedCombat();
+            cards.clear();
+            game.getGamePlayer1().setRangedCombat(cards);
+
+            list = game.getGamePlayer1().getSiegeScores();
+            for (Card card : list.keySet()) {
+                for (int i = 0; i < list.get(card).size(); i++) {
+                    discard.add(card);
+                }
+            }
+            list.clear();
+            game.getGamePlayer1().setSiegeScores(list);
+            game.getGamePlayer1().setBurnedCards(discard);
+
+            cards = game.getGamePlayer1().getSiege();
+            cards.clear();
+            game.getGamePlayer1().setSiege(cards);
+        }
+        if ((game.getRoundNo() == 2 && !game.getPlayer2().getFaction().equals(Faction.getFactionByName("Skellige")) &&
+                !game.getPlayer2().getFaction().equals(Faction.getFactionByName("Northern Realms")) &&
+                !game.getPlayer2().getFaction().equals(Faction.getFactionByName("Monsters"))) ||
+                (game.getRoundNo() == 1 && !game.getPlayer2().getFaction().equals(Faction.getFactionByName("Northern Realms")) &&
+                !game.getPlayer2().getFaction().equals(Faction.getFactionByName("Monsters"))))  {
+
+            HashMap<Card, List<Integer>> list = game.getGamePlayer2().getCloseCombatScores();
+            ObservableList<Card> discard = game.getGamePlayer2().getBurnedCards();
+            for (Card card : list.keySet()) {
+                for (int i = 0; i < list.get(card).size(); i++) {
+                    discard.add(card);
+                }
+            }
+            list.clear();
+            game.getGamePlayer2().setCloseCombatScores(list);
+
+            ObservableList<Card> cards = game.getGamePlayer2().getCloseCombat();
+            cards.clear();
+            game.getGamePlayer2().setCloseCombat(cards);
+
+            list = game.getGamePlayer2().getRangedCombatScores();
+            for (Card card : list.keySet()) {
+                for (int i = 0; i < list.get(card).size(); i++) {
+                    discard.add(card);
+                }
+            }
+            list.clear();
+            game.getGamePlayer2().setRangedCombatScores(list);
+
+            cards = game.getGamePlayer2().getRangedCombat();
+            cards.clear();
+            game.getGamePlayer2().setRangedCombat(cards);
+
+            list = game.getGamePlayer2().getSiegeScores();
+            for (Card card : list.keySet()) {
+                for (int i = 0; i < list.get(card).size(); i++) {
+                    discard.add(card);
+                }
+            }
+            list.clear();
+            game.getGamePlayer2().setSiegeScores(list);
+            game.getGamePlayer2().setBurnedCards(discard);
+
+            cards = game.getGamePlayer2().getSiege();
+            cards.clear();
+            game.getGamePlayer2().setSiege(cards);
+        }
+    }
+
+
+    private void skellige() {
+        Game game = User.getLoggedInUser().getCurrentGame();
+        EachPlayerGame firstPlayerGame = game.getGamePlayer1();
+        EachPlayerGame secondPlayerGame = game.getGamePlayer2();
+
+        if (game.getPlayer1().getFaction().equals(Faction.getFactionByName("Skellige"))) {
+            handleSkelligeFaction(firstPlayerGame);
+        }
+        if (game.getPlayer2().getFaction().equals(Faction.getFactionByName("Skellige"))) {
+            handleSkelligeFaction(secondPlayerGame);
+        }
+    }
+
+    private void handleSkelligeFaction(EachPlayerGame playerGame) {
+        moveTwoRandomCardsFromDiscardToHand(playerGame);
+        moveAllBoardCardsToDiscardAndReset(playerGame);
+    }
+
+    private void moveTwoRandomCardsFromDiscardToHand(EachPlayerGame playerGame) {
+        ObservableList<Card> discard = playerGame.getBurnedCards();
+        ObservableList<Card> hand = playerGame.getHand();
+
+        if (discard.size() < 2) {
+            return;
+        }
+
+        Collections.shuffle(discard);
+        for (int i = 0; i < 2; i++) {
+            Card card = discard.remove(0);
+            hand.add(card);
+        }
+
+        playerGame.setBurnedCards(discard);
+        playerGame.setHand(hand);
+    }
+
+    private void moveAllBoardCardsToDiscardAndReset(EachPlayerGame playerGame) {
+        ObservableList<Card> discard = playerGame.getBurnedCards();
+
+        discard.addAll(playerGame.getCloseCombat());
+        playerGame.getCloseCombat().clear();
+        playerGame.getCloseCombatScores().clear();
+        playerGame.setCloseCombat(FXCollections.observableArrayList());
+        playerGame.setCloseCombatScores(new HashMap<>());
+
+        discard.addAll(playerGame.getRangedCombat());
+        playerGame.getRangedCombat().clear();
+        playerGame.getRangedCombatScores().clear();
+        playerGame.setRangedCombat(FXCollections.observableArrayList());
+        playerGame.setRangedCombatScores(new HashMap<>());
+
+        discard.addAll(playerGame.getSiege());
+        playerGame.getSiege().clear();
+        playerGame.getSiegeScores().clear();
+        playerGame.setSiege(FXCollections.observableArrayList());
+        playerGame.setSiegeScores(new HashMap<>());
+
+        playerGame.setBurnedCards(discard);
+    }
+    private void northernRealms() {
+        Game game = User.getLoggedInUser().getCurrentGame();
+        EachPlayerGame firstPlayerGame = game.getGamePlayer1();
+        EachPlayerGame secondPlayerGame = game.getGamePlayer2();
+        if (game.getPlayer1().getFaction().equals(Faction.getFactionByName("Northern Realms"))) {
+            if (((game.getRoundNo() == 1) && (game.getFirstRoundWinner() != null) &&(game.getFirstRoundWinner().equals(game.getPlayer1()))) ||
+                    ((game.getRoundNo() == 2) && (game.getSecondRoundWinner() != null) &&(game.getSecondRoundWinner().equals(game.getPlayer1())))){
+                NR(firstPlayerGame);
+            }
+        }
+        if (game.getPlayer2().getFaction().equals(Faction.getFactionByName("Northern Realms"))) {
+            if (((game.getRoundNo() == 1) && (game.getFirstRoundWinner() != null) &&(game.getFirstRoundWinner().equals(game.getPlayer2()))) ||
+                    ((game.getRoundNo() == 2) && (game.getSecondRoundWinner() != null) &&(game.getSecondRoundWinner().equals(game.getPlayer2())))){
+                NR(secondPlayerGame);
+            }
+        }
+    }
+
+    private void NR(EachPlayerGame playerGame) {
+        HashMap<Card, List<Integer>> list = playerGame.getCloseCombatScores();
+        ObservableList<Card> discard = playerGame.getBurnedCards();
+        for (Card card : list.keySet()) {
+            for (int i = 0; i < list.get(card).size(); i++) {
+                discard.add(card);
+            }
+        }
+        list.clear();
+        playerGame.setCloseCombatScores(list);
+
+        list = playerGame.getRangedCombatScores();
+        for (Card card : list.keySet()) {
+            for (int i = 0; i < list.get(card).size(); i++) {
+                discard.add(card);
+            }
+        }
+        list.clear();
+        playerGame.setRangedCombatScores(list);
+
+        list = playerGame.getSiegeScores();
+        for (Card card : list.keySet()) {
+            for (int i = 0; i < list.get(card).size(); i++) {
+                discard.add(card);
+            }
+        }
+        list.clear();
+        playerGame.setSiegeScores(list);
+        playerGame.setBurnedCards(discard);
+
+        HashMap<Card, Integer> deck = playerGame.getDeck();
+        ObservableList<Card> hand = playerGame.getHand();
+        int randomIndex = this.random.nextInt(deck.keySet().size());
+        Card randomCard = new ArrayList<>(deck.keySet()).get(randomIndex);
+        hand.add(randomCard);
+        int count = deck.get(randomCard);
+        if (count > 1) {
+            deck.put(randomCard, count - 1);
+        } else {
+            deck.remove(randomCard);
+        }
+        playerGame.setHand(hand);
+        playerGame.setDeck(deck);
+    }
+
+    private void monsters() {
+        Game game = User.getLoggedInUser().getCurrentGame();
+        if (game.getPlayer1().getFaction().equals(Faction.getFactionByName("Monsters"))) {
+
+        }
+        if (game.getPlayer2().getFaction().equals(Faction.getFactionByName("Monsters"))) {
+
+        }
+    }
+
 }
