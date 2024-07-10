@@ -57,6 +57,11 @@ public class EndOFTheGameController {
         else Round2W.setText("Draw");
         if (game.getThirdRoundWinner() != null) Round3W.setText(String.valueOf(game.getThirdRoundWinner().getUsername()));
         else Round3W.setText("Draw");
+
+
+        game.getPlayer1().setCurrentGame(null);
+        game.getPlayer2().setCurrentGame(null);
+
     }
 
 
