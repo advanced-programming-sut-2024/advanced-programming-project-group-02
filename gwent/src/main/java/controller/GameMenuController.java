@@ -808,6 +808,11 @@ public class GameMenuController {
 
     private void processRound(Game game, EachPlayerGame firstPlayerGame, EachPlayerGame secondPlayerGame, int RoundNo) {
 
+        boolean isThereCow1 = (firstPlayerGame.getRangedCombat().contains(Card.getCardByID(610)));
+        boolean isThereKambi1 = (firstPlayerGame.getCloseCombat().contains(Card.getCardByID(110)));
+        boolean isThereCow2 = (secondPlayerGame.getRangedCombat().contains(Card.getCardByID(610)));
+        boolean isThereKambi2 = (secondPlayerGame.getCloseCombat().contains(Card.getCardByID(110)));
+
         switch (RoundNo) {
             case 1:
                 firstPlayerGame.setFirstRoundScore(firstPlayerGame.getTotalBoardPower());
@@ -831,23 +836,6 @@ public class GameMenuController {
             handleDraw(game, firstPlayerGame, secondPlayerGame, RoundNo);
         }
 
-        boolean isThereCow1 = false;
-        boolean isThereKambi1 = false;
-        boolean isThereCow2 = false;
-        boolean isThereKambi2 = false;
-
-        if ((firstPlayerGame.getRangedCombat() != null) && (firstPlayerGame.getRangedCombat().contains(Card.getCardByName("Cow")))) {
-            isThereCow1 = true;
-        }
-        if ((firstPlayerGame.getCloseCombat() != null) && (firstPlayerGame.getCloseCombat().contains(Card.getCardByName("Kambi")))) {
-            isThereKambi1 = true;
-        }
-        if ((secondPlayerGame.getRangedCombat() != null) && (secondPlayerGame.getRangedCombat().contains(Card.getCardByName("Cow")))) {
-            isThereCow2 = true;
-        }
-        if ((secondPlayerGame.getCloseCombat() != null) && (secondPlayerGame.getCloseCombat().contains(Card.getCardByName("Kambi")))) {
-            isThereKambi2 = true;
-        }
 
         switch (RoundNo) {
             case 1 :
@@ -866,20 +854,35 @@ public class GameMenuController {
         isThereCow(secondPlayerGame, isThereCow2);
         isThereKambi(firstPlayerGame, isThereKambi1);
         isThereKambi(secondPlayerGame, isThereKambi2);
+        ObservableList discard = firstPlayerGame.getBurnedCards();
+        discard.remove(Card.getCardByID(110));
+        discard.remove(Card.getCardByID(610));
+        firstPlayerGame.setBurnedCards(discard);
+        discard = secondPlayerGame.getBurnedCards();
+        discard.remove(Card.getCardByID(110));
+        discard.remove(Card.getCardByID(610));
+        secondPlayerGame.setBurnedCards(discard);
     }
 
     private void isThereKambi(EachPlayerGame playerGame, boolean isThereKambi) {
         if (isThereKambi) {
-            HashMap<Card, List<Integer>> listScores = playerGame.getRangedCombatScores();
-            ObservableList<Card> list = playerGame.getRangedCombat();
+            HashMap<Card, List<Integer>> listScores = playerGame.getCloseCombatScores();
+            ObservableList<Card> list = playerGame.getCloseCombat();
             Card kambiCard = Card.getCardByName("Kambi");
-            list.add(kambiCard);
-            List<Integer> scores = listScores.get(kambiCard);
-            scores.add(scores.size(), 8);
-            listScores.put(kambiCard, scores);
 
-            playerGame.setRangedCombatScores(listScores);
-            playerGame.setRangedCombat(list);
+            if (list.contains(kambiCard)) {
+                List<Integer> scores = listScores.get(kambiCard);
+                scores.add(8);
+                listScores.put(kambiCard, scores);
+            } else {
+                list.add(kambiCard);
+                List<Integer> scores = new ArrayList<>();
+                scores.add(8);
+                listScores.put(kambiCard, scores);
+            }
+
+            playerGame.setCloseCombatScores(listScores);
+            playerGame.setCloseCombat(list);
         }
     }
 
@@ -888,10 +891,17 @@ public class GameMenuController {
             HashMap<Card, List<Integer>> listScores = playerGame.getRangedCombatScores();
             ObservableList<Card> list = playerGame.getRangedCombat();
             Card cowCard = Card.getCardByName("Cow");
-            list.add(cowCard);
-            List<Integer> scores = listScores.get(cowCard);
-            scores.add(scores.size(), 8);
-            listScores.put(cowCard, scores);
+
+            if (list.contains(cowCard)) {
+                List<Integer> scores = listScores.get(cowCard);
+                scores.add(8);
+                listScores.put(cowCard, scores);
+            } else {
+                list.add(cowCard);
+                List<Integer> scores = new ArrayList<>();
+                scores.add(8);
+                listScores.put(cowCard, scores);
+            }
 
             playerGame.setRangedCombatScores(listScores);
             playerGame.setRangedCombat(list);
