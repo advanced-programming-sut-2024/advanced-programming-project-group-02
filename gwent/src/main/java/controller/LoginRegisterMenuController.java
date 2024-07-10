@@ -1,9 +1,11 @@
 package controller;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import model.User;
 import view.*;
@@ -46,10 +48,14 @@ public class LoginRegisterMenuController {
     public TextField answerForget;
 
     //Json files :
-
+    private static final String USERS_FILE = "users.json";
+    private static Gson gson;
+    static {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(Image.class, new ImageSerializer());
+        gson = gsonBuilder.create();
+    }
     private static Map<String, User> usersMap = new HashMap<>();
-    private static final String FILE_PATH = "users.json";
-    private static final Gson gson = new Gson();
 
     //in ha movaghate -> 6 line payyin
     private static final String UPPERCASE = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -147,47 +153,42 @@ public class LoginRegisterMenuController {
         }
     }
 
-
     public static void loadUsers() {
-        try (Reader reader = new FileReader(FILE_PATH)) {
-            for (Map.Entry<String, User> entry : usersMap.entrySet()) {
-                User value = entry.getValue();
-                User.addToUsers(value);
-            }
-            Type userType = new TypeToken<Map<String, User>>() {
-            }.getType();
-            usersMap = gson.fromJson(reader, userType);
-            if (usersMap == null) {
-                usersMap = new HashMap<>();
-            }
-        } catch (FileNotFoundException e) {
-            System.out.println("No previous user data found. Starting fresh.");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        List <User> users;
+//        if (checkFile()) {
+//            try (FileReader reader = new FileReader(USERS_FILE)) {
+//                Type userListType = new TypeToken<List<User>>() {
+//                }.getType();
+//                users = new Gson().fromJson(reader, userListType);
+//                if (users == null) {
+//                    users = new ArrayList<>();
+//                }
+//                User.setUsers((ArrayList<User>) users);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
     }
 
     public static void saveUsers() {
-        ArrayList<User> users = User.getUsers();
-
-        if (users == null) {
-            System.out.println("Users list is null. No data to save.");
-            return;
-        }
-
-        usersMap.clear();
-
-        for (User user : users) {
-            usersMap.put(user.getUsername(), user);
-        }
-
-        try (Writer writer = new FileWriter(FILE_PATH)) {
-            gson.toJson(usersMap, writer);
-            System.out.println("Users saved successfully to " + FILE_PATH);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        ArrayList <User> users = User.getUsers();
+//        try (FileWriter writer = new FileWriter(USERS_FILE)) {
+//            new Gson().toJson(users, writer);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
+
+//    public static boolean isEmptyFile() {
+//        File file = new File(USERS_FILE);
+//        return file.length() == 0;
+//    }
+
+    private static boolean checkFile() {
+        File file = new File(USERS_FILE);
+        return file.exists();
+    }
+
 
     public void forgetPassword(MouseEvent mouseEvent) {
         String usernameForgetText = this.usernameForget.getText();

@@ -1,7 +1,6 @@
 package view;
 
 import controller.LoginRegisterMenuController;
-import controller.SetDefaults;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,15 +11,13 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
 import java.util.Optional;
 
-public class PregameMenuNR extends Application {
+public class EndOfTheGame extends Application {
     public static Stage stage;
 
     @Override
     public void start(Stage stage) throws Exception {
-        SetDefaults.run();
 
         Button closeButton = new Button("Close Application");
         closeButton.setOnAction(e -> closeApplication(stage));
@@ -28,11 +25,11 @@ public class PregameMenuNR extends Application {
         VBox layout = new VBox(10);
         layout.getChildren().add(closeButton);
 
-        view.PregameMenuNR.stage = stage;
-        Parent root = FXMLLoader.load((getClass().getResource("/FXML/PregameMenuNR.fxml")));
+        EndOfTheGame.stage = stage;
+        Parent root = FXMLLoader.load((getClass().getResource("/FXML/EndOfTheGame.fxml")));
         Scene scene = new Scene(root);
         stage.setScene(scene);
-        stage.setTitle("Pregame Menu");
+        stage.setTitle("Game Done");
         stage.getIcons().add(new Image((getClass().getResourceAsStream("/Images/GwentIcon.jpg"))));
         stage.show();
 
@@ -57,4 +54,5 @@ public class PregameMenuNR extends Application {
             stage.close();
         }
     }
+
 }

@@ -7,8 +7,8 @@ import java.util.HashMap;
 
 public class User {
 
-    private static ArrayList<User> users = new ArrayList<>();
-    private static ArrayList<Game> games = new ArrayList<>();
+    public static ArrayList<User> users = new ArrayList<>();
+    private ArrayList<Game> games = new ArrayList<>();
 
     private static User loggedInUser;
 
@@ -184,16 +184,16 @@ public class User {
     }
 
 
-    public static ArrayList<Game> getGames() {
+    public ArrayList<Game> getGames() {
 
         return games;
 
     }
 
 
-    public static void setGames(ArrayList<Game> games) {
+    public void setGames(ArrayList<Game> games) {
 
-        User.games = games;
+        this.games = games;
 
     }
 

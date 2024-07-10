@@ -2,11 +2,14 @@ package controller;
 
 import enums.Ability;
 import enums.CardType;
+import enums.Statement;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
@@ -14,8 +17,9 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import model.*;
 import view.CardListCellFactory;
+import view.EndOfTheGame;
+import view.GameMenu;
 
-import java.awt.event.KeyEvent;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -126,6 +130,8 @@ public class GameMenuController {
 
     private Card selectedCard;
 
+    private Random random = new Random();
+
 
     @FXML
     public void initialize() {
@@ -142,13 +148,30 @@ public class GameMenuController {
         secondPlayerLeaderCard.setImage(game.getPlayer2().getLeaderCard().getImage());
         firstPlayerCards.setImage(factionPlayer1.getImage());
         secondPlayerCards.setImage(factionPlayer2.getImage());
+        if (factionPlayer1.equals(Faction.getFactionByName("Scoia'tael"))) {
+            if (factionPlayer2.equals(Faction.getFactionByName("Scoia'tael"))) {
+                boolean random = this.random.nextBoolean();
+                if (random) game.setActivePlayer(game.getPlayer1());
+                else game.setActivePlayer(game.getPlayer2());
+            } else {
+                game.setActivePlayer(game.getPlayer1());
+            }
+        } else {
+            if (factionPlayer2.equals(Faction.getFactionByName("Scoia'tael"))) {
+                game.setActivePlayer(game.getPlayer2());
+            } else {
+                boolean random = this.random.nextBoolean();
+                if (random) game.setActivePlayer(game.getPlayer1());
+                else game.setActivePlayer(game.getPlayer2());
+            }
+        }
         updateGameState(game);
     }
 
     public void updateGameState(Game game) {
         showTurnInfo(game);
-        firstPlayerCountOfCards.setText(String.valueOf(game.getPlayer1().getDeck().size()));
-        secondPlayerCountOfCards.setText(String.valueOf(game.getPlayer2().getDeck().size()));
+        firstPlayerCountOfCards.setText(String.valueOf(game.getGamePlayer1().getNumberOfCardsInDeck()));
+        secondPlayerCountOfCards.setText(String.valueOf(game.getGamePlayer2().getNumberOfCardsInDeck()));
         if (game.getGamePlayer1().getCrystals() == 1) firstPlayerCrystal2.setVisible(false);
         if (game.getGamePlayer2().getCrystals() == 1) secondPlayerCrystal2.setVisible(false);
         firstPlayerRemainingCards.setText(String.valueOf(game.getGamePlayer1().getHand().size()));
@@ -217,7 +240,7 @@ public class GameMenuController {
             }
             if (firstPlayerGame.isLeaderCardUsed()) firstPlayerLeaderActive.setVisible(false);
             secondPlayerPass.setVisible(false);
-            if (firstPlayerGame.isPassedTheGame()) firstPlayerPass.setVisible(false);
+            firstPlayerPass.setVisible(!firstPlayerGame.isPassedTheGame());
         } else {
             currentPlayerHand.setItems(secondPlayerGame.getSortedHand());
             ObservableList<Card> burnedCards = secondPlayerGame.getBurnedCards();
@@ -229,7 +252,7 @@ public class GameMenuController {
             }
             if (secondPlayerGame.isLeaderCardUsed()) secondPlayerLeaderActive.setVisible(false);
             firstPlayerPass.setVisible(false);
-            if (secondPlayerGame.isPassedTheGame()) secondPlayerPass.setVisible(false);
+            secondPlayerPass.setVisible(!secondPlayerGame.isPassedTheGame());
         }
 
         currentPlayerHand.setCellFactory(new CardListCellFactory(74, 39));
@@ -566,6 +589,7 @@ public class GameMenuController {
             Function function = new Function();
             function.run(this, imageView, selectedCard);
         }
+        updateGameState(User.getLoggedInUser().getCurrentGame());
         changeTurn();
     }
 
@@ -582,7 +606,7 @@ public class GameMenuController {
         ListView<?> listView = currentPlayerHand;
         Card selectedCard = this.selectedCard;
         System.out.println("currentPlayerHandClicked: " + selectedCard.getName());
-        handleListViewClick(listView, selectedCard);
+        if (selectedCard != null) handleListViewClick(listView, selectedCard);
     }
 
     @FXML
@@ -590,7 +614,7 @@ public class GameMenuController {
         ListView<?> listView = firstPlayerCloseCombatList;
         Card selectedCard = this.selectedCard;
         System.out.println("firstPlayerCloseCombatListClicked: " + selectedCard.getName());
-        handleListViewClick(listView, selectedCard);
+        if (selectedCard != null) handleListViewClick(listView, selectedCard);
     }
 
     @FXML
@@ -598,7 +622,7 @@ public class GameMenuController {
         ListView<?> listView = firstPlayerRangedList;
         Card selectedCard = this.selectedCard;
         System.out.println("firstPlayerRangedListClicked: " + selectedCard.getName());
-        handleListViewClick(listView, selectedCard);
+        if (selectedCard != null) handleListViewClick(listView, selectedCard);
     }
 
     @FXML
@@ -606,7 +630,7 @@ public class GameMenuController {
         ListView<?> listView = firstPlayerSiegeList;
         Card selectedCard = this.selectedCard;
         System.out.println("firstPlayerSiegeListClicked: " + selectedCard.getName());
-        handleListViewClick(listView, selectedCard);
+        if (selectedCard != null) handleListViewClick(listView, selectedCard);
     }
 
     @FXML
@@ -614,7 +638,7 @@ public class GameMenuController {
         ListView<?> listView = secondPlayerCloseCombatList;
         Card selectedCard = this.selectedCard;
         System.out.println("secondPlayerCloseCombatListClicked: " + selectedCard.getName());
-        handleListViewClick(listView, selectedCard);
+        if (selectedCard != null) handleListViewClick(listView, selectedCard);
     }
 
     @FXML
@@ -622,7 +646,7 @@ public class GameMenuController {
         ListView<?> listView = secondPlayerRangedList;
         Card selectedCard = this.selectedCard;
         System.out.println("secondPlayerRangedListClicked: " + selectedCard.getName());
-        handleListViewClick(listView, selectedCard);
+        if (selectedCard != null) handleListViewClick(listView, selectedCard);
     }
 
     @FXML
@@ -630,7 +654,7 @@ public class GameMenuController {
         ListView<?> listView = secondPlayerSiegeList;
         Card selectedCard = this.selectedCard;
         System.out.println("secondPlayerSiegeListClicked: " + selectedCard.getName());
-        handleListViewClick(listView, selectedCard);
+        if (selectedCard != null) handleListViewClick(listView, selectedCard);
     }
 
     @FXML
@@ -645,48 +669,49 @@ public class GameMenuController {
     public void firstPlayerSiegeBoostClicked(MouseEvent event) {
         ImageView imageView = firstPlayerSiegeBoost;
         System.out.println("firstPlayerSiegeBoostClicked: " + selectedCard.getName());
-        handleImageViewClick(imageView, selectedCard);
+        if (selectedCard != null) handleImageViewClick(imageView, selectedCard);
     }
 
     @FXML
     public void firstPlayerRangedBoostClicked(MouseEvent event) {
         ImageView imageView = firstPlayerRangedBoost;
         System.out.println("firstPlayerRangedBoostClicked: " + selectedCard.getName());
-        handleImageViewClick(imageView, selectedCard);
+        if (selectedCard != null) handleImageViewClick(imageView, selectedCard);
     }
 
     @FXML
     public void firstPlayerCloseCombatBoostClicked(MouseEvent event) {
         ImageView imageView = firstPlayerCloseCombatBoost;
         System.out.println("firstPlayerCloseCombatBoostClicked: " + selectedCard.getName());
-        handleImageViewClick(imageView, selectedCard);
+        if (selectedCard != null) handleImageViewClick(imageView, selectedCard);
     }
 
     @FXML
     public void secondPlayerCloseCombatBoostClicked(MouseEvent event) {
         ImageView imageView = secondPlayerCloseCombatBoost;
         System.out.println("secondPlayerCloseCombatBoostClicked: " + selectedCard.getName());
-        handleImageViewClick(imageView, selectedCard);
+        if (selectedCard != null) handleImageViewClick(imageView, selectedCard);
     }
 
     @FXML
     public void secondPlayerRangedBoostClicked(MouseEvent event) {
         ImageView imageView = secondPlayerRangedBoost;
         System.out.println("secondPlayerRangedBoostClicked: " + selectedCard.getName());
-        handleImageViewClick(imageView, selectedCard);
+        if (selectedCard != null) handleImageViewClick(imageView, selectedCard);
     }
 
     @FXML
     public void secondPlayerSiegeBoostClicked(MouseEvent event) {
         ImageView imageView = secondPlayerSiegeBoost;
         System.out.println("secondPlayerSiegeBoostClicked: " + selectedCard.getName());
-        handleImageViewClick(imageView, selectedCard);
+        if (selectedCard != null) handleImageViewClick(imageView, selectedCard);
     }
 
     @FXML
     public void firstPlayerPassClicked(MouseEvent mouseEvent) {
         Game game = User.getLoggedInUser().getCurrentGame();
         game.getGamePlayer1().setPassedTheGame(true);
+        updateGameState(game);
         changeTurn();
     }
 
@@ -694,25 +719,141 @@ public class GameMenuController {
     public void secondPlayerPassClicked(MouseEvent mouseEvent) {
         Game game = User.getLoggedInUser().getCurrentGame();
         game.getGamePlayer2().setPassedTheGame(true);
-        game.setTurnNo(game.getTurnNo() + 1);
-        game.setActivePlayer(game.getPlayer1());
+        updateGameState(game);
         changeTurn();
     }
 
     private void isRoundEnd() {
+        Game game = User.getLoggedInUser().getCurrentGame();
+        EachPlayerGame firstPlayerGame = game.getGamePlayer1();
+        EachPlayerGame secondPlayerGame = game.getGamePlayer2();
 
+        boolean firstPlayerPassed = firstPlayerGame.isPassedTheGame() ||
+                (firstPlayerGame.getHand().isEmpty() && firstPlayerGame.isLeaderCardUsed());
+        boolean secondPlayerPassed = secondPlayerGame.isPassedTheGame() ||
+                (secondPlayerGame.getHand().isEmpty() && secondPlayerGame.isLeaderCardUsed());
+        if (firstPlayerPassed && secondPlayerPassed) endOfRound();
     }
 
     private void endOfRound() {
-        isGameEnd();
+        Game game = User.getLoggedInUser().getCurrentGame();
+        System.out.println("End of round number " + game.getRoundNo());
+        EachPlayerGame firstPlayerGame = game.getGamePlayer1();
+        EachPlayerGame secondPlayerGame = game.getGamePlayer2();
+
+        switch (game.getRoundNo()) {
+            case 1:
+                processRound(game, firstPlayerGame, secondPlayerGame, 1);
+                break;
+            case 2:
+                processRound(game, firstPlayerGame, secondPlayerGame, 2);
+                isGameEnd();
+                break;
+            case 3:
+                processRound(game, firstPlayerGame, secondPlayerGame, 3);
+                endOfGame();
+                break;
+        }
+
+        game.setRoundNo(game.getRoundNo() + 1);
+    }
+
+    private void processRound(Game game, EachPlayerGame firstPlayerGame, EachPlayerGame secondPlayerGame, int RoundNo) {
+        switch (RoundNo) {
+            case 1:
+                firstPlayerGame.setFirstRoundScore(firstPlayerGame.getTotalBoardPower());
+                secondPlayerGame.setFirstRoundScore(secondPlayerGame.getTotalBoardPower());
+                break;
+            case 2:
+                firstPlayerGame.setSecondRoundScore(firstPlayerGame.getTotalBoardPower());
+                secondPlayerGame.setSecondRoundScore(secondPlayerGame.getTotalBoardPower());
+                break;
+            case 3:
+                firstPlayerGame.setThirdRoundScore(firstPlayerGame.getTotalBoardPower());
+                secondPlayerGame.setThirdRoundScore(secondPlayerGame.getTotalBoardPower());
+                break;
+        }
+
+        if (firstPlayerGame.getTotalBoardPower() > secondPlayerGame.getTotalBoardPower()) {
+            setRoundWinner(game, firstPlayerGame, secondPlayerGame, RoundNo, game.getPlayer1());
+        } else if (firstPlayerGame.getTotalBoardPower() < secondPlayerGame.getTotalBoardPower()) {
+            setRoundWinner(game, firstPlayerGame, secondPlayerGame, RoundNo, game.getPlayer2());
+        } else {
+            handleDraw(game, firstPlayerGame, secondPlayerGame, RoundNo);
+        }
+    }
+
+    private void setRoundWinner(Game game, EachPlayerGame firstPlayerGame, EachPlayerGame secondPlayerGame, int RoundNo, User winner) {
+        switch (RoundNo) {
+            case 1:
+                game.setFirstRoundWinner(winner);
+                break;
+            case 2:
+                game.setSecondRoundWinner(winner);
+                break;
+            case 3:
+                game.setThirdRoundWinner(winner);
+                break;
+        }
+        if (winner == null) {
+            firstPlayerGame.setCrystals(firstPlayerGame.getCrystals() - 1);
+            secondPlayerGame.setCrystals(secondPlayerGame.getCrystals() - 1);
+        }else if (winner.equals(game.getPlayer1())) {
+            secondPlayerGame.setCrystals(secondPlayerGame.getCrystals() - 1);
+        } else {
+            firstPlayerGame.setCrystals(firstPlayerGame.getCrystals() - 1);
+        }
+    }
+
+    private void handleDraw(Game game, EachPlayerGame firstPlayerGame, EachPlayerGame secondPlayerGame, int RoundNo) {
+        if (firstPlayerGame.getFaction().equals(Faction.getFactionByName("Nilfgaard"))) {
+            if (secondPlayerGame.getFaction().equals(Faction.getFactionByName("Nilfgaard"))) {
+                firstPlayerGame.setCrystals(firstPlayerGame.getCrystals() - 1);
+                secondPlayerGame.setCrystals(secondPlayerGame.getCrystals() - 1);
+            } else {
+                setRoundWinner(game, firstPlayerGame, secondPlayerGame, RoundNo, game.getPlayer1());
+                secondPlayerGame.setCrystals(secondPlayerGame.getCrystals() - 1);
+            }
+        } else {
+            if (secondPlayerGame.getFaction().equals(Faction.getFactionByName("Nilfgaard"))) {
+                setRoundWinner(game, firstPlayerGame, secondPlayerGame, RoundNo, game.getPlayer2());
+                firstPlayerGame.setCrystals(firstPlayerGame.getCrystals() - 1);
+            } else {
+                setRoundWinner(game, firstPlayerGame, secondPlayerGame, RoundNo, null);
+                firstPlayerGame.setCrystals(firstPlayerGame.getCrystals() - 1);
+                secondPlayerGame.setCrystals(secondPlayerGame.getCrystals() - 1);
+            }
+        }
     }
 
     private void isGameEnd() {
-
+        Game game = User.getLoggedInUser().getCurrentGame();
+        if (game.getGamePlayer1().getCrystals() == 0 || game.getGamePlayer2().getCrystals() == 0) endOfGame();
     }
 
     private void endOfGame() {
+        Game game = User.getLoggedInUser().getCurrentGame();
+        EachPlayerGame firstPlayerGame = game.getGamePlayer1();
+        EachPlayerGame secondPlayerGame = game.getGamePlayer2();
 
+        if (firstPlayerGame.getCrystals() == 0 ) {
+            if (secondPlayerGame.getCrystals() == 0) game.setStatement(Statement.Tie);
+            else game.setStatement(Statement.Player2WonTheGame);
+        } else game.setStatement(Statement.Player1WonTheGame);
+
+        ArrayList<Game> games = game.getPlayer1().getGames();
+        games.add(game);
+        game.getPlayer1().setGames(games);
+        games = game.getPlayer2().getGames();
+        games.add(game);
+        game.getPlayer2().setGames(games);
+
+        EndOfTheGame endOfTheGame = new EndOfTheGame();
+        try {
+            endOfTheGame.start(GameMenu.stage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void secondPlayerLeaderCardClicked(MouseEvent mouseEvent) {
@@ -726,12 +867,16 @@ public class GameMenuController {
 
     private void changeTurn() {
         if (User.getLoggedInUser().getCurrentGame().getWeatherCard() != null) calculateScoresWeather();
-        isRoundEnd();
         Game game = User.getLoggedInUser().getCurrentGame();
         game.setTurnNo(game.getTurnNo() + 1);
-        if (game.getActivePlayer().equals(game.getPlayer1())) game.setActivePlayer(game.getPlayer2());
-        else game.setActivePlayer(game.getPlayer1());
+        if (game.getActivePlayer().equals(game.getPlayer1()) || game.getGamePlayer1().isPassedTheGame()) {
+            game.setActivePlayer(game.getPlayer2());
+        }
+        else if (game.getActivePlayer().equals(game.getPlayer2()) || game.getGamePlayer2().isPassedTheGame()) {
+            game.setActivePlayer(game.getPlayer1());
+        }
         updateGameState(game);
+        isRoundEnd();
     }
 
     private void updateScoresByWeatherCard(ObservableList<Card> cards, HashMap<Card, List<Integer>> cardsScore) {

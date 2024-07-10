@@ -12,7 +12,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
 import java.util.Optional;
 
 public class MainMenu extends Application {
@@ -20,9 +19,9 @@ public class MainMenu extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        if (LoginRegisterMenuController.isEmptyFile()) {
-            LoginRegisterMenuController.loadUsers();
-        }
+//        if (LoginRegisterMenuController.isEmptyFile()) {
+//            LoginRegisterMenuController.loadUsers();
+//        }
         SetDefaults.run();
 
         Button closeButton = new Button("Close Application");
@@ -32,12 +31,14 @@ public class MainMenu extends Application {
         layout.getChildren().add(closeButton);
 
         MainMenu.stage = stage;
-        Parent root = FXMLLoader.load((getClass().getResource("/FXML/MainMenu.fxml")));
+        Parent root = FXMLLoader.load(getClass().getResource("/FXML/MainMenu.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setTitle("Main Menu");
-        stage.getIcons().add(new Image((getClass().getResourceAsStream("/Images/GwentIcon.jpg"))));
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/Images/GwentIcon.jpg")));
         stage.show();
+
+        Runtime.getRuntime().addShutdownHook(new Thread(LoginRegisterMenuController::saveUsers));
 
         stage.setOnCloseRequest(event -> {
             event.consume();
@@ -47,6 +48,7 @@ public class MainMenu extends Application {
     }
 
     public static void main(String[] args) {
+        LoginRegisterMenuController.loadUsers();
         launch(args);
     }
 
