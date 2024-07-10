@@ -11,7 +11,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
-import java.awt.event.KeyEvent;
 import java.util.Optional;
 
 public class GameMenu extends Application {
