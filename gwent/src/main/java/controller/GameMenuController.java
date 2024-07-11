@@ -9,6 +9,8 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
@@ -19,7 +21,11 @@ import view.CardListCellFactory;
 import view.EndOfTheGame;
 import view.GameMenu;
 
+import java.awt.*;
+import java.awt.image.ImageObserver;
+import java.awt.image.ImageProducer;
 import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class GameMenuController {
@@ -128,6 +134,12 @@ public class GameMenuController {
     public StackPane weatherCardPane;
     public Label firstPlayerTotalDiscard;
     public Label secondPlayerTotalDiscard;
+    public ImageView secondPlayerSiegeWeather;
+    public ImageView secondPlayerRangedWeather;
+    public ImageView secondPlayerCloseCombatLWeather;
+    public ImageView firstPlayerCloseCombatWeather;
+    public ImageView firstPlayerRangedWeather;
+    public ImageView firstPlayerSiegeWeather;
 
     private Card selectedCard;
 
@@ -141,6 +153,7 @@ public class GameMenuController {
         game.setGamePlayer2(new EachPlayerGame(game.getPlayer2()));
         Faction factionPlayer1 = game.getPlayer1().getFaction();
         Faction factionPlayer2 = game.getPlayer2().getFaction();
+
         player1FactionName.setText(factionPlayer1.getName());
         player2FactionName.setText(factionPlayer2.getName());
         firstPlayerFactionImage.setImage(factionPlayer1.getImage());
@@ -768,6 +781,7 @@ public class GameMenuController {
         EachPlayerGame secondPlayerGame = game.getGamePlayer2();
         firstPlayerGame.setPassedTheGame(false);
         secondPlayerGame.setPassedTheGame(false);
+        clearWeather();
 
         switch (game.getRoundNo()) {
             case 1:
@@ -991,19 +1005,32 @@ public class GameMenuController {
         Game game = User.getLoggedInUser().getCurrentGame();
         EachPlayerGame firstPlayerGame = game.getGamePlayer1();
         EachPlayerGame secondPlayerGame = game.getGamePlayer2();
-
+        clearWeather();
         switch (game.getWeatherCard().getName()) {
             case "Biting Frost":
-                
+                firstPlayerCloseCombatWeather.setVisible(true);
+                secondPlayerCloseCombatLWeather.setVisible(true);
+                System.out.println("show firstPlayerCloseCombatWeather");
                 break;
 
             case "Impenetrable Fog":
+                firstPlayerRangedWeather.setVisible(true);
+                secondPlayerRangedWeather.setVisible(true);
+                System.out.println("show firstPlayerRangedWeather");
                 break;
 
             case "Torrential Rain":
+                firstPlayerSiegeWeather.setVisible(true);
+                secondPlayerSiegeWeather.setVisible(true);
+                System.out.println("show firstPlayerSiegeWeather");
                 break;
 
             case "Skellige Storm":
+                firstPlayerCloseCombatWeather.setVisible(true);
+                secondPlayerCloseCombatLWeather.setVisible(true);
+                firstPlayerSiegeWeather.setVisible(true);
+                secondPlayerSiegeWeather.setVisible(true);
+                System.out.println("show 4 picture");
                 break;
             default:
                 break;
@@ -1112,12 +1139,12 @@ public class GameMenuController {
     public void cheatPassRound() {  // pass round harif
         Game game = User.getLoggedInUser().getCurrentGame();
         User user = game.getActivePlayer();
-        if (user.equals(game.getPlayer1())) {
-            game.getGamePlayer2().setPassedTheGame(true);
-        }
-        if (user.equals(game.getPlayer2())) {
-            game.getGamePlayer1().setPassedTheGame(true);
-        }
+//        if (user.equals(game.getPlayer1())) {
+//            game.getGamePlayer2().setPassedTheGame(true);
+//        }
+//        if (user.equals(game.getPlayer2())) {
+//            game.getGamePlayer1().setPassedTheGame(true);
+//        }
         endOfRound();
         changeTurn();
     }
@@ -1452,6 +1479,15 @@ public class GameMenuController {
     }
 
     private void showWeatherCardInfo() {
+    }
+
+    private void clearWeather (){
+        secondPlayerSiegeWeather.setVisible(false);
+        secondPlayerRangedWeather.setVisible(false);
+        secondPlayerCloseCombatLWeather.setVisible(false);
+        firstPlayerCloseCombatWeather.setVisible(false);
+        firstPlayerRangedWeather.setVisible(false);
+        firstPlayerSiegeWeather.setVisible(false);
     }
 
 }
