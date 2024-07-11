@@ -20,9 +20,7 @@ public class LoginMenu extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-//        if (LoginRegisterMenuController.isEmptyFile()) {
-//            LoginRegisterMenuController.loadUsers();
-//        }
+        LoginRegisterMenuController.loadUsers();
         SetDefaults.run();
 
         Button closeButton = new Button("Close Application");
@@ -51,6 +49,7 @@ public class LoginMenu extends Application {
     }
 
     private void closeApplication(Stage stage) {
+        LoginRegisterMenuController.saveUsers();
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Exit Confirmation");
         alert.setHeaderText(null);

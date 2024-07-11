@@ -384,46 +384,108 @@ public class Function {
                 if (currentCard.getAbility() == null) continue;
                 if (!currentCard.getAbility().name().equals("muster")) continue;
 
+                ObservableList<Card> siegeList = game.getGamePlayer1().getSiege();
+                ObservableList<Card> rangedList = game.getGamePlayer1().getRangedCombat();
+                ObservableList<Card> closeCombatList = game.getGamePlayer1().getCloseCombat();
 
                 for (int i = 0; i < count; i++) {
-                    Place place = currentCard.getPlace();
-                    switch (place) {
-                        case agile:
-                            //we have two choices
-                            break;
-                        case rangedCombat:
-                            ObservableList<Card> rangedList = game.getGamePlayer1().getRangedCombat();
-                            HashMap<Card, List<Integer>> rangedScores = game.getGamePlayer1().getRangedCombatScores();
-                            rangedList.add(currentCard);
-                            boolean hasCommandersHorn = rangedList.stream().anyMatch(c -> c.getAbility().equals(Ability.CommandersHorn));
-                            rangedScores.computeIfAbsent(currentCard, k -> new ArrayList<>()).add(hasCommandersHorn ? currentCard.getPower() * 2 : currentCard.getPower());
-                            game.getGamePlayer1().setRangedCombat(rangedList);
 
+                    switch (listView.getId()) {
+                        case "firstPlayerSiegeList":
+                            HashMap<Card, List<Integer>> siegeScores = game.getGamePlayer1().getSiegeScores();
+                            siegeList.add(currentCard);
+                            boolean hasCommandersHorn = siegeList.stream().anyMatch(c -> c.getAbility().equals(Ability.CommandersHorn));
+                            siegeScores.computeIfAbsent(currentCard, k -> new ArrayList<>()).add(hasCommandersHorn ? currentCard.getPower() * 2 : currentCard.getPower());
                             break;
-                        case closeCombat:
-                            ObservableList<Card> closeCombatList = game.getGamePlayer1().getCloseCombat();
+                        case "firstPlayerCloseCombatList":
                             HashMap<Card, List<Integer>> closeCombatScores = game.getGamePlayer1().getCloseCombatScores();
                             closeCombatList.add(currentCard);
                             hasCommandersHorn = closeCombatList.stream().anyMatch(c -> c.getAbility().equals(Ability.CommandersHorn));
                             closeCombatScores.computeIfAbsent(currentCard, k -> new ArrayList<>()).add(hasCommandersHorn ? currentCard.getPower() * 2 : currentCard.getPower());
-                            game.getGamePlayer1().setCloseCombat(closeCombatList);
-
                             break;
-                        case siege:
-                            ObservableList<Card> siegeList = game.getGamePlayer1().getSiege();
-                            HashMap<Card, List<Integer>> siegeScores = game.getGamePlayer1().getSiegeScores();
-                            siegeList.add(currentCard);
-                            hasCommandersHorn = siegeList.stream().anyMatch(c -> c.getAbility().equals(Ability.CommandersHorn));
-                            siegeScores.computeIfAbsent(currentCard, k -> new ArrayList<>()).add(hasCommandersHorn ? currentCard.getPower() * 2 : currentCard.getPower());
-                            game.getGamePlayer1().setSiege(siegeList);
-
+                        case "firstPlayerRangedList":
+                            HashMap<Card, List<Integer>> rangedScores = game.getGamePlayer1().getRangedCombatScores();
+                            rangedList.add(currentCard);
+                            hasCommandersHorn = rangedList.stream().anyMatch(c -> c.getAbility().equals(Ability.CommandersHorn));
+                            rangedScores.computeIfAbsent(currentCard, k -> new ArrayList<>()).add(hasCommandersHorn ? currentCard.getPower() * 2 : currentCard.getPower());
                             break;
                     }
                 }
+                game.getGamePlayer1().setSiege(siegeList);
+                game.getGamePlayer1().setRangedCombat(rangedList);
+                game.getGamePlayer1().setCloseCombat(closeCombatList);
             }
 
 
         }
+
+//        if (user.equals(game.getPlayer2())) {
+//            hand = game.getGamePlayer2().getHand();
+//            deck = game.getGamePlayer2().getDeck();
+//            for (Card card : hand) {
+//                if (card.getAbility() != null) {
+//                    if (card.getAbility().name().equals("muster")) {
+//                        deck.put(card, 1);
+//                        hand.remove(card);
+//                        game.getGamePlayer2().setHand(hand);
+//                    }
+//                }
+//            }
+//            for (Map.Entry<Card, Integer> entry : deck.entrySet()) {
+//                Card currentCard = entry.getKey();
+//                Integer count = entry.getValue();
+//                if (currentCard.getAbility() == null) continue;
+//                if (!currentCard.getAbility().name().equals("muster")) continue;
+//
+//
+//                for (int i = 0; i < count; i++) {
+//                    Place place = currentCard.getPlace();
+//                    switch (place) {
+//                        case agile:
+//                            //we have two choices
+//                            break;
+//                        case rangedCombat:
+//                            ObservableList<Card> rangedList = game.getGamePlayer2().getRangedCombat();
+//                            HashMap<Card, List<Integer>> rangedScores = game.getGamePlayer2().getRangedCombatScores();
+//                            rangedList.add(currentCard);
+//
+//                            boolean hasCommandersHorn = rangedList.stream().anyMatch(c -> c.getAbility().equals(Ability.CommandersHorn));
+//
+//                            rangedScores.computeIfAbsent(currentCard, k -> new ArrayList<>()).add(hasCommandersHorn ? currentCard.getPower() * 2 : currentCard.getPower());
+//
+//                            game.getGamePlayer2().setRangedCombat(rangedList);
+//
+//                            break;
+//                        case closeCombat:
+//                            ObservableList<Card> closeCombatList = game.getGamePlayer2().getCloseCombat();
+//                            HashMap<Card, List<Integer>> closeCombatScores = game.getGamePlayer2().getCloseCombatScores();
+//                            closeCombatList.add(currentCard);
+//
+//                            hasCommandersHorn = closeCombatList.stream().anyMatch(c -> c.getAbility().equals(Ability.CommandersHorn));
+//
+//                            closeCombatScores.computeIfAbsent(currentCard, k -> new ArrayList<>()).add(hasCommandersHorn ? currentCard.getPower() * 2 : currentCard.getPower());
+//
+//                            game.getGamePlayer1().setCloseCombat(closeCombatList);
+//
+//                            break;
+//                        case siege:
+//                            ObservableList<Card> siegeList = game.getGamePlayer2().getSiege();
+//                            HashMap<Card, List<Integer>> siegeScores = game.getGamePlayer2().getSiegeScores();
+//                            siegeList.add(currentCard);
+//
+//                            hasCommandersHorn = siegeList.stream().anyMatch(c -> c.getAbility().equals(Ability.CommandersHorn));
+//
+//                            siegeScores.computeIfAbsent(currentCard, k -> new ArrayList<>()).add(hasCommandersHorn ? currentCard.getPower() * 2 : currentCard.getPower());
+//
+//                            game.getGamePlayer1().setSiege(siegeList);
+//
+//                            break;
+//                    }
+//                }
+//            }
+//
+//
+//        }
 
         if (user.equals(game.getPlayer2())) {
             hand = game.getGamePlayer2().getHand();
@@ -433,7 +495,7 @@ public class Function {
                     if (card.getAbility().name().equals("muster")) {
                         deck.put(card, 1);
                         hand.remove(card);
-                        game.getGamePlayer2().setHand(hand);
+                        game.getGamePlayer1().setHand(hand);
                     }
                 }
             }
@@ -443,51 +505,35 @@ public class Function {
                 if (currentCard.getAbility() == null) continue;
                 if (!currentCard.getAbility().name().equals("muster")) continue;
 
+                ObservableList<Card> siegeList = game.getGamePlayer2().getSiege();
+                ObservableList<Card> rangedList = game.getGamePlayer2().getRangedCombat();
+                ObservableList<Card> closeCombatList = game.getGamePlayer2().getCloseCombat();
 
                 for (int i = 0; i < count; i++) {
-                    Place place = currentCard.getPlace();
-                    switch (place) {
-                        case agile:
-                            //we have two choices
-                            break;
-                        case rangedCombat:
-                            ObservableList<Card> rangedList = game.getGamePlayer2().getRangedCombat();
-                            HashMap<Card, List<Integer>> rangedScores = game.getGamePlayer2().getRangedCombatScores();
-                            rangedList.add(currentCard);
-
-                            boolean hasCommandersHorn = rangedList.stream().anyMatch(c -> c.getAbility().equals(Ability.CommandersHorn));
-
-                            rangedScores.computeIfAbsent(currentCard, k -> new ArrayList<>()).add(hasCommandersHorn ? currentCard.getPower() * 2 : currentCard.getPower());
-
-                            game.getGamePlayer2().setRangedCombat(rangedList);
-
-                            break;
-                        case closeCombat:
-                            ObservableList<Card> closeCombatList = game.getGamePlayer2().getCloseCombat();
-                            HashMap<Card, List<Integer>> closeCombatScores = game.getGamePlayer2().getCloseCombatScores();
-                            closeCombatList.add(currentCard);
-
-                            hasCommandersHorn = closeCombatList.stream().anyMatch(c -> c.getAbility().equals(Ability.CommandersHorn));
-
-                            closeCombatScores.computeIfAbsent(currentCard, k -> new ArrayList<>()).add(hasCommandersHorn ? currentCard.getPower() * 2 : currentCard.getPower());
-
-                            game.getGamePlayer1().setCloseCombat(closeCombatList);
-
-                            break;
-                        case siege:
-                            ObservableList<Card> siegeList = game.getGamePlayer2().getSiege();
+                    switch (listView.getId()) {
+                        case "secondPlayerSiegeList":
                             HashMap<Card, List<Integer>> siegeScores = game.getGamePlayer2().getSiegeScores();
                             siegeList.add(currentCard);
-
-                            hasCommandersHorn = siegeList.stream().anyMatch(c -> c.getAbility().equals(Ability.CommandersHorn));
-
+                            boolean hasCommandersHorn = siegeList.stream().anyMatch(c -> c.getAbility().equals(Ability.CommandersHorn));
                             siegeScores.computeIfAbsent(currentCard, k -> new ArrayList<>()).add(hasCommandersHorn ? currentCard.getPower() * 2 : currentCard.getPower());
-
-                            game.getGamePlayer1().setSiege(siegeList);
-
+                            break;
+                        case "secondPlayerCloseCombatList":
+                            HashMap<Card, List<Integer>> closeCombatScores = game.getGamePlayer2().getCloseCombatScores();
+                            closeCombatList.add(currentCard);
+                            hasCommandersHorn = closeCombatList.stream().anyMatch(c -> c.getAbility().equals(Ability.CommandersHorn));
+                            closeCombatScores.computeIfAbsent(currentCard, k -> new ArrayList<>()).add(hasCommandersHorn ? currentCard.getPower() * 2 : currentCard.getPower());
+                            break;
+                        case "secondPlayerRangedList":
+                            HashMap<Card, List<Integer>> rangedScores = game.getGamePlayer2().getRangedCombatScores();
+                            rangedList.add(currentCard);
+                            hasCommandersHorn = rangedList.stream().anyMatch(c -> c.getAbility().equals(Ability.CommandersHorn));
+                            rangedScores.computeIfAbsent(currentCard, k -> new ArrayList<>()).add(hasCommandersHorn ? currentCard.getPower() * 2 : currentCard.getPower());
                             break;
                     }
                 }
+                game.getGamePlayer2().setSiege(siegeList);
+                game.getGamePlayer2().setRangedCombat(rangedList);
+                game.getGamePlayer2().setCloseCombat(closeCombatList);
             }
 
 
