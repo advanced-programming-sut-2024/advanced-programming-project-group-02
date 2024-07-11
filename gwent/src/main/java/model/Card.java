@@ -41,8 +41,7 @@ public class Card {
     }
 
     public static Card getCardByID(int ID){
-        ArrayList <Card> cards1 = new ArrayList<>();
-        for (Card card : cards1){
+        for (Card card : cards){
             if (card.getID() == ID){
                 return card;
             }
@@ -51,8 +50,7 @@ public class Card {
     }
 
     public static Card getCardByName(String name){
-        ArrayList <Card> cards1 = new ArrayList<>();
-        for (Card card : cards1){
+        for (Card card : cards){
             if (card.getName().equals(name)){
                 return card;
             }

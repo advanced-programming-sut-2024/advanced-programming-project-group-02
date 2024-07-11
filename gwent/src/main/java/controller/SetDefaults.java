@@ -54,7 +54,7 @@ public class SetDefaults {
                 true, Ability.Muster, CardType.CloseCombatUnit, Place.closeCombat,
                 new Image(SetDefaults.class.getResourceAsStream("/images/cards/skellige/skellige_cerys.jpg")));
 
-        Card kambiCard = new Card("Kambi", 110, 0, 1,
+        Card kambiCard = new Card("Kambi", 110, 11, 1,
                 true, Ability.Transformers, CardType.CloseCombatUnit, Place.closeCombat,
                 new Image(SetDefaults.class.getResourceAsStream("/images/cards/skellige/skellige_kambi.jpg")));
 
