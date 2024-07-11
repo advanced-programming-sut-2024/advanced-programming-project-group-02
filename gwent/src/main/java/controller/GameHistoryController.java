@@ -43,11 +43,11 @@ public class GameHistoryController {
         int sizeOfGames = games.size();
 //        int x = games.size()
         String textField = number.getText();
-        StringBuilder stringBuilder = new StringBuilder("\n");
+        StringBuilder stringBuilder = new StringBuilder();
         int y;
         if (games.isEmpty()) {
             LoginRegisterMenuController.showAlert("no game", "you have no completed game");
-        return;
+            return;
         }
         if (textField.isEmpty()) {
             y = Integer.min(5, sizeOfGames);
@@ -63,43 +63,86 @@ public class GameHistoryController {
             LoginRegisterMenuController.showAlert("Invalid input", "the input could not be more than number of all games");
             return;
         }
+
+
         for (int i = 0; i < y; i++) {
             sizeOfGames--;
-            stringBuilder.append("\n");
             Game game = games.get(sizeOfGames);
-            if (game.getStatement().equals(Statement.Tie) || game.getStatement().equals(Statement.Player1WonTheGame) || game.getStatement().equals(Statement.Player2WonTheGame)) {
-                stringBuilder.append(game.getPlayer2().getUsername());
-                stringBuilder.append("\t");
-                stringBuilder.append(game.getDate());
-                stringBuilder.append("\t");
-                stringBuilder.append(game.getGamePlayer1().getFirstRoundScore() + " " + game.getGamePlayer1().getSecondRoundScore() + " " + game.getGamePlayer1().getThirdRoundScore());
-                stringBuilder.append("\t");
-                stringBuilder.append(game.getGamePlayer2().getFirstRoundScore() + " " + game.getGamePlayer2().getSecondRoundScore() + " " + game.getGamePlayer2().getThirdRoundScore());
-                stringBuilder.append("\t");
-                stringBuilder.append(game.getGamePlayer1().getFirstRoundScore() + game.getGamePlayer1().getSecondRoundScore() + game.getGamePlayer1().getThirdRoundScore());
-                stringBuilder.append("\t");
-                stringBuilder.append(game.getGamePlayer2().getFirstRoundScore() + game.getGamePlayer2().getSecondRoundScore() + game.getGamePlayer2().getThirdRoundScore());
-                stringBuilder.append("\t");
-                Statement statement = game.getStatement();
-                if (statement.equals(Statement.Tie)) {
-                    stringBuilder.append("tied");
-                } else if (statement.equals(Statement.Player1WonTheGame)) {
-                    stringBuilder.append(game.getPlayer1().getUsername());
-                } else if (statement.equals(Statement.Player2WonTheGame)) {
-                    stringBuilder.append(game.getPlayer2().getUsername());
-                }
+            if (game.getPlayer2().getUsername().equals(User.getLoggedInUser().getUsername())) {
+                if (game.getStatement().equals(Statement.Tie) || game.getStatement().equals(Statement.Player1WonTheGame) || game.getStatement().equals(Statement.Player2WonTheGame)) {
+                    stringBuilder.append("\n");
+                    stringBuilder.append("username of other player: " + game.getPlayer1().getUsername());
+                    stringBuilder.append("\t");
+                    stringBuilder.append("date: " + game.getDate());
+                    stringBuilder.append("\t\n");
+                    stringBuilder.append("score of each round of logged in user: " + game.getGamePlayer2().getFirstRoundScore() + " " + game.getGamePlayer2().getSecondRoundScore() + " " + game.getGamePlayer2().getThirdRoundScore());
+                    stringBuilder.append("\t");
+                    stringBuilder.append("score of each round of the other player: " + game.getGamePlayer1().getFirstRoundScore() + " " + game.getGamePlayer1().getSecondRoundScore() + " " + game.getGamePlayer1().getThirdRoundScore());
+                    stringBuilder.append("\t\n");
+                    int a = game.getGamePlayer2().getFirstRoundScore() + game.getGamePlayer2().getSecondRoundScore() + game.getGamePlayer2().getThirdRoundScore();
+                    stringBuilder.append("total score of logged in user: " + a);
+                    stringBuilder.append("\t");
+                    int b = game.getGamePlayer1().getFirstRoundScore() + game.getGamePlayer1().getSecondRoundScore() + game.getGamePlayer1().getThirdRoundScore();
+                    stringBuilder.append("total score of the other player: " + b);
+                    stringBuilder.append("\t\n");
+                    stringBuilder.append("the winner: ");
 
+                    Statement statement = game.getStatement();
+                    if (statement.equals(Statement.Tie)) {
+                        stringBuilder.append("tied");
+                    } else if (statement.equals(Statement.Player1WonTheGame)) {
+                        stringBuilder.append(game.getPlayer1().getUsername());
+                    } else if (statement.equals(Statement.Player2WonTheGame)) {
+                        stringBuilder.append(game.getPlayer2().getUsername());
+                        stringBuilder.append("\n\n");
+
+                    }
+                } else {
+                    i--;
+                }
             } else {
-                i--;
+                if (game.getStatement().equals(Statement.Tie) || game.getStatement().equals(Statement.Player1WonTheGame) || game.getStatement().equals(Statement.Player2WonTheGame)) {
+                    stringBuilder.append("\n");
+                    stringBuilder.append("username of other player: " + game.getPlayer2().getUsername());
+                    stringBuilder.append("\t");
+                    stringBuilder.append("date: " + game.getDate());
+                    stringBuilder.append("\t\n");
+                    stringBuilder.append("score of each round of logged in user: " + game.getGamePlayer1().getFirstRoundScore() + " " + game.getGamePlayer1().getSecondRoundScore() + " " + game.getGamePlayer1().getThirdRoundScore());
+                    stringBuilder.append("\t");
+                    stringBuilder.append("score of each round of the other player: " + game.getGamePlayer2().getFirstRoundScore() + " " + game.getGamePlayer2().getSecondRoundScore() + " " + game.getGamePlayer2().getThirdRoundScore());
+                    stringBuilder.append("\t\n");
+                    int a = game.getGamePlayer1().getFirstRoundScore() + game.getGamePlayer1().getSecondRoundScore() + game.getGamePlayer1().getThirdRoundScore();
+                    stringBuilder.append("total score of logged in user: " + a);
+                    stringBuilder.append("\t");
+                    int b = game.getGamePlayer2().getFirstRoundScore() + game.getGamePlayer2().getSecondRoundScore() + game.getGamePlayer2().getThirdRoundScore();
+                    stringBuilder.append("total score of the other player: " + b);
+                    stringBuilder.append("\t\n");
+                    stringBuilder.append("the winner: ");
+
+                    Statement statement = game.getStatement();
+                    if (statement.equals(Statement.Tie)) {
+                        stringBuilder.append("tied");
+                    } else if (statement.equals(Statement.Player1WonTheGame)) {
+                        stringBuilder.append(game.getPlayer1().getUsername());
+                    } else if (statement.equals(Statement.Player2WonTheGame)) {
+                        stringBuilder.append(game.getPlayer2().getUsername());
+                        stringBuilder.append("\n\n");
+
+                    }
+                } else {
+                    i--;
+                }
             }
         }
+        t.setText(stringBuilder.toString());
+        t.setFont(Font.font(10));
     }
 
 
     public void setText1() {
         ArrayList<Game> games = User.getLoggedInUser().getGames();
         int sizeOfGames = games.size();
-        StringBuilder stringBuilder = new StringBuilder("\n");
+        StringBuilder stringBuilder = new StringBuilder("");
         int y = Integer.min(5, sizeOfGames);
 
 
@@ -109,32 +152,75 @@ public class GameHistoryController {
         }
         for (int i = 0; i < y; i++) {
             sizeOfGames--;
-            stringBuilder.append("\n");
             Game game = games.get(sizeOfGames);
-            if (game.getStatement().equals(Statement.Tie) || game.getStatement().equals(Statement.Player1WonTheGame) || game.getStatement().equals(Statement.Player2WonTheGame)) {
-                stringBuilder.append(game.getPlayer2().getUsername());
-                stringBuilder.append("\t");
-                stringBuilder.append(game.getDate());
-                stringBuilder.append("\t");
-                stringBuilder.append(game.getGamePlayer1().getFirstRoundScore() + " " + game.getGamePlayer1().getSecondRoundScore() + " " + game.getGamePlayer1().getThirdRoundScore());
-                stringBuilder.append("\t");
-                stringBuilder.append(game.getGamePlayer2().getFirstRoundScore() + " " + game.getGamePlayer2().getSecondRoundScore() + " " + game.getGamePlayer2().getThirdRoundScore());
-                stringBuilder.append("\t");
-                stringBuilder.append(game.getGamePlayer1().getFirstRoundScore() + game.getGamePlayer1().getSecondRoundScore() + game.getGamePlayer1().getThirdRoundScore());
-                stringBuilder.append("\t");
-                stringBuilder.append(game.getGamePlayer2().getFirstRoundScore() + game.getGamePlayer2().getSecondRoundScore() + game.getGamePlayer2().getThirdRoundScore());
-                stringBuilder.append("\t");
-                Statement statement = game.getStatement();
-                if (statement.equals(Statement.Tie)) {
-                    stringBuilder.append("tied");
-                } else if (statement.equals(Statement.Player1WonTheGame)) {
-                    stringBuilder.append(game.getPlayer1().getUsername());
-                } else if (statement.equals(Statement.Player2WonTheGame)) {
-                    stringBuilder.append(game.getPlayer2().getUsername());
+            if (game.getPlayer2().getUsername().equals(User.getLoggedInUser().getUsername())) {
+                if (game.getStatement().equals(Statement.Tie) || game.getStatement().equals(Statement.Player1WonTheGame) || game.getStatement().equals(Statement.Player2WonTheGame)) {
+                    stringBuilder.append("\n");
+                    stringBuilder.append("username of other player: " + game.getPlayer1().getUsername());
+                    stringBuilder.append("\t");
+                    stringBuilder.append("date: " + game.getDate());
+                    stringBuilder.append("\t\n");
+                    stringBuilder.append("score of each round of logged in user: " + game.getGamePlayer2().getFirstRoundScore() + " " + game.getGamePlayer2().getSecondRoundScore() + " " + game.getGamePlayer2().getThirdRoundScore());
+                    stringBuilder.append("\t");
+                    stringBuilder.append("score of each round of the other player: " + game.getGamePlayer1().getFirstRoundScore() + " " + game.getGamePlayer1().getSecondRoundScore() + " " + game.getGamePlayer1().getThirdRoundScore());
+                    stringBuilder.append("\t\n");
+                    int a = game.getGamePlayer2().getFirstRoundScore() + game.getGamePlayer2().getSecondRoundScore() + game.getGamePlayer2().getThirdRoundScore();
+                    stringBuilder.append("total score of logged in user: " + a);
+                    stringBuilder.append("\t");
+                    int b = game.getGamePlayer1().getFirstRoundScore() + game.getGamePlayer1().getSecondRoundScore() + game.getGamePlayer1().getThirdRoundScore();
+                    stringBuilder.append("total score of the other player: " + b);
+                    stringBuilder.append("\t\n");
+                    stringBuilder.append("the winner: ");
+
+                    Statement statement = game.getStatement();
+                    if (statement.equals(Statement.Tie)) {
+                        stringBuilder.append("tied");
+                    } else if (statement.equals(Statement.Player1WonTheGame)) {
+                        stringBuilder.append(game.getPlayer1().getUsername());
+                    } else if (statement.equals(Statement.Player2WonTheGame)) {
+                        stringBuilder.append(game.getPlayer2().getUsername());
+                        stringBuilder.append("\n\n");
+
+                    }
+                } else {
+                    i--;
                 }
             } else {
-                i--;
+                if (game.getStatement().equals(Statement.Tie) || game.getStatement().equals(Statement.Player1WonTheGame) || game.getStatement().equals(Statement.Player2WonTheGame)) {
+                    stringBuilder.append("\n");
+                    stringBuilder.append("username of other player: " + game.getPlayer2().getUsername());
+                    stringBuilder.append("\t");
+                    stringBuilder.append("date: " + game.getDate());
+                    stringBuilder.append("\t\n");
+                    stringBuilder.append("score of each round of logged in user: " + game.getGamePlayer1().getFirstRoundScore() + " " + game.getGamePlayer1().getSecondRoundScore() + " " + game.getGamePlayer1().getThirdRoundScore());
+                    stringBuilder.append("\t");
+                    stringBuilder.append("score of each round of the other player: " + game.getGamePlayer2().getFirstRoundScore() + " " + game.getGamePlayer2().getSecondRoundScore() + " " + game.getGamePlayer2().getThirdRoundScore());
+                    stringBuilder.append("\t\n");
+                    int a = game.getGamePlayer1().getFirstRoundScore() + game.getGamePlayer1().getSecondRoundScore() + game.getGamePlayer1().getThirdRoundScore();
+                    stringBuilder.append("total score of logged in user: " + a);
+                    stringBuilder.append("\t");
+                    int b = game.getGamePlayer2().getFirstRoundScore() + game.getGamePlayer2().getSecondRoundScore() + game.getGamePlayer2().getThirdRoundScore();
+                    stringBuilder.append("total score of the other player: " + b);
+                    stringBuilder.append("\t\n");
+                    stringBuilder.append("the winner: ");
+
+                    Statement statement = game.getStatement();
+                    if (statement.equals(Statement.Tie)) {
+                        stringBuilder.append("tied");
+                    } else if (statement.equals(Statement.Player1WonTheGame)) {
+                        stringBuilder.append(game.getPlayer1().getUsername());
+                    } else if (statement.equals(Statement.Player2WonTheGame)) {
+                        stringBuilder.append(game.getPlayer2().getUsername());
+                        stringBuilder.append("\n\n");
+
+                    }
+                } else {
+                    i--;
+                }
             }
         }
+        t.setText(stringBuilder.toString());
+        t.setFont(Font.font(10));
     }
 }
+
