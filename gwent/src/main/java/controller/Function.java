@@ -30,6 +30,9 @@ public class Function {
             case AgileUnit:
                 unit(game, listView, card);
         }
+        if (card.equals(Card.getCardByName("Scorch"))) {
+            scorch(game,listView,card);
+        }
     }
 
     public void run(GameMenuController gameMenuController, ImageView imageView, Card card) {
@@ -49,185 +52,183 @@ public class Function {
     private void unit(Game game, ListView listView, Card card) {
         User user = game.getActivePlayer();
         String Id = listView.getId();
-        if (user.equals(game.getPlayer1())) {
-            switch (Id) {
-                case "firstPlayerSiegeList":
-                    ObservableList<Card>  list = game.getGamePlayer1().getSiege();
-                    HashMap<Card, List<Integer>> scoresList = game.getGamePlayer1().getSiegeScores();
-                    list.add(card);
+        if (!card.isSpecial()){
+            if (user.equals(game.getPlayer1())) {
+                switch (Id) {
+                    case "firstPlayerSiegeList":
+                        ObservableList<Card> list = game.getGamePlayer1().getSiege();
+                        HashMap<Card, List<Integer>> scoresList = game.getGamePlayer1().getSiegeScores();
+                        list.add(card);
 
-                    int power = card.getPower();
-                    if (!card.isHero() && (card.getAbility() == null || (card.getAbility() != null &&
-                            !card.getAbility().equals(Ability.CommandersHorn))) && (list.contains(Card.getCardByID(609))  || list.contains(Card.getCardByID(121)) ||
-                            (game.getGamePlayer1().getMarCoSiege() != null && game.getGamePlayer1().getMarCoSiege().equals(Card.getCardByID(607))))) {
-                        power *= 2;
-                    } else if (card.getAbility() != null && card.getAbility().equals(Ability.CommandersHorn) &&
-                            (game.getGamePlayer1().getMarCoSiege() != null && game.getGamePlayer1().getMarCoSiege().equals(Card.getCardByID(607)))) {
-                        power *= 2;
-                    }
+                        int power = card.getPower();
+                        if (!card.isHero() && (card.getAbility() == null || (card.getAbility() != null &&
+                                !card.getAbility().equals(Ability.CommandersHorn))) && (list.contains(Card.getCardByID(609)) || list.contains(Card.getCardByID(121)) ||
+                                (game.getGamePlayer1().getMarCoSiege() != null && game.getGamePlayer1().getMarCoSiege().equals(Card.getCardByID(607))))) {
+                            power *= 2;
+                        } else if (card.getAbility() != null && card.getAbility().equals(Ability.CommandersHorn) &&
+                                (game.getGamePlayer1().getMarCoSiege() != null && game.getGamePlayer1().getMarCoSiege().equals(Card.getCardByID(607)))) {
+                            power *= 2;
+                        }
 
-                    List<Integer> scores = scoresList.getOrDefault(card, new ArrayList<>());
-                    scores.add(power);
-                    scoresList.put(card, scores);
+                        List<Integer> scores = scoresList.getOrDefault(card, new ArrayList<>());
+                        scores.add(power);
+                        scoresList.put(card, scores);
 
-                    game.getGamePlayer1().setSiege(list);
-                    game.getGamePlayer1().setSiegeScores(scoresList);
+                        game.getGamePlayer1().setSiege(list);
+                        game.getGamePlayer1().setSiegeScores(scoresList);
 
-                    ObservableList<Card> hand = game.getGamePlayer1().getHand();
-                    hand.remove(card);
-                    game.getGamePlayer1().setHand(hand);
+                        ObservableList<Card> hand = game.getGamePlayer1().getHand();
+                        hand.remove(card);
+                        game.getGamePlayer1().setHand(hand);
 
-                    break;
+                        break;
 
-                case "firstPlayerCloseCombatList":
-                    list = game.getGamePlayer1().getCloseCombat();
-                    scoresList = game.getGamePlayer1().getCloseCombatScores();
-                    list.add(card);
+                    case "firstPlayerCloseCombatList":
+                        list = game.getGamePlayer1().getCloseCombat();
+                        scoresList = game.getGamePlayer1().getCloseCombatScores();
+                        list.add(card);
 
-                    power = card.getPower();
-                    if (!card.isHero() && (card.getAbility() == null || (card.getAbility() != null &&
-                            !card.getAbility().equals(Ability.CommandersHorn))) && (list.contains(Card.getCardByID(609)) || list.contains(Card.getCardByID(121)) ||
-                            (game.getGamePlayer1().getMarCoCloseCombat() != null && game.getGamePlayer1().getMarCoCloseCombat().equals(Card.getCardByID(607))))) {
-                        power *= 2;
-                    } else if (card.getAbility() != null && card.getAbility().equals(Ability.CommandersHorn) &&
-                            (game.getGamePlayer1().getMarCoSiege() != null && game.getGamePlayer1().getMarCoSiege().equals(Card.getCardByID(607)))) {
-                        power *= 2;
-                    }
+                        power = card.getPower();
+                        if (!card.isHero() && (card.getAbility() == null || (card.getAbility() != null &&
+                                !card.getAbility().equals(Ability.CommandersHorn))) && (list.contains(Card.getCardByID(609)) || list.contains(Card.getCardByID(121)) ||
+                                (game.getGamePlayer1().getMarCoCloseCombat() != null && game.getGamePlayer1().getMarCoCloseCombat().equals(Card.getCardByID(607))))) {
+                            power *= 2;
+                        } else if (card.getAbility() != null && card.getAbility().equals(Ability.CommandersHorn) &&
+                                (game.getGamePlayer1().getMarCoSiege() != null && game.getGamePlayer1().getMarCoSiege().equals(Card.getCardByID(607)))) {
+                            power *= 2;
+                        }
 
-                    scores = scoresList.getOrDefault(card, new ArrayList<>());
-                    scores.add(power);
-                    scoresList.put(card, scores);
+                        scores = scoresList.getOrDefault(card, new ArrayList<>());
+                        scores.add(power);
+                        scoresList.put(card, scores);
 
-                    game.getGamePlayer1().setCloseCombat(list);
-                    game.getGamePlayer1().setCloseCombatScores(scoresList);
+                        game.getGamePlayer1().setCloseCombat(list);
+                        game.getGamePlayer1().setCloseCombatScores(scoresList);
 
-                    hand = game.getGamePlayer1().getHand();
-                    hand.remove(card);
-                    game.getGamePlayer1().setHand(hand);
+                        hand = game.getGamePlayer1().getHand();
+                        hand.remove(card);
+                        game.getGamePlayer1().setHand(hand);
 
-                    break;
+                        break;
 
-                case "firstPlayerRangedList":
-                    list = game.getGamePlayer1().getRangedCombat();
-                    scoresList = game.getGamePlayer1().getRangedCombatScores();
-                    list.add(card);
+                    case "firstPlayerRangedList":
+                        list = game.getGamePlayer1().getRangedCombat();
+                        scoresList = game.getGamePlayer1().getRangedCombatScores();
+                        list.add(card);
 
-                    power = card.getPower();
-                    if (!card.isHero() && (card.getAbility() == null || (card.getAbility() != null &&
-                            !card.getAbility().equals(Ability.CommandersHorn))) && (list.contains(Card.getCardByID(609)) || list.contains(Card.getCardByID(121)) ||
-                            (game.getGamePlayer1().getMarCoRangedCombat() != null && game.getGamePlayer1().getMarCoRangedCombat().equals(Card.getCardByID(607))))) {
-                        power *= 2;
-                    } else if (card.getAbility() != null && card.getAbility().equals(Ability.CommandersHorn) &&
-                            (game.getGamePlayer1().getMarCoSiege() != null && game.getGamePlayer1().getMarCoSiege().equals(Card.getCardByID(607)))) {
-                        power *= 2;
-                    }
+                        power = card.getPower();
+                        if (!card.isHero() && (card.getAbility() == null || (card.getAbility() != null &&
+                                !card.getAbility().equals(Ability.CommandersHorn))) && (list.contains(Card.getCardByID(609)) || list.contains(Card.getCardByID(121)) ||
+                                (game.getGamePlayer1().getMarCoRangedCombat() != null && game.getGamePlayer1().getMarCoRangedCombat().equals(Card.getCardByID(607))))) {
+                            power *= 2;
+                        } else if (card.getAbility() != null && card.getAbility().equals(Ability.CommandersHorn) &&
+                                (game.getGamePlayer1().getMarCoSiege() != null && game.getGamePlayer1().getMarCoSiege().equals(Card.getCardByID(607)))) {
+                            power *= 2;
+                        }
 
-                    scores = scoresList.getOrDefault(card, new ArrayList<>());
-                    scores.add(power);
-                    scoresList.put(card, scores);
+                        scores = scoresList.getOrDefault(card, new ArrayList<>());
+                        scores.add(power);
+                        scoresList.put(card, scores);
 
-                    game.getGamePlayer1().setRangedCombat(list);
-                    game.getGamePlayer1().setRangedCombatScores(scoresList);
+                        game.getGamePlayer1().setRangedCombat(list);
+                        game.getGamePlayer1().setRangedCombatScores(scoresList);
 
-                    hand = game.getGamePlayer1().getHand();
-                    hand.remove(card);
-                    game.getGamePlayer1().setHand(hand);
+                        hand = game.getGamePlayer1().getHand();
+                        hand.remove(card);
+                        game.getGamePlayer1().setHand(hand);
 
-                    break;
+                        break;
+                }
+            } else {
+                switch (Id) {
+                    case "secondPlayerSiegeList":
+                        ObservableList<Card> list = game.getGamePlayer2().getSiege();
+                        HashMap<Card, List<Integer>> scoresList = game.getGamePlayer2().getSiegeScores();
+                        list.add(card);
 
+                        int power = card.getPower();
+                        if (!card.isHero() && (card.getAbility() == null || (card.getAbility() != null &&
+                                !card.getAbility().equals(Ability.CommandersHorn))) && (list.contains(Card.getCardByID(609)) || list.contains(Card.getCardByID(121)) ||
+                                (game.getGamePlayer2().getMarCoSiege() != null &&
+                                        game.getGamePlayer2().getMarCoSiege().equals(Card.getCardByID(607))))) {
+                            power *= 2;
+                        } else if (card.getAbility() != null && card.getAbility().equals(Ability.CommandersHorn) &&
+                                (game.getGamePlayer1().getMarCoSiege() != null && game.getGamePlayer1().getMarCoSiege().equals(Card.getCardByID(607)))) {
+                            power *= 2;
+                        }
+
+                        List<Integer> scores = scoresList.getOrDefault(card, new ArrayList<>());
+                        scores.add(power);
+                        scoresList.put(card, scores);
+
+                        game.getGamePlayer2().setSiege(list);
+                        game.getGamePlayer2().setSiegeScores(scoresList);
+
+                        ObservableList<Card> hand = game.getGamePlayer2().getHand();
+                        hand.remove(card);
+                        game.getGamePlayer2().setHand(hand);
+
+                        break;
+
+                    case "secondPlayerCloseCombatList":
+                        list = game.getGamePlayer2().getCloseCombat();
+                        scoresList = game.getGamePlayer2().getCloseCombatScores();
+                        list.add(card);
+
+                        power = card.getPower();
+                        if (!card.isHero() && (card.getAbility() == null || (card.getAbility() != null &&
+                                !card.getAbility().equals(Ability.CommandersHorn))) && (list.contains(Card.getCardByID(609)) || list.contains(Card.getCardByID(121)) ||
+                                (game.getGamePlayer2().getMarCoCloseCombat() != null && game.getGamePlayer2().getMarCoCloseCombat().equals(Card.getCardByID(607))))) {
+                            power *= 2;
+                        } else if (card.getAbility() != null && card.getAbility().equals(Ability.CommandersHorn) &&
+                                (game.getGamePlayer1().getMarCoSiege() != null && game.getGamePlayer1().getMarCoSiege().equals(Card.getCardByID(607)))) {
+                            power *= 2;
+                        }
+
+                        scores = scoresList.getOrDefault(card, new ArrayList<>());
+                        scores.add(power);
+                        scoresList.put(card, scores);
+
+                        game.getGamePlayer2().setCloseCombat(list);
+                        game.getGamePlayer2().setCloseCombatScores(scoresList);
+
+                        hand = game.getGamePlayer2().getHand();
+                        hand.remove(card);
+                        game.getGamePlayer2().setHand(hand);
+
+                        break;
+
+                    case "secondPlayerRangedList":
+                        list = game.getGamePlayer2().getRangedCombat();
+                        scoresList = game.getGamePlayer2().getRangedCombatScores();
+                        list.add(card);
+
+                        power = card.getPower();
+                        if (!card.isHero() && (card.getAbility() == null || (card.getAbility() != null &&
+                                !card.getAbility().equals(Ability.CommandersHorn))) && (list.contains(Card.getCardByID(609)) || list.contains(Card.getCardByID(121)) ||
+                                (game.getGamePlayer2().getMarCoRangedCombat() != null && game.getGamePlayer2().getMarCoRangedCombat().equals(Card.getCardByID(607))))) {
+                            power *= 2;
+                        } else if (card.getAbility() != null && card.getAbility().equals(Ability.CommandersHorn) &&
+                                (game.getGamePlayer1().getMarCoSiege() != null && game.getGamePlayer1().getMarCoSiege().equals(Card.getCardByID(607)))) {
+                            power *= 2;
+                        }
+
+                        scores = scoresList.getOrDefault(card, new ArrayList<>());
+                        scores.add(power);
+                        scoresList.put(card, scores);
+
+                        game.getGamePlayer2().setRangedCombat(list);
+                        game.getGamePlayer2().setRangedCombatScores(scoresList);
+
+                        hand = game.getGamePlayer2().getHand();
+                        hand.remove(card);
+                        game.getGamePlayer2().setHand(hand);
+                        break;
+                }
             }
-            abilitySwitch(game, listView, card);
-        }
-        if (user.equals(game.getPlayer2())) {
-            switch (Id) {
-                case "secondPlayerSiegeList":
-                    ObservableList<Card>  list = game.getGamePlayer2().getSiege();
-                    HashMap<Card, List<Integer>> scoresList = game.getGamePlayer2().getSiegeScores();
-                    list.add(card);
-
-                    int power = card.getPower();
-                    if (!card.isHero() && (card.getAbility() == null || (card.getAbility() != null &&
-                            !card.getAbility().equals(Ability.CommandersHorn))) && (list.contains(Card.getCardByID(609)) || list.contains(Card.getCardByID(121)) ||
-                            (game.getGamePlayer2().getMarCoSiege() != null &&
-                            game.getGamePlayer2().getMarCoSiege().equals(Card.getCardByID(607))))) {
-                        power *= 2;
-                    } else if (card.getAbility() != null && card.getAbility().equals(Ability.CommandersHorn) &&
-                            (game.getGamePlayer1().getMarCoSiege() != null && game.getGamePlayer1().getMarCoSiege().equals(Card.getCardByID(607)))) {
-                        power *= 2;
-                    }
-
-                    List<Integer> scores = scoresList.getOrDefault(card, new ArrayList<>());
-                    scores.add(power);
-                    scoresList.put(card, scores);
-
-                    game.getGamePlayer2().setSiege(list);
-                    game.getGamePlayer2().setSiegeScores(scoresList);
-
-                    ObservableList<Card> hand = game.getGamePlayer2().getHand();
-                    hand.remove(card);
-                    game.getGamePlayer2().setHand(hand);
-
-                    break;
-
-                case "secondPlayerCloseCombatList":
-                    list = game.getGamePlayer2().getCloseCombat();
-                    scoresList = game.getGamePlayer2().getCloseCombatScores();
-                    list.add(card);
-
-                    power = card.getPower();
-                    if (!card.isHero() && (card.getAbility() == null || (card.getAbility() != null &&
-                            !card.getAbility().equals(Ability.CommandersHorn))) && (list.contains(Card.getCardByID(609))  || list.contains(Card.getCardByID(121)) ||
-                            (game.getGamePlayer2().getMarCoCloseCombat() != null && game.getGamePlayer2().getMarCoCloseCombat().equals(Card.getCardByID(607))))) {
-                        power *= 2;
-                    } else if (card.getAbility() != null && card.getAbility().equals(Ability.CommandersHorn) &&
-                            (game.getGamePlayer1().getMarCoSiege() != null && game.getGamePlayer1().getMarCoSiege().equals(Card.getCardByID(607)))) {
-                        power *= 2;
-                    }
-
-                    scores = scoresList.getOrDefault(card, new ArrayList<>());
-                    scores.add(power);
-                    scoresList.put(card, scores);
-
-                    game.getGamePlayer2().setCloseCombat(list);
-                    game.getGamePlayer2().setCloseCombatScores(scoresList);
-
-                    hand = game.getGamePlayer2().getHand();
-                    hand.remove(card);
-                    game.getGamePlayer2().setHand(hand);
-
-                    break;
-
-                case "secondPlayerRangedList":
-                    list = game.getGamePlayer2().getRangedCombat();
-                    scoresList = game.getGamePlayer2().getRangedCombatScores();
-                    list.add(card);
-
-                    power = card.getPower();
-                    if (!card.isHero() && (card.getAbility() == null || (card.getAbility() != null &&
-                            !card.getAbility().equals(Ability.CommandersHorn))) && (list.contains(Card.getCardByID(609)) || list.contains(Card.getCardByID(121)) ||
-                            (game.getGamePlayer2().getMarCoRangedCombat() != null && game.getGamePlayer2().getMarCoRangedCombat().equals(Card.getCardByID(607))))) {
-                        power *= 2;
-                    } else if (card.getAbility() != null && card.getAbility().equals(Ability.CommandersHorn) &&
-                            (game.getGamePlayer1().getMarCoSiege() != null && game.getGamePlayer1().getMarCoSiege().equals(Card.getCardByID(607)))) {
-                        power *= 2;
-                    }
-
-                    scores = scoresList.getOrDefault(card, new ArrayList<>());
-                    scores.add(power);
-                    scoresList.put(card, scores);
-
-                    game.getGamePlayer2().setRangedCombat(list);
-                    game.getGamePlayer2().setRangedCombatScores(scoresList);
-
-                    hand = game.getGamePlayer2().getHand();
-                    hand.remove(card);
-                    game.getGamePlayer2().setHand(hand);
-
-                    break;
-            }
-            abilitySwitch(game, listView, card);
         }
 
+        abilitySwitch(game, listView, card);
     }
 
     private void abilitySwitch(Game game, ListView listView, Card card) {
@@ -681,7 +682,6 @@ public class Function {
 
         HashMap<Card, List<Integer>> cardScores = new HashMap<>();
         if (!card.isSpecial()) {
-            System.out.println("ke");
             switch (listView.getId()) {
                 case "firstPlayerSiegeList":
                     highestScore = findHighestScore(highestScore, firstPlayerSiege, firstPlayerSiegeScores);
@@ -717,7 +717,6 @@ public class Function {
             highestScore = findHighestScore(highestScore, secondPlayerCloseCombat, secondPlayerCloseCombatScores);
             highestScore = findHighestScore(highestScore, secondPlayerRangedCombat, secondPlayerRangedCombatScores);
             highestScore = findHighestScore(highestScore, secondPlayerSiege, secondPlayerSiegeScores);
-            System.out.println(highestScore);
 
             removeCardWithHighestScore(firstPlayerSiege, firstPlayerSiegeScores, highestScore);
             removeCardWithHighestScore(firstPlayerRangedCombat, firstPlayerRangedCombatScores, highestScore);
@@ -725,6 +724,22 @@ public class Function {
             removeCardWithHighestScore(secondPlayerCloseCombat, secondPlayerCloseCombatScores, highestScore);
             removeCardWithHighestScore(secondPlayerRangedCombat, secondPlayerRangedCombatScores, highestScore);
             removeCardWithHighestScore(secondPlayerSiege, secondPlayerSiegeScores, highestScore);
+            ObservableList<Card> hand;
+            if (game.getActivePlayer().equals(game.getPlayer1())) {
+                hand = game.getGamePlayer1().getHand();
+                hand.remove(card);
+                game.getGamePlayer1().setHand(hand);
+                hand = game.getGamePlayer1().getBurnedCards();
+                hand.add(card);
+                game.getGamePlayer1().setBurnedCards(hand);
+            } else {
+                hand = game.getGamePlayer2().getHand();
+                hand.remove(card);
+                game.getGamePlayer2().setHand(hand);
+                hand = game.getGamePlayer2().getBurnedCards();
+                hand.add(card);
+                game.getGamePlayer2().setBurnedCards(hand);
+            }
         }
     }
 
@@ -753,7 +768,7 @@ public class Function {
     private int findHighestScore(int highestScore, ObservableList<Card> cards, HashMap<Card, List<Integer>> cardsScore) {
         for (Card card : cards) {
             int maxScore = cardsScore.get(card).stream().max(Integer::compare).orElse(0);
-            if (maxScore > highestScore) {
+            if (maxScore > highestScore && !card.isHero()) {
                 highestScore = maxScore;
             }
         }
@@ -862,11 +877,14 @@ public class Function {
         if (user.equals(game.getPlayer1())) {
             burnedCard = game.getGamePlayer1().getBurnedCards();
             burnedCard.add(card);
+            game.getGamePlayer1().setBurnedCards(burnedCard);
         }
         if (user.equals(game.getPlayer2())) {
             burnedCard = game.getGamePlayer2().getBurnedCards();
             burnedCard.add(card);
+            game.getGamePlayer2().setBurnedCards(burnedCard);
         }
+
     }
 
     private void spell(Game game, ImageView imageView, Card card) {
