@@ -30,6 +30,16 @@ public class EndOFTheGameController {
     @FXML
     public void initialize() {
         Game game = User.getLoggedInUser().getCurrentGame();
+        int totalScorePlayer1=game.getGamePlayer1().getFirstRoundScore()+
+                game.getGamePlayer1().getSecondRoundScore()+
+                game.getGamePlayer1().getThirdRoundScore();
+        int totalScorePlayer2=game.getGamePlayer2().getFirstRoundScore()+
+                game.getGamePlayer2().getSecondRoundScore()+
+                game.getGamePlayer2().getThirdRoundScore();
+
+        game.getPlayer1().setMaxScore(Integer.max(totalScorePlayer1 , game.getPlayer1().getMaxScore()));
+        game.getPlayer2().setMaxScore(Integer.max(totalScorePlayer2 , game.getPlayer2().getMaxScore()));
+
         EachPlayerGame firstPlayerGame = game.getGamePlayer1();
         EachPlayerGame secondPlayerGame = game.getGamePlayer2();
 
@@ -57,7 +67,6 @@ public class EndOFTheGameController {
         else Round2W.setText("Draw");
         if (game.getThirdRoundWinner() != null) Round3W.setText(String.valueOf(game.getThirdRoundWinner().getUsername()));
         else Round3W.setText("Draw");
-
 
         game.getPlayer1().setCurrentGame(null);
         game.getPlayer2().setCurrentGame(null);
