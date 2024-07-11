@@ -485,13 +485,17 @@ public class GameMenuController {
                 function.run(this, listView, selectedCard);
                 resetRowAndPlaceHighlights();
             } else {
+
                 List<Card> selectableCards = listView.getItems().stream()
                         .filter(card -> card instanceof Card)
                         .map(card -> (Card) card)
                         .collect(Collectors.toList());
+
                 ListView<Card> secondaryListView = new ListView<>();
                 secondaryListView.getItems().addAll(selectableCards);
                 secondaryListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+
+                secondaryListView.setCellFactory(new CardListCellFactory(100, 75)); // Adjust image dimensions as needed
 
                 Stage secondaryStage = new Stage();
                 secondaryStage.setTitle("Select a Card");
@@ -504,7 +508,6 @@ public class GameMenuController {
                         Game game = User.getLoggedInUser().getCurrentGame();
                         System.out.println("Selected card from secondary list: " + newSelection);
                         switch (listView.getId()) {
-
                             case "firstPlayerCloseCombatList":
                                 EachPlayerGame PlayerGame = game.getGamePlayer1();
                                 ObservableList<Card> List = PlayerGame.getCloseCombat();
@@ -660,7 +663,6 @@ public class GameMenuController {
                                 handList.add(newSelection);
                                 PlayerGame.setHand(handList);
                                 break;
-
                         }
                         secondaryStage.close();
                     }
@@ -1054,10 +1056,6 @@ public class GameMenuController {
     }
 
     private void changeTurn() {
-        if (User.getLoggedInUser().getCurrentGame().getWeatherCard() != null) {
-            System.out.println("calculate weather card");
-            calculateScoresWeather();
-        }
         Game game = User.getLoggedInUser().getCurrentGame();
         game.setTurnNo(game.getTurnNo() + 1);
         if (game.getActivePlayer().equals(game.getPlayer1()) || game.getGamePlayer1().isPassedTheGame()) {
@@ -1069,28 +1067,6 @@ public class GameMenuController {
         isRoundEnd();
     }
 
-
-    private void calculateScoresWeather() {
-        Game game = User.getLoggedInUser().getCurrentGame();
-        EachPlayerGame firstPlayerGame = game.getGamePlayer1();
-        EachPlayerGame secondPlayerGame = game.getGamePlayer2();
-        clearWeather();
-        switch (game.getWeatherCard().getName()) {
-            case "Biting Frost":
-                break;
-
-            case "Impenetrable Fog":
-                break;
-
-            case "Torrential Rain":
-                break;
-
-            case "Skellige Storm":
-                break;
-            default:
-                break;
-        }
-    }
 
     public void cheatAddCardToHand() {
         Game game = User.getLoggedInUser().getCurrentGame();

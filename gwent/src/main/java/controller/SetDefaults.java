@@ -103,7 +103,7 @@ public class SetDefaults {
                 new Image(SetDefaults.class.getResourceAsStream("/images/cards/skellige/skellige_draig.jpg")));
 
         Card olafCard = new Card("Olaf", 122, 12, 1,
-                false, Ability.CommandersHorn, CardType.AgileUnit, Place.agile,
+                false, Ability.MoralBoost, CardType.AgileUnit, Place.agile,
                 new Image(SetDefaults.class.getResourceAsStream("/images/cards/skellige/skellige_olaf.jpg")));
 
         new Card("Blueboy Lugos", 123, 6, 1,

@@ -3,7 +3,7 @@ package controller;
 import enums.Ability;
 import enums.CardType;
 import enums.Place;
-import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
@@ -56,8 +56,12 @@ public class Function {
                     list.add(card);
 
                     int power = card.getPower();
-                    if (!card.isHero() && scoresList.keySet().stream()
-                            .anyMatch(c -> c.getAbility() != null && c.getAbility().equals(Ability.CommandersHorn))) {
+                    if (!card.isHero() && (card.getAbility() == null || (card.getAbility() != null &&
+                            !card.getAbility().equals(Ability.CommandersHorn))) && (list.contains(Card.getCardByID(609))  || list.contains(Card.getCardByID(121)) ||
+                            (game.getGamePlayer1().getMarCoSiege() != null && game.getGamePlayer1().getMarCoSiege().equals(Card.getCardByID(607))))) {
+                        power *= 2;
+                    } else if (card.getAbility() != null && card.getAbility().equals(Ability.CommandersHorn) &&
+                            (game.getGamePlayer1().getMarCoSiege() != null && game.getGamePlayer1().getMarCoSiege().equals(Card.getCardByID(607)))) {
                         power *= 2;
                     }
 
@@ -80,8 +84,12 @@ public class Function {
                     list.add(card);
 
                     power = card.getPower();
-                    if (!card.isHero() && scoresList.keySet().stream()
-                            .anyMatch(c -> c.getAbility() != null && c.getAbility().equals(Ability.CommandersHorn))) {
+                    if (!card.isHero() && (card.getAbility() == null || (card.getAbility() != null &&
+                            !card.getAbility().equals(Ability.CommandersHorn))) && (list.contains(Card.getCardByID(609)) || list.contains(Card.getCardByID(121)) ||
+                            (game.getGamePlayer1().getMarCoCloseCombat() != null && game.getGamePlayer1().getMarCoCloseCombat().equals(Card.getCardByID(607))))) {
+                        power *= 2;
+                    } else if (card.getAbility() != null && card.getAbility().equals(Ability.CommandersHorn) &&
+                            (game.getGamePlayer1().getMarCoSiege() != null && game.getGamePlayer1().getMarCoSiege().equals(Card.getCardByID(607)))) {
                         power *= 2;
                     }
 
@@ -104,8 +112,12 @@ public class Function {
                     list.add(card);
 
                     power = card.getPower();
-                    if (!card.isHero() && scoresList.keySet().stream()
-                            .anyMatch(c -> c.getAbility() != null && c.getAbility().equals(Ability.CommandersHorn))) {
+                    if (!card.isHero() && (card.getAbility() == null || (card.getAbility() != null &&
+                            !card.getAbility().equals(Ability.CommandersHorn))) && (list.contains(Card.getCardByID(609)) || list.contains(Card.getCardByID(121)) ||
+                            (game.getGamePlayer1().getMarCoRangedCombat() != null && game.getGamePlayer1().getMarCoRangedCombat().equals(Card.getCardByID(607))))) {
+                        power *= 2;
+                    } else if (card.getAbility() != null && card.getAbility().equals(Ability.CommandersHorn) &&
+                            (game.getGamePlayer1().getMarCoSiege() != null && game.getGamePlayer1().getMarCoSiege().equals(Card.getCardByID(607)))) {
                         power *= 2;
                     }
 
@@ -133,8 +145,13 @@ public class Function {
                     list.add(card);
 
                     int power = card.getPower();
-                    if (!card.isHero() && scoresList.keySet().stream()
-                            .anyMatch(c -> c.getAbility() != null && c.getAbility().equals(Ability.CommandersHorn))) {
+                    if (!card.isHero() && (card.getAbility() == null || (card.getAbility() != null &&
+                            !card.getAbility().equals(Ability.CommandersHorn))) && (list.contains(Card.getCardByID(609)) || list.contains(Card.getCardByID(121)) ||
+                            (game.getGamePlayer2().getMarCoSiege() != null &&
+                            game.getGamePlayer2().getMarCoSiege().equals(Card.getCardByID(607))))) {
+                        power *= 2;
+                    } else if (card.getAbility() != null && card.getAbility().equals(Ability.CommandersHorn) &&
+                            (game.getGamePlayer1().getMarCoSiege() != null && game.getGamePlayer1().getMarCoSiege().equals(Card.getCardByID(607)))) {
                         power *= 2;
                     }
 
@@ -157,8 +174,12 @@ public class Function {
                     list.add(card);
 
                     power = card.getPower();
-                    if (!card.isHero() && scoresList.keySet().stream()
-                            .anyMatch(c -> c.getAbility() != null && c.getAbility().equals(Ability.CommandersHorn))) {
+                    if (!card.isHero() && (card.getAbility() == null || (card.getAbility() != null &&
+                            !card.getAbility().equals(Ability.CommandersHorn))) && (list.contains(Card.getCardByID(609))  || list.contains(Card.getCardByID(121)) ||
+                            (game.getGamePlayer2().getMarCoCloseCombat() != null && game.getGamePlayer2().getMarCoCloseCombat().equals(Card.getCardByID(607))))) {
+                        power *= 2;
+                    } else if (card.getAbility() != null && card.getAbility().equals(Ability.CommandersHorn) &&
+                            (game.getGamePlayer1().getMarCoSiege() != null && game.getGamePlayer1().getMarCoSiege().equals(Card.getCardByID(607)))) {
                         power *= 2;
                     }
 
@@ -176,18 +197,26 @@ public class Function {
                     break;
 
                 case "secondPlayerRangedList":
-                    ObservableList<Card> rangedList = game.getGamePlayer2().getRangedCombat();
-                    HashMap<Card, List<Integer>> rangedScores = game.getGamePlayer2().getRangedCombatScores();
-                    rangedList.add(card);
+                    list = game.getGamePlayer2().getRangedCombat();
+                    scoresList = game.getGamePlayer2().getRangedCombatScores();
+                    list.add(card);
 
-                    if (card.getAbility() != null) {
-                        boolean hasCommandersHorn = rangedList.stream()
-                                .filter(cards -> cards.getAbility() != null)
-                                .anyMatch(cards -> cards.getAbility().equals(Ability.CommandersHorn));
-                        rangedScores.computeIfAbsent(card, k -> new ArrayList<>()).add(hasCommandersHorn ? card.getPower() * 2 : card.getPower());
+                    power = card.getPower();
+                    if (!card.isHero() && (card.getAbility() == null || (card.getAbility() != null &&
+                            !card.getAbility().equals(Ability.CommandersHorn))) && (list.contains(Card.getCardByID(609)) || list.contains(Card.getCardByID(121)) ||
+                            (game.getGamePlayer2().getMarCoRangedCombat() != null && game.getGamePlayer2().getMarCoRangedCombat().equals(Card.getCardByID(607))))) {
+                        power *= 2;
+                    } else if (card.getAbility() != null && card.getAbility().equals(Ability.CommandersHorn) &&
+                            (game.getGamePlayer1().getMarCoSiege() != null && game.getGamePlayer1().getMarCoSiege().equals(Card.getCardByID(607)))) {
+                        power *= 2;
                     }
-                    game.getGamePlayer2().setRangedCombat(rangedList);
-                    game.getGamePlayer2().setRangedCombatScores(rangedScores);
+
+                    scores = scoresList.getOrDefault(card, new ArrayList<>());
+                    scores.add(power);
+                    scoresList.put(card, scores);
+
+                    game.getGamePlayer2().setRangedCombat(list);
+                    game.getGamePlayer2().setRangedCombatScores(scoresList);
 
                     hand = game.getGamePlayer2().getHand();
                     hand.remove(card);
@@ -226,7 +255,7 @@ public class Function {
                     spy(game, listView, card);
                     break;
                 case Mardoeme:
-                    mardroeme(game, listView, card);
+                    mardoeme(game, listView, card);
                     break;
                 default:
                     break;
@@ -234,26 +263,45 @@ public class Function {
         }
     }
 
+    private Card boostSwitch(Game game, ListView<Card> listView) {
+        switch (listView.getId()) {
+            case "firstPlayerSiegeList" :
+                return game.getGamePlayer1().getMarCoSiege();
+            case "firstPlayerCloseCombatList" :
+                return game.getGamePlayer1().getMarCoCloseCombat();
+            case "firstPlayerRangedList" :
+                return game.getGamePlayer1().getMarCoRangedCombat();
+            case "secondPlayerSiegeList" :
+                return game.getGamePlayer2().getMarCoSiege();
+            case "secondPlayerCloseCombatList" :
+                return game.getGamePlayer2().getMarCoCloseCombat();
+            case "secondPlayerRangedList" :
+                return game.getGamePlayer2().getMarCoRangedCombat();
+            default:
+                return null;
+        }
+
+    }
+
 
     private void commandersHorn(Game game, ListView<Card> listView, Card card) {
         HashMap<Card, List<Integer>> cardScores = rowSwitch(game, listView);
-        Boolean isThereCH = false;
-        for (Card card1 : cardScores.keySet()) {
-            if (card1.getAbility() == null) continue;
-            if (card1.getAbility().equals(Ability.CommandersHorn)) isThereCH = true;
+        ObservableList<Card> list = rowSwitchList(game, listView);
+        Card boost = boostSwitch(game, listView);
+        int cmTotal = 0;
+        for (Card card1 : list) {
+            if (card1.getAbility() != null && card1.getAbility().equals(Ability.CommandersHorn)) cmTotal++;
         }
-        if (!isThereCH){
+        if (cmTotal == 1 && (boost == null || boost.equals(Card.getCardByID(607)))){
             for (Card card2 : cardScores.keySet()) {
-                List<Integer> scores = cardScores.get(card2);
-
-                if (card2.isHero() || card2.equals(card)) {
-                    continue;
+                if (!card2.isHero() && !card2.equals(card) ) {
+                    List<Integer> scores = cardScores.get(card2);
+                    for (int i = 0; i < scores.size(); i++) {
+                        int score = scores.get(i) * 2;
+                        scores.set(i, score);
+                    }
+                    setHashMap(game, listView, cardScores);
                 }
-
-                for (int i = 0; i < scores.size(); i++) {
-                    scores.set(i, scores.get(i) * 2);
-                }
-                setHashMap(game, listView, cardScores);
             }
         }
     }
@@ -291,6 +339,7 @@ public class Function {
             hand.add(card);
             game.getGamePlayer1().setHand(hand);
             burnedCards.remove(card);
+            game.getGamePlayer1().setBurnedCards(burnedCards);
         }
         if (user.equals(game.getPlayer2())) {
             burnedCards = game.getGamePlayer2().getBurnedCards();
@@ -304,6 +353,7 @@ public class Function {
             hand.add(card);
             game.getGamePlayer2().setHand(hand);
             burnedCards.remove(card);
+            game.getGamePlayer2().setBurnedCards(burnedCards);
         }
     }
 
@@ -360,6 +410,29 @@ public class Function {
                 break;
         }
         return cardScores;
+    }
+
+    private ObservableList<Card> rowSwitchList(Game game, ListView listView) {
+        EachPlayerGame firstPlayerGame = game.getGamePlayer1();
+        EachPlayerGame secondPlayerGame = game.getGamePlayer2();
+
+        switch (listView.getId()) {
+            case "firstPlayerSiegeList":
+                return firstPlayerGame.getSiege();
+            case "firstPlayerRangedList":
+                return firstPlayerGame.getRangedCombat();
+            case "firstPlayerCloseCombatList":
+                return firstPlayerGame.getCloseCombat();
+            case "secondPlayerCloseCombatList":
+                return secondPlayerGame.getCloseCombat();
+            case "secondPlayerRangedList":
+                return secondPlayerGame.getRangedCombat();
+            case "secondPlayerSiegeList":
+                return secondPlayerGame.getSiege();
+            default:
+                break;
+        }
+        return null;
     }
 
     private void muster(Game game, ListView listView) {
@@ -610,53 +683,55 @@ public class Function {
         return highestScore;
     }
 
-    private void mardroeme(Game game, ListView listView, Card card) {
-        if (game.getActivePlayer().equals(game.getPlayer1())) {
-            ObservableList<Card> list = game.getGamePlayer1().getCloseCombat();
-            for (Card card1 : list) {
-                if (card1.getName().equals("Berserker")) {
-                    HashMap<Card, List<Integer>> cardScores = game.getGamePlayer1().getCloseCombatScores();
-                    list.remove(card1);
-                    cardScores.remove(card1);
-                    game.getGamePlayer1().setCloseCombatScores(cardScores);
-                    game.getGamePlayer1().setCloseCombat(list);
-                    run(gameMenuController, listView, Card.getCardByName("Vildkaarl"));
-                }
-            }
+    private void mardoeme(Game game, ListView listView, Card card) {
+        HashMap<Card, List<Integer>> cardScores;
+        ObservableList<Card> list;
+        ObservableList<Card> copyList;
+
+        if (game.getPlayer1().equals(game.getActivePlayer())) {
+            cardScores = game.getGamePlayer1().getRangedCombatScores();
             list = game.getGamePlayer1().getRangedCombat();
-            for (Card card1 : list) {
-                if (card1.getName().equals("YoungBerserker")) {
-                    HashMap<Card, List<Integer>> cardScores = game.getGamePlayer1().getRangedCombatScores();
+            copyList = FXCollections.observableArrayList(list);
+
+            for (Card card1 : copyList) {
+                if (card1.equals(Card.getCardByID(117))) {
                     list.remove(card1);
-                    cardScores.remove(card1);
-                    game.getGamePlayer1().setRangedCombatScores(cardScores);
-                    game.getGamePlayer1().setRangedCombat(list);
-                    run(gameMenuController, listView, Card.getCardByName("YoungVildkaarl"));
+                    list.add(Card.getCardByID(118));
                 }
             }
+
+            if (copyList.contains(Card.getCardByID(117))) {
+                int count = cardScores.get(Card.getCardByID(117)).size();
+                List<Integer> scores = cardScores.get(Card.getCardByID(117));
+                cardScores.remove(Card.getCardByID(117));
+                scores = new ArrayList<>(Collections.nCopies(count, 8));
+                cardScores.put(Card.getCardByID(118), scores);
+            }
+
+            game.getGamePlayer1().setRangedCombat(list);
+            game.getGamePlayer1().setRangedCombatScores(cardScores);
         } else {
-            ObservableList<Card> list = game.getGamePlayer2().getCloseCombat();
-            for (Card card1 : list) {
-                if (card1.getName().equals("Berserker")) {
-                    HashMap<Card, List<Integer>> cardScores = game.getGamePlayer2().getCloseCombatScores();
-                    list.remove(card1);
-                    cardScores.remove(card1);
-                    game.getGamePlayer2().setCloseCombatScores(cardScores);
-                    game.getGamePlayer2().setCloseCombat(list);
-                    run(gameMenuController, listView, Card.getCardByName("Vildkaarl"));
-                }
-            }
+            cardScores = game.getGamePlayer2().getRangedCombatScores();
             list = game.getGamePlayer2().getRangedCombat();
-            for (Card card1 : list) {
-                if (card1.getName().equals("YoungBerserker")) {
-                    HashMap<Card, List<Integer>> cardScores = game.getGamePlayer2().getRangedCombatScores();
+            copyList = FXCollections.observableArrayList(list);
+
+            for (Card card1 : copyList) {
+                if (card1.equals(Card.getCardByID(117))) {
                     list.remove(card1);
-                    cardScores.remove(card1);
-                    game.getGamePlayer2().setRangedCombatScores(cardScores);
-                    game.getGamePlayer2().setRangedCombat(list);
-                    run(gameMenuController, listView, Card.getCardByName("YoungVildkaarl"));
+                    list.add(Card.getCardByID(118));
                 }
             }
+
+            if (copyList.contains(Card.getCardByID(117))) {
+                int count = cardScores.get(Card.getCardByID(117)).size();
+                List<Integer> scores = cardScores.get(Card.getCardByID(117));
+                cardScores.remove(Card.getCardByID(117));
+                scores = new ArrayList<>(Collections.nCopies(count, 8));
+                cardScores.put(Card.getCardByID(118), scores);
+            }
+
+            game.getGamePlayer2().setRangedCombat(list);
+            game.getGamePlayer2().setRangedCombatScores(cardScores);
         }
     }
 
@@ -726,255 +801,236 @@ public class Function {
         if (user.equals(game.getPlayer1())){
             switch (Id) {
                 case "firstPlayerCloseCombatBoost":
-                    image = card.getImage();
-                    imageView.setImage(image);
                     hand = game.getGamePlayer1().getHand();
                     ObservableList<Card> finalHand = hand;
-                    Platform.runLater(() -> {
-                        finalHand.remove(card);
-                        game.getGamePlayer1().setHand(finalHand);
-                    });
-                    gameMenuController.firstPlayerCloseCombatBoost.setImage(image);
+                    finalHand.remove(card);
+                    game.getGamePlayer1().setHand(finalHand);
+                    game.getGamePlayer1().setMarCoCloseCombat(card);
                     break;
                 case "firstPlayerRangedBoost":
-                    image = card.getImage();
-                    imageView.setImage(image);
                     hand = game.getGamePlayer1().getHand();
                     finalHand = hand;
                     finalHand.remove(card);
                     game.getGamePlayer1().setHand(finalHand);
-                    gameMenuController.firstPlayerRangedBoost.setImage(image);
+                    game.getGamePlayer1().setMarCoRangedCombat(card);
                     break;
                 case "firstPlayerSiegeBoost":
-                    image = card.getImage();
-                    imageView.setImage(image);
                     hand = game.getGamePlayer1().getHand();
                     finalHand = hand;
-                    Platform.runLater(() -> {
-                        finalHand.remove(card);
-                        game.getGamePlayer1().setHand(finalHand);
-                    });
-                    gameMenuController.firstPlayerSiegeBoost.setImage(image);
+                    finalHand.remove(card);
+                    game.getGamePlayer1().setHand(finalHand);
+                    game.getGamePlayer1().setMarCoSiege(card);
                     break;
             }
-        }
-        if (user.equals(game.getPlayer2())){
+        } else{
             switch (Id){
                 case "secondPlayerSiegeBoost":
-                    image = card.getImage();
-                    imageView.setImage(image);
                     hand = game.getGamePlayer2().getHand();
                     ObservableList<Card> finalHand = hand;
-                    Platform.runLater(() -> {
-                        finalHand.remove(card);
-                        game.getGamePlayer2().setHand(finalHand);
-                    });
-                    gameMenuController.secondPlayerSiegeBoost.setImage(image);
+                    finalHand.remove(card);
+                    game.getGamePlayer2().setHand(finalHand);
+                    game.getGamePlayer2().setMarCoSiege(card);
                     break;
                 case "secondPlayerCloseCombatBoost":
-                    image = card.getImage();
-                    imageView.setImage(image);
                     hand = game.getGamePlayer2().getHand();
                     finalHand = hand;
-                    Platform.runLater(() -> {
-                        finalHand.remove(card);
-                        game.getGamePlayer2().setHand(finalHand);
-                    });
-                    gameMenuController.secondPlayerCloseCombatBoost.setImage(image);
+                    finalHand.remove(card);
+                    game.getGamePlayer2().setHand(finalHand);
+                    game.getGamePlayer2().setMarCoCloseCombat(card);
                     break;
                 case "secondPlayerRangedBoost":
-                    image = card.getImage();
-                    imageView.setImage(image);
                     hand = game.getGamePlayer2().getHand();
                     finalHand = hand;
-                    Platform.runLater(() -> {
-                        finalHand.remove(card);
-                        game.getGamePlayer2().setHand(finalHand);
-                    });
-                    gameMenuController.secondPlayerRangedBoost.setImage(image);
+                    finalHand.remove(card);
+                    game.getGamePlayer2().setHand(finalHand);
+                    game.getGamePlayer2().setMarCoRangedCombat(card);
                     break;
             }
 
         }
-        if (card.getAbility() != null) {
-            switch (card.getAbility()) {
-                case Mardoeme:
-                    mardoeme(game, Id, imageView, card);
-                    break;
-                case CommandersHorn:
-                    commandersHorn(game, Id, imageView, card);
-                    break;
-            }
+        switch (card.getName()) {
+            case "Mardoeme":
+                mardoeme(game, Id, imageView, card);
+                break;
+            case "Commander's Horn":
+                commandersHorn(game, Id, imageView, card);
+                break;
         }
 
     }
 
     private void commandersHorn(Game game, String id, ImageView imageView, Card card) {
         HashMap<Card, List<Integer>> cardScores;
+        List<Card> list;
+
         switch (id) {
             case "firstPlayerCloseCombatBoost":
                 cardScores = game.getGamePlayer1().getCloseCombatScores();
-                for (Map.Entry<Card, List<Integer>> entry : cardScores.entrySet()) {
-                    Card currentCard = entry.getKey();
-                    if (currentCard.isHero() || currentCard.equals(card)) {
-                        continue;
-                    }
-                    List<Integer> scores = entry.getValue();
-                    for (int i = 0; i < scores.size(); i++) {
-                        scores.set(i, scores.get(i) * 2);
-                    }
-                }
+                list = game.getGamePlayer1().getCloseCombat();
+                cardScores = X2(cardScores, list);
                 game.getGamePlayer1().setCloseCombatScores(cardScores);
                 break;
             case "firstPlayerRangedBoost":
                 cardScores = game.getGamePlayer1().getRangedCombatScores();
-                for (Map.Entry<Card, List<Integer>> entry : cardScores.entrySet()) {
-                    Card currentCard = entry.getKey();
-                    if (currentCard.isHero() || currentCard.equals(card)) {
-                        continue;
-                    }
-                    List<Integer> scores = entry.getValue();
-                    for (int i = 0; i < scores.size(); i++) {
-                        scores.set(i, scores.get(i) * 2);
-                    }
-                }
+                list = game.getGamePlayer1().getRangedCombat();
+                cardScores = X2(cardScores, list);
                 game.getGamePlayer1().setRangedCombatScores(cardScores);
+                break;
             case "firstPlayerSiegeBoost":
                 cardScores = game.getGamePlayer1().getSiegeScores();
-                for (Map.Entry<Card, List<Integer>> entry : cardScores.entrySet()) {
-                    Card currentCard = entry.getKey();
-                    if (currentCard.isHero() || currentCard.equals(card)) {
-                        continue;
-                    }
-                    List<Integer> scores = entry.getValue();
-                    for (int i = 0; i < scores.size(); i++) {
-                        scores.set(i, scores.get(i) * 2);
-                    }
-                }
+                list = game.getGamePlayer1().getSiege();
+                cardScores = X2(cardScores, list);
                 game.getGamePlayer1().setSiegeScores(cardScores);
                 break;
             case "secondPlayerSiegeBoost":
                 cardScores = game.getGamePlayer2().getSiegeScores();
-                for (Map.Entry<Card, List<Integer>> entry : cardScores.entrySet()) {
-                    Card currentCard = entry.getKey();
-                    if (currentCard.isHero() || currentCard.equals(card)) {
-                        continue;
-                    }
-                    List<Integer> scores = entry.getValue();
-                    for (int i = 0; i < scores.size(); i++) {
-                        scores.set(i, scores.get(i) * 2);
-                    }
-                }
+                list = game.getGamePlayer2().getSiege();
+                cardScores = X2(cardScores, list);
                 game.getGamePlayer2().setSiegeScores(cardScores);
                 break;
             case "secondPlayerCloseCombatBoost":
                 cardScores = game.getGamePlayer2().getCloseCombatScores();
-                for (Map.Entry<Card, List<Integer>> entry : cardScores.entrySet()) {
-                    Card currentCard = entry.getKey();
-                    if (currentCard.isHero() || currentCard.equals(card)) {
-                        continue;
-                    }
-                    List<Integer> scores = entry.getValue();
-                    for (int i = 0; i < scores.size(); i++) {
-                        scores.set(i, scores.get(i) * 2);
-                    }
-                }
+                list = game.getGamePlayer2().getCloseCombat();
+                cardScores = X2(cardScores, list);
                 game.getGamePlayer2().setCloseCombatScores(cardScores);
                 break;
             case "secondPlayerRangedBoost":
                 cardScores = game.getGamePlayer2().getRangedCombatScores();
-                for (Map.Entry<Card, List<Integer>> entry : cardScores.entrySet()) {
-                    Card currentCard = entry.getKey();
-                    if (currentCard.isHero() || currentCard.equals(card)) {
-                        continue;
-                    }
-                    List<Integer> scores = entry.getValue();
-                    for (int i = 0; i < scores.size(); i++) {
-                        scores.set(i, scores.get(i) * 2);
-                    }
-                }
+                list = game.getGamePlayer2().getRangedCombat();
+                cardScores = X2(cardScores, list);
                 game.getGamePlayer2().setRangedCombatScores(cardScores);
                 break;
         }
     }
 
+    private HashMap<Card, List<Integer>> X2(HashMap<Card, List<Integer>> cardScores, List<Card> list) {
+        boolean hasCommandersHorn = (list.contains(Card.getCardByID(609)) || list.contains(Card.getCardByID(121)));
+
+        for (Card card : cardScores.keySet()) {
+            List<Integer> scores = cardScores.get(card);
+            if (hasCommandersHorn) {
+                if (card.equals(Card.getCardByID(609)) || card.equals(Card.getCardByID(121))) {
+                    for (int i = 0; i < scores.size(); i++) {
+                        scores.set(i, scores.get(i) * 2);
+                    }
+                }
+            } else {
+                if (!card.isHero()) {
+                    for (int i = 0; i < scores.size(); i++) {
+                        scores.set(i, scores.get(i) * 2);
+                    }
+                }
+            }
+            cardScores.put(card, scores);
+        }
+        return cardScores;
+    }
+
     private void mardoeme(Game game, String id, ImageView imageView, Card card) {
         HashMap<Card, List<Integer>> cardScores;
+        ObservableList<Card> list;
+        ObservableList<Card> copyList;
+
         switch (id) {
             case "firstPlayerCloseCombatBoost":
                 cardScores = game.getGamePlayer1().getCloseCombatScores();
-                ObservableList<Card> list = game.getGamePlayer1().getCloseCombat();
-                for (Map.Entry<Card, List<Integer>> entry : cardScores.entrySet()) {
-                    Card currentCard = entry.getKey();
-                    if (currentCard.isHero() || currentCard.equals(card)) {
-                        continue;
-                    }
-                    if (currentCard.getAbility() == Ability.Berserker){
-                        list.remove(currentCard);
-                        cardScores.remove(currentCard);
-                        game.getGamePlayer1().setCloseCombatScores(cardScores);
-                        game.getGamePlayer1().setRangedCombat(list);
-                        run(gameMenuController, imageView, Card.getCardByName("YoungVildkaarl"));
+                list = game.getGamePlayer1().getCloseCombat();
+                copyList = FXCollections.observableArrayList(list); // Create a copy of the list
+
+                for (Card card1 : copyList) {
+                    if (card1.equals(Card.getCardByID(102))) {
+                        list.remove(card1);
+                        list.add(Card.getCardByID(103));
                     }
                 }
+
+                if (copyList.contains(Card.getCardByID(102))) {
+                    int count = cardScores.get(Card.getCardByID(102)).size();
+                    List<Integer> scores = cardScores.get(Card.getCardByID(102));
+                    cardScores.remove(Card.getCardByID(102));
+                    scores = new ArrayList<>(Collections.nCopies(count, 8)); // Create a new list with '8's
+                    cardScores.put(Card.getCardByID(103), scores);
+                }
+
+                game.getGamePlayer1().setCloseCombat(list);
+                game.getGamePlayer1().setCloseCombatScores(cardScores);
+
                 break;
             case "firstPlayerRangedBoost":
                 cardScores = game.getGamePlayer1().getRangedCombatScores();
                 list = game.getGamePlayer1().getRangedCombat();
-                for (Map.Entry<Card, List<Integer>> entry : cardScores.entrySet()) {
-                    Card currentCard = entry.getKey();
-                    if (currentCard.isHero() || currentCard.equals(card)) {
-                        continue;
-                    }
-                    if (currentCard.getAbility() == Ability.Berserker){
-                        list.remove(currentCard);
-                        cardScores.remove(currentCard);
-                        game.getGamePlayer1().setRangedCombatScores(cardScores);
-                        game.getGamePlayer1().setRangedCombat(list);
-                        run(gameMenuController, imageView, Card.getCardByName("YoungVildkaarl"));
+                copyList = FXCollections.observableArrayList(list);
+
+                for (Card card1 : copyList) {
+                    if (card1.equals(Card.getCardByID(117))) {
+                        list.remove(card1);
+                        list.add(Card.getCardByID(118));
                     }
                 }
-                break;
-            case "firstPlayerSiegeBoost": //B tasir
-                break;
-            case "secondPlayerSiegeBoost": // B tasir
+
+                if (copyList.contains(Card.getCardByID(117))) {
+                    int count = cardScores.get(Card.getCardByID(117)).size();
+                    List<Integer> scores = cardScores.get(Card.getCardByID(117));
+                    cardScores.remove(Card.getCardByID(117));
+                    scores = new ArrayList<>(Collections.nCopies(count, 8));
+                    cardScores.put(Card.getCardByID(118), scores);
+                }
+
+                game.getGamePlayer1().setRangedCombat(list);
+                game.getGamePlayer1().setRangedCombatScores(cardScores);
+
                 break;
             case "secondPlayerCloseCombatBoost":
                 cardScores = game.getGamePlayer2().getCloseCombatScores();
                 list = game.getGamePlayer2().getCloseCombat();
-                for (Map.Entry<Card, List<Integer>> entry : cardScores.entrySet()) {
-                    Card currentCard = entry.getKey();
-                    if (currentCard.isHero() || currentCard.equals(card)) {
-                        continue;
-                    }
-                    if (currentCard.getAbility() == Ability.Berserker){
-                        list.remove(currentCard);
-                        cardScores.remove(currentCard);
-                        game.getGamePlayer2().setCloseCombatScores(cardScores);
-                        game.getGamePlayer2().setRangedCombat(list);
-                        run(gameMenuController, imageView, Card.getCardByName("YoungVildkaarl"));
+                copyList = FXCollections.observableArrayList(list);
+
+                for (Card card1 : copyList) {
+                    if (card1.equals(Card.getCardByID(102))) {
+                        list.remove(card1);
+                        list.add(Card.getCardByID(103));
                     }
                 }
+
+                if (copyList.contains(Card.getCardByID(102))) {
+                    int count = cardScores.get(Card.getCardByID(102)).size();
+                    List<Integer> scores = cardScores.get(Card.getCardByID(102));
+                    cardScores.remove(Card.getCardByID(102));
+                    scores = new ArrayList<>(Collections.nCopies(count, 8));
+                    cardScores.put(Card.getCardByID(103), scores);
+                }
+
+                game.getGamePlayer2().setCloseCombat(list);
+                game.getGamePlayer2().setCloseCombatScores(cardScores);
+
                 break;
             case "secondPlayerRangedBoost":
                 cardScores = game.getGamePlayer2().getRangedCombatScores();
                 list = game.getGamePlayer2().getRangedCombat();
-                for (Map.Entry<Card, List<Integer>> entry : cardScores.entrySet()) {
-                    Card currentCard = entry.getKey();
-                    if (currentCard.isHero() || currentCard.equals(card)) {
-                        continue;
-                    }
-                    if (currentCard.getAbility() == Ability.Berserker){
-                        list.remove(currentCard);
-                        cardScores.remove(currentCard);
-                        game.getGamePlayer2().setRangedCombatScores(cardScores);
-                        game.getGamePlayer2().setRangedCombat(list);
-                        run(gameMenuController, imageView, Card.getCardByName("YoungVildkaarl"));
+                copyList = FXCollections.observableArrayList(list);
+
+                for (Card card1 : copyList) {
+                    if (card1.equals(Card.getCardByID(117))) {
+                        list.remove(card1);
+                        list.add(Card.getCardByID(118));
                     }
                 }
+
+                if (copyList.contains(Card.getCardByID(117))) {
+                    int count = cardScores.get(Card.getCardByID(117)).size();
+                    List<Integer> scores = cardScores.get(Card.getCardByID(117));
+                    cardScores.remove(Card.getCardByID(117));
+                    scores = new ArrayList<>(Collections.nCopies(count, 8));
+                    cardScores.put(Card.getCardByID(118), scores);
+                }
+
+                game.getGamePlayer2().setRangedCombat(list);
+                game.getGamePlayer2().setRangedCombatScores(cardScores);
+
                 break;
         }
     }
+
 
     private void weather(Game game, ImageView imageView, Card card) {
         User user = game.getActivePlayer();
