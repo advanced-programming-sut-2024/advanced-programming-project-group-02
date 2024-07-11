@@ -13,7 +13,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.*;
 import view.CardListCellFactory;
@@ -145,7 +147,6 @@ public class GameMenuController {
 
     @FXML
     public void initialize() {
-
         Game game = User.getLoggedInUser().getCurrentGame();
         game.setGamePlayer2(new EachPlayerGame(game.getPlayer2()));
         Faction factionPlayer1 = game.getPlayer1().getFaction();
@@ -188,6 +189,7 @@ public class GameMenuController {
                 else game.setActivePlayer(game.getPlayer2());
             }
         }
+        vetoCardPlayer();
         updateGameState(game);
     }
 
@@ -1055,6 +1057,12 @@ public class GameMenuController {
 
     private void changeTurn() {
         Game game = User.getLoggedInUser().getCurrentGame();
+//        if (game.getTurnNo() == 2){
+//            vetoCardPlayer();
+//        }
+        if (game.getTurnNo() == 1){
+            vetoCardPlayer();
+        }
         game.setTurnNo(game.getTurnNo() + 1);
         if (game.getActivePlayer().equals(game.getPlayer1()) || game.getGamePlayer1().isPassedTheGame()) {
             game.setActivePlayer(game.getPlayer2());
@@ -1521,4 +1529,115 @@ public class GameMenuController {
         firstPlayerSiegeWeather.setVisible(false);
     }
 
+    private void vetoCardPlayer(){
+        User user = User.getLoggedInUser();
+        if (User.getLoggedInUser().getCurrentGame().getPlayer1().equals(user)){
+            ObservableList<Card> hand = User.getLoggedInUser().getCurrentGame().getGamePlayer1().getHand();
+            Stage window = new Stage();
+            window.initModality(Modality.APPLICATION_MODAL);
+            window.setTitle("Player1 Select Two Cards");
+
+            ListView<Card> listView = new ListView<>(hand);
+            listView.setCellFactory(new CardListCellFactory(100, 70)); // Set the size of card images
+            listView.getSelectionModel().setSelectionMode(javafx.scene.control.SelectionMode.MULTIPLE);
+
+            Button selectButton = new Button("Veto Card");
+            selectButton.setOnAction(e -> {
+                List<Card> selectedCards = listView.getSelectionModel().getSelectedItems();
+                if (selectedCards.size() == 2) {
+                    hand.removeAll(selectedCards);
+                    addRandomCardsToHand();
+                    window.close();
+                } else {
+                    // Show error message if the user has not selected exactly two cards
+                    // (can be a popup or any other UI feedback)
+                }
+            });
+
+            VBox layout = new VBox(10);
+            layout.getChildren().addAll(listView, selectButton);
+
+            Scene scene = new Scene(layout, 300, 400);
+            window.setScene(scene);
+            window.showAndWait();
+        }
+        if (User.getLoggedInUser().getCurrentGame().getPlayer2().equals(user)){
+            ObservableList<Card> hand = User.getLoggedInUser().getCurrentGame().getGamePlayer2().getHand();
+            Stage window = new Stage();
+            window.initModality(Modality.APPLICATION_MODAL);
+            window.setTitle("Player2 Select Two Cards");
+
+            ListView<Card> listView = new ListView<>(hand);
+            listView.setCellFactory(new CardListCellFactory(100, 70)); // Set the size of card images
+            listView.getSelectionModel().setSelectionMode(javafx.scene.control.SelectionMode.MULTIPLE);
+
+            Button selectButton = new Button("Veto Card");
+            selectButton.setOnAction(e -> {
+                List<Card> selectedCards = listView.getSelectionModel().getSelectedItems();
+                if (selectedCards.size() == 2) {
+                    hand.removeAll(selectedCards);
+                    addRandomCardsToHand();
+                    window.close();
+                }
+            });
+
+            VBox layout = new VBox(10);
+            layout.getChildren().addAll(listView, selectButton);
+
+            Scene scene = new Scene(layout, 300, 400);
+            window.setScene(scene);
+            window.showAndWait();
+        }
+
+    }
+
+    private void addRandomCardsToHand() {
+        User user = User.getLoggedInUser();
+        if (User.getLoggedInUser().getCurrentGame().getPlayer1().equals(user)){
+            ObservableList<Card> hand = User.getLoggedInUser().getCurrentGame().getGamePlayer1().getHand();
+            HashMap<Card, Integer> deck = User.getLoggedInUser().getCurrentGame().getGamePlayer1().getDeck();
+            Random random = new Random();
+            for (int i = 0; i < 2; i++) {
+                if (deck.isEmpty()) {
+                    break;
+                }
+                Card randomCard = deck.keySet().toArray(new Card[0])[random.nextInt(deck.size())];
+                hand.add(randomCard);
+                int cardCount = deck.get(randomCard);
+                if (cardCount > 1) {
+                    deck.put(randomCard, cardCount - 1);
+                } else {
+                    deck.remove(randomCard);
+                }
+            }
+            User.getLoggedInUser().getCurrentGame().getGamePlayer1().setHand(hand);
+            User.getLoggedInUser().getCurrentGame().getGamePlayer1().setDeck(deck);
+        }
+        if (User.getLoggedInUser().getCurrentGame().getPlayer2().equals(user)){
+            ObservableList<Card> hand = User.getLoggedInUser().getCurrentGame().getGamePlayer2().getHand();
+            HashMap<Card, Integer> deck = User.getLoggedInUser().getCurrentGame().getGamePlayer2().getDeck();
+            Random random = new Random();
+            for (int i = 0; i < 2; i++) {
+                if (deck.isEmpty()) {
+                    break;
+                }
+                Card randomCard = deck.keySet().toArray(new Card[0])[random.nextInt(deck.size())];
+                hand.add(randomCard);
+                int cardCount = deck.get(randomCard);
+                if (cardCount > 1) {
+                    deck.put(randomCard, cardCount - 1);
+                } else {
+                    deck.remove(randomCard);
+                }
+            }
+            User.getLoggedInUser().getCurrentGame().getGamePlayer2().setHand(hand);
+            User.getLoggedInUser().getCurrentGame().getGamePlayer2().setDeck(deck);
+        }
+
+
+    }
+
+
 }
+
+
