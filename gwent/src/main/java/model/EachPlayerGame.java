@@ -212,6 +212,23 @@ public class EachPlayerGame {
         return total;
     }
 
+    public int getCloseCombatScoreWithWeather() {
+        HashMap<Card , List<Integer>> list = closeCombatScores;
+        int total = 0;
+        for (Card card : list.keySet()) {
+            if (card.isHero()) {
+                for (Integer score : list.get(card)) {
+                    total += score;
+                }
+            } else {
+                for (int i = 0; i < list.get(card).size(); i++) {
+                    total += 1;
+                }
+            }
+        }
+        return total;
+    }
+
     public void setCloseCombatScore(int closeCombatScore) {
         this.closeCombatScore = closeCombatScore;
     }
@@ -227,6 +244,23 @@ public class EachPlayerGame {
         return total;
     }
 
+    public int getRangedCombatScoreWithWeather() {
+        HashMap<Card , List<Integer>> list = rangedCombatScores;
+        int total = 0;
+        for (Card card : list.keySet()) {
+            if (card.isHero()) {
+                for (Integer score : list.get(card)) {
+                    total += score;
+                }
+            } else {
+                for (int i = 0; i < list.get(card).size(); i++) {
+                    total += 1;
+                }
+            }
+        }
+        return total;
+    }
+
     public void setRangedCombatScore(int rangedCombatScore) {
         this.rangedCombatScore = rangedCombatScore;
     }
@@ -237,6 +271,23 @@ public class EachPlayerGame {
         for (Card card : list.keySet()) {
             for (Integer score : list.get(card)) {
                 total += score;
+            }
+        }
+        return total;
+    }
+
+    public int getSiegeScoreWithWeather() {
+        HashMap<Card , List<Integer>> list = siegeScores;
+        int total = 0;
+        for (Card card : list.keySet()) {
+            if (card.isHero()) {
+                for (Integer score : list.get(card)) {
+                    total += score;
+                }
+            } else {
+                for (int i = 0; i < list.get(card).size(); i++) {
+                    total += 1;
+                }
             }
         }
         return total;

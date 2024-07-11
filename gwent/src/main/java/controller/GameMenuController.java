@@ -9,8 +9,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
@@ -22,11 +20,7 @@ import view.CardListCellFactory;
 import view.EndOfTheGame;
 import view.GameMenu;
 
-import java.awt.*;
-import java.awt.image.ImageObserver;
-import java.awt.image.ImageProducer;
 import java.util.*;
-import java.util.List;
 import java.util.stream.Collectors;
 
 public class GameMenuController {
@@ -169,6 +163,14 @@ public class GameMenuController {
         secondPlayerCrystal1.setVisible(true);
         firstPlayerCrystal2.setVisible(true);
         secondPlayerCrystal2.setVisible(true);
+
+        secondPlayerSiegeWeather.setVisible(false);
+        secondPlayerRangedWeather.setVisible(false);
+        secondPlayerCloseCombatLWeather.setVisible(false);
+        firstPlayerSiegeWeather.setVisible(false);
+        firstPlayerRangedWeather.setVisible(false);
+        firstPlayerCloseCombatWeather.setVisible(false);
+
         if (factionPlayer1.equals(Faction.getFactionByName("Scoia'tael"))) {
             if (factionPlayer2.equals(Faction.getFactionByName("Scoia'tael"))) {
                 boolean random = this.random.nextBoolean();
@@ -232,14 +234,71 @@ public class GameMenuController {
         if (game.getGamePlayer2().getMarCoSiege() != null) {
             secondPlayerSiegeBoost.setImage(game.getGamePlayer2().getMarCoSiege().getImage());
         }
-        firstPlayerTotalBoardStrength.setText(String.valueOf(game.getGamePlayer1().getTotalBoardPower()));
-        secondPlayerTotalBoardStrength.setText(String.valueOf(game.getGamePlayer2().getTotalBoardPower()));
-        firstPlayerSiege.setText(String.valueOf(game.getGamePlayer1().getSiegeScore()));
-        firstPlayerRanged.setText(String.valueOf(game.getGamePlayer1().getRangedCombatScore()));
-        firstPlayerCloseCombat.setText(String.valueOf(game.getGamePlayer1().getCloseCombatScore()));
-        secondPlayerSiege.setText(String.valueOf(game.getGamePlayer2().getSiegeScore()));
-        secondPlayerRanged.setText(String.valueOf(game.getGamePlayer2().getRangedCombatScore()));
-        secondPlayerCloseCombat.setText(String.valueOf(game.getGamePlayer2().getCloseCombatScore()));
+        if (game.getWeatherCard() == null || game.getWeatherCard().equals(Card.getCardByName("Clear Weather"))) {
+            firstPlayerTotalBoardStrength.setText(String.valueOf(game.getGamePlayer1().getTotalBoardPower()));
+            secondPlayerTotalBoardStrength.setText(String.valueOf(game.getGamePlayer2().getTotalBoardPower()));
+            firstPlayerSiege.setText(String.valueOf(game.getGamePlayer1().getSiegeScore()));
+            firstPlayerRanged.setText(String.valueOf(game.getGamePlayer1().getRangedCombatScore()));
+            firstPlayerCloseCombat.setText(String.valueOf(game.getGamePlayer1().getCloseCombatScore()));
+            secondPlayerSiege.setText(String.valueOf(game.getGamePlayer2().getSiegeScore()));
+            secondPlayerRanged.setText(String.valueOf(game.getGamePlayer2().getRangedCombatScore()));
+            secondPlayerCloseCombat.setText(String.valueOf(game.getGamePlayer2().getCloseCombatScore()));
+        } else {
+            switch (game.getWeatherCard().getName()) {
+                case "Biting Frost" :
+                    firstPlayerTotalBoardStrength.setText(String.valueOf(game.getGamePlayer1().getSiegeScore() +
+                            game.getGamePlayer1().getRangedCombatScore() + game.getGamePlayer1().getCloseCombatScoreWithWeather()));
+                    secondPlayerTotalBoardStrength.setText(String.valueOf(game.getGamePlayer2().getSiegeScore() +
+                            game.getGamePlayer2().getRangedCombatScore() + game.getGamePlayer2().getCloseCombatScoreWithWeather()));
+                    firstPlayerSiege.setText(String.valueOf(game.getGamePlayer1().getSiegeScore()));
+                    firstPlayerRanged.setText(String.valueOf(game.getGamePlayer1().getRangedCombatScore()));
+                    firstPlayerCloseCombat.setText(String.valueOf(game.getGamePlayer1().getCloseCombatScoreWithWeather()));
+                    secondPlayerSiege.setText(String.valueOf(game.getGamePlayer2().getSiegeScore()));
+                    secondPlayerRanged.setText(String.valueOf(game.getGamePlayer2().getRangedCombatScore()));
+                    secondPlayerCloseCombat.setText(String.valueOf(game.getGamePlayer2().getCloseCombatScoreWithWeather()));
+
+                    break;
+                case "Impenetrable Fog" :
+                    firstPlayerTotalBoardStrength.setText(String.valueOf(game.getGamePlayer1().getSiegeScore() +
+                            game.getGamePlayer1().getRangedCombatScoreWithWeather() + game.getGamePlayer1().getCloseCombatScore()));
+                    secondPlayerTotalBoardStrength.setText(String.valueOf(game.getGamePlayer2().getSiegeScore() +
+                            game.getGamePlayer2().getRangedCombatScoreWithWeather() + game.getGamePlayer2().getCloseCombatScore()));
+                    firstPlayerSiege.setText(String.valueOf(game.getGamePlayer1().getSiegeScore()));
+                    firstPlayerRanged.setText(String.valueOf(game.getGamePlayer1().getRangedCombatScoreWithWeather()));
+                    firstPlayerCloseCombat.setText(String.valueOf(game.getGamePlayer1().getCloseCombatScore()));
+                    secondPlayerSiege.setText(String.valueOf(game.getGamePlayer2().getSiegeScore()));
+                    secondPlayerRanged.setText(String.valueOf(game.getGamePlayer2().getRangedCombatScoreWithWeather()));
+                    secondPlayerCloseCombat.setText(String.valueOf(game.getGamePlayer2().getCloseCombatScore()));
+
+                    break;
+                case "Torrential Rain" :
+                    firstPlayerTotalBoardStrength.setText(String.valueOf(game.getGamePlayer1().getSiegeScoreWithWeather() +
+                            game.getGamePlayer1().getRangedCombatScore() + game.getGamePlayer1().getCloseCombatScore()));
+                    secondPlayerTotalBoardStrength.setText(String.valueOf(game.getGamePlayer2().getSiegeScoreWithWeather() +
+                            game.getGamePlayer2().getRangedCombatScore() + game.getGamePlayer2().getCloseCombatScore()));
+                    firstPlayerSiege.setText(String.valueOf(game.getGamePlayer1().getSiegeScoreWithWeather()));
+                    firstPlayerRanged.setText(String.valueOf(game.getGamePlayer1().getRangedCombatScore()));
+                    firstPlayerCloseCombat.setText(String.valueOf(game.getGamePlayer1().getCloseCombatScore()));
+                    secondPlayerSiege.setText(String.valueOf(game.getGamePlayer2().getSiegeScoreWithWeather()));
+                    secondPlayerRanged.setText(String.valueOf(game.getGamePlayer2().getRangedCombatScore()));
+                    secondPlayerCloseCombat.setText(String.valueOf(game.getGamePlayer2().getCloseCombatScore()));
+
+                    break;
+                case "Skellige Storm" :
+                    firstPlayerTotalBoardStrength.setText(String.valueOf(game.getGamePlayer1().getSiegeScoreWithWeather() +
+                            game.getGamePlayer1().getRangedCombatScoreWithWeather() + game.getGamePlayer1().getCloseCombatScore()));
+                    secondPlayerTotalBoardStrength.setText(String.valueOf(game.getGamePlayer2().getSiegeScoreWithWeather() +
+                            game.getGamePlayer2().getRangedCombatScoreWithWeather() + game.getGamePlayer2().getCloseCombatScore()));
+                    firstPlayerSiege.setText(String.valueOf(game.getGamePlayer1().getSiegeScoreWithWeather()));
+                    firstPlayerRanged.setText(String.valueOf(game.getGamePlayer1().getRangedCombatScoreWithWeather()));
+                    firstPlayerCloseCombat.setText(String.valueOf(game.getGamePlayer1().getCloseCombatScore()));
+                    secondPlayerSiege.setText(String.valueOf(game.getGamePlayer2().getSiegeScoreWithWeather()));
+                    secondPlayerRanged.setText(String.valueOf(game.getGamePlayer2().getRangedCombatScoreWithWeather()));
+                    secondPlayerCloseCombat.setText(String.valueOf(game.getGamePlayer2().getCloseCombatScore()));
+
+                    break;
+            }
+        }
         setFirstPlayerBoard(game.getGamePlayer1());
         setSecondPlayerBoard(game.getGamePlayer2());
     }
@@ -995,7 +1054,10 @@ public class GameMenuController {
     }
 
     private void changeTurn() {
-        if (User.getLoggedInUser().getCurrentGame().getWeatherCard() != null) calculateScoresWeather();
+        if (User.getLoggedInUser().getCurrentGame().getWeatherCard() != null) {
+            System.out.println("calculate weather card");
+            calculateScoresWeather();
+        }
         Game game = User.getLoggedInUser().getCurrentGame();
         game.setTurnNo(game.getTurnNo() + 1);
         if (game.getActivePlayer().equals(game.getPlayer1()) || game.getGamePlayer1().isPassedTheGame()) {
@@ -1007,24 +1069,6 @@ public class GameMenuController {
         isRoundEnd();
     }
 
-    private void updateScoresByWeatherCard(ObservableList<Card> cards, HashMap<Card, List<Integer>> cardsScore) {
-        for (Card card : cards) {
-            if (!card.isHero() && card.getPower() != 0) {
-                List<Integer> scores = cardsScore.computeIfAbsent(card, k -> new ArrayList<>());
-                scores.clear();
-                for (int i = 0; i < cards.size(); i++) {
-                    scores.add(1);
-                }
-            } else {
-                List<Integer> scores = cardsScore.computeIfAbsent(card, k -> new ArrayList<>());
-                scores.clear();
-                for (int i = 0; i < cards.size(); i++) {
-                    scores.add(card.getPower());
-                }
-            }
-        }
-    }
-
 
     private void calculateScoresWeather() {
         Game game = User.getLoggedInUser().getCurrentGame();
@@ -1033,39 +1077,15 @@ public class GameMenuController {
         clearWeather();
         switch (game.getWeatherCard().getName()) {
             case "Biting Frost":
-                updateScoresByWeatherCard(firstPlayerGame.getCloseCombat(), firstPlayerGame.getCloseCombatScores());
-                updateScoresByWeatherCard(secondPlayerGame.getCloseCombat(), secondPlayerGame.getCloseCombatScores());
-                firstPlayerCloseCombatWeather.setVisible(true);
-                secondPlayerCloseCombatLWeather.setVisible(true);
-                System.out.println("show firstPlayerCloseCombatWeather");
                 break;
 
             case "Impenetrable Fog":
-                updateScoresByWeatherCard(firstPlayerGame.getRangedCombat(), firstPlayerGame.getRangedCombatScores());
-                updateScoresByWeatherCard(secondPlayerGame.getRangedCombat(), secondPlayerGame.getRangedCombatScores());
-                firstPlayerRangedWeather.setVisible(true);
-                secondPlayerRangedWeather.setVisible(true);
-                System.out.println("show firstPlayerRangedWeather");
                 break;
 
             case "Torrential Rain":
-                updateScoresByWeatherCard(firstPlayerGame.getSiege(), firstPlayerGame.getSiegeScores());
-                updateScoresByWeatherCard(secondPlayerGame.getSiege(), secondPlayerGame.getSiegeScores());
-                firstPlayerSiegeWeather.setVisible(true);
-                secondPlayerSiegeWeather.setVisible(true);
-                System.out.println("show firstPlayerSiegeWeather");
                 break;
 
             case "Skellige Storm":
-                updateScoresByWeatherCard(firstPlayerGame.getRangedCombat(), firstPlayerGame.getRangedCombatScores());
-                updateScoresByWeatherCard(secondPlayerGame.getRangedCombat(), secondPlayerGame.getRangedCombatScores());
-                updateScoresByWeatherCard(firstPlayerGame.getSiege(), firstPlayerGame.getSiegeScores());
-                updateScoresByWeatherCard(secondPlayerGame.getSiege(), secondPlayerGame.getSiegeScores());
-                firstPlayerCloseCombatWeather.setVisible(true);
-                secondPlayerCloseCombatLWeather.setVisible(true);
-                firstPlayerSiegeWeather.setVisible(true);
-                secondPlayerSiegeWeather.setVisible(true);
-                System.out.println("show 4 picture");
                 break;
             default:
                 break;

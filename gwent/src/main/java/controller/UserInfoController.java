@@ -19,7 +19,7 @@ public class UserInfoController {
     public Label won;
     public Label lost;
     public void initialize() {
-    editLables();
+    editLabels();
     }
     public void backFromGameHistory(MouseEvent mouseEvent) {
         try {
@@ -37,7 +37,7 @@ public class UserInfoController {
         }
     }
 
-    public void editLables() {
+    public void editLabels() {
         String u = User.getLoggedInUser().getUsername();
         username.setText(u);
         String n = User.getLoggedInUser().getNickname();
