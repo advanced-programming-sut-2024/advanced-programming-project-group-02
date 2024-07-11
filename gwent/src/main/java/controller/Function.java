@@ -681,6 +681,7 @@ public class Function {
 
         HashMap<Card, List<Integer>> cardScores = new HashMap<>();
         if (!card.isSpecial()) {
+            System.out.println("ke");
             switch (listView.getId()) {
                 case "firstPlayerSiegeList":
                     highestScore = findHighestScore(highestScore, firstPlayerSiege, firstPlayerSiegeScores);
@@ -716,6 +717,7 @@ public class Function {
             highestScore = findHighestScore(highestScore, secondPlayerCloseCombat, secondPlayerCloseCombatScores);
             highestScore = findHighestScore(highestScore, secondPlayerRangedCombat, secondPlayerRangedCombatScores);
             highestScore = findHighestScore(highestScore, secondPlayerSiege, secondPlayerSiegeScores);
+            System.out.println(highestScore);
 
             removeCardWithHighestScore(firstPlayerSiege, firstPlayerSiegeScores, highestScore);
             removeCardWithHighestScore(firstPlayerRangedCombat, firstPlayerRangedCombatScores, highestScore);
