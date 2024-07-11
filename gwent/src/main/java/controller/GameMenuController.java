@@ -986,24 +986,6 @@ public class GameMenuController {
         isRoundEnd();
     }
 
-    private void updateScoresByWeatherCard(ObservableList<Card> cards, HashMap<Card, List<Integer>> cardsScore) {
-        for (Card card : cards) {
-            if (!card.isHero() && card.getPower() != 0) {
-                List<Integer> scores = cardsScore.computeIfAbsent(card, k -> new ArrayList<>());
-                scores.clear();
-                for (int i = 0; i < cards.size(); i++) {
-                    scores.add(1);
-                }
-            } else {
-                List<Integer> scores = cardsScore.computeIfAbsent(card, k -> new ArrayList<>());
-                scores.clear();
-                for (int i = 0; i < cards.size(); i++) {
-                    scores.add(card.getPower());
-                }
-            }
-        }
-    }
-
 
     private void calculateScoresWeather() {
         Game game = User.getLoggedInUser().getCurrentGame();
@@ -1012,25 +994,16 @@ public class GameMenuController {
 
         switch (game.getWeatherCard().getName()) {
             case "Biting Frost":
-                updateScoresByWeatherCard(firstPlayerGame.getCloseCombat(), firstPlayerGame.getCloseCombatScores());
-                updateScoresByWeatherCard(secondPlayerGame.getCloseCombat(), secondPlayerGame.getCloseCombatScores());
+                
                 break;
 
             case "Impenetrable Fog":
-                updateScoresByWeatherCard(firstPlayerGame.getRangedCombat(), firstPlayerGame.getRangedCombatScores());
-                updateScoresByWeatherCard(secondPlayerGame.getRangedCombat(), secondPlayerGame.getRangedCombatScores());
                 break;
 
             case "Torrential Rain":
-                updateScoresByWeatherCard(firstPlayerGame.getSiege(), firstPlayerGame.getSiegeScores());
-                updateScoresByWeatherCard(secondPlayerGame.getSiege(), secondPlayerGame.getSiegeScores());
                 break;
 
             case "Skellige Storm":
-                updateScoresByWeatherCard(firstPlayerGame.getRangedCombat(), firstPlayerGame.getRangedCombatScores());
-                updateScoresByWeatherCard(secondPlayerGame.getRangedCombat(), secondPlayerGame.getRangedCombatScores());
-                updateScoresByWeatherCard(firstPlayerGame.getSiege(), firstPlayerGame.getSiegeScores());
-                updateScoresByWeatherCard(secondPlayerGame.getSiege(), secondPlayerGame.getSiegeScores());
                 break;
             default:
                 break;
