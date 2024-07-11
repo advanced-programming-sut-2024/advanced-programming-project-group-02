@@ -16,6 +16,13 @@ import java.security.SecureRandom;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
+
 
 
 public class LoginRegisterMenuController {
@@ -50,11 +57,13 @@ public class LoginRegisterMenuController {
     //Json files :
     private static final String USERS_FILE = "users.json";
     private static Gson gson;
+
     static {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(Image.class, new ImageSerializer());
         gson = gsonBuilder.create();
     }
+
     private static Map<String, User> usersMap = new HashMap<>();
 
     //in ha movaghate -> 6 line payyin
@@ -105,7 +114,7 @@ public class LoginRegisterMenuController {
                     " case letters, numbers and special characters.");
         } else if (!isValidEmailAddress(emailText)) {
             showAlert("Invalid email", "The email entered is invalid.");
-        } else if ((!passwordText.equals(this.passwordConfirm.getText())) && (generatedPassword.equals("#"))) {
+        } else if ((!passwordText.equals(passwordConfirmText)) && (generatedPassword.equals("#"))) {
             showAlert("Wrong password!", "Your password was not confirmed! Please enter your password correctly for confirm password.");
         } else {
             User user = new User(usernameText, passwordText, emailText, nicknameText);
@@ -117,7 +126,7 @@ public class LoginRegisterMenuController {
             }
             goToQuestionMenu();
         }
-}
+    }
 
 
     public void loginUser(MouseEvent mouseEvent) {
@@ -148,27 +157,25 @@ public class LoginRegisterMenuController {
     }
 
     public static void loadUsers() {
-//        List <User> users;
 //        if (checkFile()) {
-//            try (FileReader reader = new FileReader(USERS_FILE)) {
-//                Type userListType = new TypeToken<List<User>>() {
-//                }.getType();
-//                users = new Gson().fromJson(reader, userListType);
-//                if (users == null) {
-//                    users = new ArrayList<>();
-//                }
-//                User.setUsers((ArrayList<User>) users);
-//            } catch (IOException e) {
+//            try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("users.dat"))) {
+//                ArrayList<User> users = (ArrayList<User>) in.readObject();
+//                User.setUsers(users);
+//                System.out.println("i can load");
+//            } catch (IOException | ClassNotFoundException e) {
+//                System.out.println("i cant load");
 //                e.printStackTrace();
 //            }
 //        }
     }
 
     public static void saveUsers() {
-//        ArrayList <User> users = User.getUsers();
-//        try (FileWriter writer = new FileWriter(USERS_FILE)) {
-//            new Gson().toJson(users, writer);
+//        ArrayList<User> users = User.getUsers();
+//        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("users.dat"))) {
+//            out.writeObject(users);
+//            System.out.println("i can save");
 //        } catch (IOException e) {
+//            System.out.println("i cant save");
 //            e.printStackTrace();
 //        }
     }
@@ -178,8 +185,8 @@ public class LoginRegisterMenuController {
 //        return file.length() == 0;
 //    }
 
-    private static boolean checkFile() {
-        File file = new File(USERS_FILE);
+    public static boolean checkFile() {
+        File file = new File("users.dat");
         return file.exists();
     }
 
@@ -343,6 +350,7 @@ public class LoginRegisterMenuController {
         }
         return false;
     }
+
     public static void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle(title);

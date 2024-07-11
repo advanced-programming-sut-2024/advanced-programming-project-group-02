@@ -194,7 +194,7 @@ public class GameMenuController {
     public void updateGameState(Game game) {
         showTurnInfo(game);
         ObservableList<Card> burnedCards = game.getGamePlayer1().getBurnedCards();
-        if (!burnedCards.isEmpty()) {
+        if (burnedCards != null && !burnedCards.isEmpty()) {
             Card lastBurnedCard = burnedCards.get(burnedCards.size() - 1);
             firstPlayerBurnedCards.setImage(lastBurnedCard.getImage());
         } else {
@@ -245,7 +245,7 @@ public class GameMenuController {
             secondPlayerCloseCombat.setText(String.valueOf(game.getGamePlayer2().getCloseCombatScore()));
         } else {
             switch (game.getWeatherCard().getName()) {
-                case "Biting Frost" :
+                case "Biting Frost":
                     firstPlayerTotalBoardStrength.setText(String.valueOf(game.getGamePlayer1().getSiegeScore() +
                             game.getGamePlayer1().getRangedCombatScore() + game.getGamePlayer1().getCloseCombatScoreWithWeather()));
                     secondPlayerTotalBoardStrength.setText(String.valueOf(game.getGamePlayer2().getSiegeScore() +
@@ -258,7 +258,7 @@ public class GameMenuController {
                     secondPlayerCloseCombat.setText(String.valueOf(game.getGamePlayer2().getCloseCombatScoreWithWeather()));
 
                     break;
-                case "Impenetrable Fog" :
+                case "Impenetrable Fog":
                     firstPlayerTotalBoardStrength.setText(String.valueOf(game.getGamePlayer1().getSiegeScore() +
                             game.getGamePlayer1().getRangedCombatScoreWithWeather() + game.getGamePlayer1().getCloseCombatScore()));
                     secondPlayerTotalBoardStrength.setText(String.valueOf(game.getGamePlayer2().getSiegeScore() +
@@ -271,7 +271,7 @@ public class GameMenuController {
                     secondPlayerCloseCombat.setText(String.valueOf(game.getGamePlayer2().getCloseCombatScore()));
 
                     break;
-                case "Torrential Rain" :
+                case "Torrential Rain":
                     firstPlayerTotalBoardStrength.setText(String.valueOf(game.getGamePlayer1().getSiegeScoreWithWeather() +
                             game.getGamePlayer1().getRangedCombatScore() + game.getGamePlayer1().getCloseCombatScore()));
                     secondPlayerTotalBoardStrength.setText(String.valueOf(game.getGamePlayer2().getSiegeScoreWithWeather() +
@@ -284,7 +284,7 @@ public class GameMenuController {
                     secondPlayerCloseCombat.setText(String.valueOf(game.getGamePlayer2().getCloseCombatScore()));
 
                     break;
-                case "Skellige Storm" :
+                case "Skellige Storm":
                     firstPlayerTotalBoardStrength.setText(String.valueOf(game.getGamePlayer1().getSiegeScoreWithWeather() +
                             game.getGamePlayer1().getRangedCombatScoreWithWeather() + game.getGamePlayer1().getCloseCombatScore()));
                     secondPlayerTotalBoardStrength.setText(String.valueOf(game.getGamePlayer2().getSiegeScoreWithWeather() +
@@ -324,7 +324,6 @@ public class GameMenuController {
     public void showTurnInfo(Game game) {
         EachPlayerGame firstPlayerGame = game.getGamePlayer1();
         EachPlayerGame secondPlayerGame = game.getGamePlayer2();
-
         if (game.getPlayer1().equals(game.getActivePlayer())) {
             currentPlayerHand.setItems(firstPlayerGame.getSortedHand());
             if (firstPlayerGame.isLeaderCardUsed()) firstPlayerLeaderActive.setVisible(false);
@@ -687,19 +686,19 @@ public class GameMenuController {
 
     private boolean isHighlightedImageView(ImageView imageView) {
         switch (imageView.getId()) {
-            case "weatherCard" :
+            case "weatherCard":
                 return weatherCardPane.getStyleClass().contains("stack-highlight");
-            case "secondPlayerSiegeBoost" :
+            case "secondPlayerSiegeBoost":
                 return secondPlayerSiegeBoostPane.getStyleClass().contains("stack-highlight");
-            case "secondPlayerRangedBoost" :
+            case "secondPlayerRangedBoost":
                 return secondPlayerRangedBoostPane.getStyleClass().contains("stack-highlight");
-            case "secondPlayerCloseCombatBoost" :
+            case "secondPlayerCloseCombatBoost":
                 return secondPlayerCloseCombatBoostPane.getStyleClass().contains("stack-highlight");
-            case "firstPlayerCloseCombatBoost" :
+            case "firstPlayerCloseCombatBoost":
                 return firstPlayerCloseCombatBoostPane.getStyleClass().contains("stack-highlight");
-            case "firstPlayerRangedBoost" :
+            case "firstPlayerRangedBoost":
                 return firstPlayerRangedBoostPane.getStyleClass().contains("stack-highlight");
-            case "firstPlayerSiegeBoost" :
+            case "firstPlayerSiegeBoost":
                 return firstPlayerSiegeBoostPane.getStyleClass().contains("stack-highlight");
             default:
                 return false;
@@ -768,8 +767,7 @@ public class GameMenuController {
         System.out.println("weatherCardClicked: " + selectedCard.getName());
         if (isHighlightedImageView(imageView)) {
             handleImageViewClick(imageView, selectedCard);
-        }
-        else if (weatherCard != null) showWeatherCardInfo();
+        } else if (weatherCard != null) showWeatherCardInfo();
     }
 
     @FXML
@@ -849,7 +847,7 @@ public class GameMenuController {
         EachPlayerGame secondPlayerGame = game.getGamePlayer2();
         firstPlayerGame.setPassedTheGame(false);
         secondPlayerGame.setPassedTheGame(false);
-        clearWeather();
+//        clearWeather();
 
         switch (game.getRoundNo()) {
             case 1:
@@ -914,12 +912,12 @@ public class GameMenuController {
 
 
         switch (RoundNo) {
-            case 1 :
+            case 1:
                 northernRealms();
                 monsters();
                 clearBoard();
                 break;
-            case 2 :
+            case 2:
                 skellige();
                 northernRealms();
                 monsters();
@@ -1000,7 +998,7 @@ public class GameMenuController {
             System.out.println("draw");
             firstPlayerGame.setCrystals(firstPlayerGame.getCrystals() - 1);
             secondPlayerGame.setCrystals(secondPlayerGame.getCrystals() - 1);
-        }else if (winner.equals(game.getPlayer1())) {
+        } else if (winner.equals(game.getPlayer1())) {
             System.out.println("first player won the round");
             secondPlayerGame.setCrystals(secondPlayerGame.getCrystals() - 1);
         } else {
@@ -1140,16 +1138,18 @@ public class GameMenuController {
         if (user.equals(game.getPlayer1())) {
             hand = game.getGamePlayer1().getHand();
             burnedCards = game.getGamePlayer1().getBurnedCards();
-            hand.addAll(burnedCards);
-            game.getGamePlayer1().setHand(hand);
-            game.getGamePlayer1().setBurnedCards(null);
+                hand.addAll(burnedCards);
+                game.getGamePlayer1().setHand(hand);
+                burnedCards.removeAll();
+                game.getGamePlayer1().setBurnedCards(burnedCards);
         }
         if (user.equals(game.getPlayer2())) {
             hand = game.getGamePlayer2().getHand();
             burnedCards = game.getGamePlayer2().getBurnedCards();
-            hand.addAll(burnedCards);
-            game.getGamePlayer2().setHand(hand);
-            game.getGamePlayer2().setBurnedCards(null);
+                hand.addAll(burnedCards);
+                game.getGamePlayer2().setHand(hand);
+                burnedCards.removeAll();
+                game.getGamePlayer2().setBurnedCards(burnedCards);
         }
     }
 
@@ -1158,12 +1158,9 @@ public class GameMenuController {
         User user = game.getActivePlayer();
         if (user.equals(game.getPlayer1())) {
             game.getGamePlayer1().setLeaderCardUsed(false);
-            firstPlayerLeaderActive.setVisible(true);
         }
         if (user.equals(game.getPlayer2())) {
             game.getGamePlayer2().setLeaderCardUsed(false);
-            secondPlayerLeaderActive.setVisible(true);
-
         }
     }
 
@@ -1185,7 +1182,7 @@ public class GameMenuController {
         endOfRound();
         int crystal1 = game.getGamePlayer1().getCrystals();
         int crystal2 = game.getGamePlayer2().getCrystals();
-        if (crystal2 > crystal1)  game.getGamePlayer1().setCrystals(0);
+        if (crystal2 > crystal1) game.getGamePlayer1().setCrystals(0);
         if (crystal2 < crystal1) game.getGamePlayer2().setCrystals(0);
         endOfGame();
     }
@@ -1217,7 +1214,7 @@ public class GameMenuController {
                 !game.getPlayer1().getFaction().equals(Faction.getFactionByName("Northern Realms")) &&
                 !game.getPlayer1().getFaction().equals(Faction.getFactionByName("Monsters"))) ||
                 (game.getRoundNo() == 1 && !game.getPlayer1().getFaction().equals(Faction.getFactionByName("Northern Realms")) &&
-                !game.getPlayer1().getFaction().equals(Faction.getFactionByName("Monsters"))))  {
+                        !game.getPlayer1().getFaction().equals(Faction.getFactionByName("Monsters")))) {
             HashMap<Card, List<Integer>> list = game.getGamePlayer1().getCloseCombatScores();
             ObservableList<Card> discard = game.getGamePlayer1().getBurnedCards();
             for (Card card : list.keySet()) {
@@ -1263,7 +1260,7 @@ public class GameMenuController {
                 !game.getPlayer2().getFaction().equals(Faction.getFactionByName("Northern Realms")) &&
                 !game.getPlayer2().getFaction().equals(Faction.getFactionByName("Monsters"))) ||
                 (game.getRoundNo() == 1 && !game.getPlayer2().getFaction().equals(Faction.getFactionByName("Northern Realms")) &&
-                !game.getPlayer2().getFaction().equals(Faction.getFactionByName("Monsters"))))  {
+                        !game.getPlayer2().getFaction().equals(Faction.getFactionByName("Monsters")))) {
 
             HashMap<Card, List<Integer>> list = game.getGamePlayer2().getCloseCombatScores();
             ObservableList<Card> discard = game.getGamePlayer2().getBurnedCards();
@@ -1359,19 +1356,20 @@ public class GameMenuController {
 
         playerGame.setBurnedCards(discard);
     }
+
     private void northernRealms() {
         Game game = User.getLoggedInUser().getCurrentGame();
         EachPlayerGame firstPlayerGame = game.getGamePlayer1();
         EachPlayerGame secondPlayerGame = game.getGamePlayer2();
         if (game.getPlayer1().getFaction().equals(Faction.getFactionByName("Northern Realms"))) {
-            if (((game.getRoundNo() == 1) && (game.getFirstRoundWinner() != null) &&(game.getFirstRoundWinner().equals(game.getPlayer1()))) ||
-                    ((game.getRoundNo() == 2) && (game.getSecondRoundWinner() != null) &&(game.getSecondRoundWinner().equals(game.getPlayer1())))){
+            if (((game.getRoundNo() == 1) && (game.getFirstRoundWinner() != null) && (game.getFirstRoundWinner().equals(game.getPlayer1()))) ||
+                    ((game.getRoundNo() == 2) && (game.getSecondRoundWinner() != null) && (game.getSecondRoundWinner().equals(game.getPlayer1())))) {
                 NR(firstPlayerGame);
             }
         }
         if (game.getPlayer2().getFaction().equals(Faction.getFactionByName("Northern Realms"))) {
-            if (((game.getRoundNo() == 1) && (game.getFirstRoundWinner() != null) &&(game.getFirstRoundWinner().equals(game.getPlayer2()))) ||
-                    ((game.getRoundNo() == 2) && (game.getSecondRoundWinner() != null) &&(game.getSecondRoundWinner().equals(game.getPlayer2())))){
+            if (((game.getRoundNo() == 1) && (game.getFirstRoundWinner() != null) && (game.getFirstRoundWinner().equals(game.getPlayer2()))) ||
+                    ((game.getRoundNo() == 2) && (game.getSecondRoundWinner() != null) && (game.getSecondRoundWinner().equals(game.getPlayer2())))) {
                 NR(secondPlayerGame);
             }
         }
@@ -1421,6 +1419,7 @@ public class GameMenuController {
         playerGame.setHand(hand);
         playerGame.setDeck(deck);
     }
+
     private void monsters() {
         Game game = User.getLoggedInUser().getCurrentGame();
         EachPlayerGame firstPlayerGame = game.getGamePlayer1();
@@ -1454,7 +1453,7 @@ public class GameMenuController {
                 list.clear();
                 list.add(cardToKeep);
                 List<Integer> scores = new ArrayList<>();
-                scores.add(0,cardToKeep.getPower());
+                scores.add(0, cardToKeep.getPower());
                 listScores.put(cardToKeep, scores);
             }
             playerGame.setRangedCombatScores(listScores);
@@ -1470,7 +1469,7 @@ public class GameMenuController {
                 list.clear();
                 list.add(cardToKeep);
                 List<Integer> scores = new ArrayList<>();
-                scores.add(0,cardToKeep.getPower());
+                scores.add(0, cardToKeep.getPower());
                 listScores.put(cardToKeep, scores);
             }
             playerGame.setRangedCombatScores(listScores);
@@ -1486,7 +1485,7 @@ public class GameMenuController {
                 list.clear();
                 list.add(cardToKeep);
                 List<Integer> scores = new ArrayList<>();
-                scores.add(0,cardToKeep.getPower());
+                scores.add(0, cardToKeep.getPower());
                 listScores.put(cardToKeep, scores);
             }
             playerGame.setSiegeScores(listScores);
@@ -1512,7 +1511,7 @@ public class GameMenuController {
     private void showWeatherCardInfo() {
     }
 
-    private void clearWeather (){
+    private void clearWeather() {
         secondPlayerSiegeWeather.setVisible(false);
         secondPlayerRangedWeather.setVisible(false);
         secondPlayerCloseCombatLWeather.setVisible(false);

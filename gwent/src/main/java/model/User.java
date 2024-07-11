@@ -1,11 +1,14 @@
 package model;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 
-public class User {
+public class User implements Serializable {
+    //for save users
+    private static final long serialVersionUID = 1L;
 
     public static ArrayList<User> users = new ArrayList<>();
     private ArrayList<Game> games = new ArrayList<>();
