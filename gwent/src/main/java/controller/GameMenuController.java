@@ -192,6 +192,7 @@ public class GameMenuController {
     }
 
     public void updateGameState(Game game) {
+        resetRowAndPlaceHighlights();
         showTurnInfo(game);
         ObservableList<Card> burnedCards = game.getGamePlayer1().getBurnedCards();
         if (burnedCards != null && !burnedCards.isEmpty()) {
@@ -215,25 +216,48 @@ public class GameMenuController {
         if (game.getGamePlayer2().getCrystals() == 1) secondPlayerCrystal2.setVisible(false);
         firstPlayerRemainingCards.setText(String.valueOf(game.getGamePlayer1().getHand().size()));
         secondPlayerRemainingCards.setText(String.valueOf(game.getGamePlayer2().getHand().size()));
-        if (game.getWeatherCard() != null) weatherCard.setImage(game.getWeatherCard().getImage());
+        if (game.getWeatherCard() != null) {
+            weatherCard.setImage(game.getWeatherCard().getImage());
+        } else {
+            weatherCard.setImage(null);
+        }
+
         if (game.getGamePlayer1().getMarCoCloseCombat() != null) {
             firstPlayerCloseCombatBoost.setImage(game.getGamePlayer1().getMarCoCloseCombat().getImage());
+        } else {
+            firstPlayerCloseCombatBoost.setImage(null);
         }
+
         if (game.getGamePlayer1().getMarCoRangedCombat() != null) {
             firstPlayerRangedBoost.setImage(game.getGamePlayer1().getMarCoRangedCombat().getImage());
+        } else {
+            firstPlayerRangedBoost.setImage(null);
         }
+
         if (game.getGamePlayer1().getMarCoSiege() != null) {
             firstPlayerSiegeBoost.setImage(game.getGamePlayer1().getMarCoSiege().getImage());
+        } else {
+            firstPlayerSiegeBoost.setImage(null);
         }
+
         if (game.getGamePlayer2().getMarCoCloseCombat() != null) {
             secondPlayerCloseCombatBoost.setImage(game.getGamePlayer2().getMarCoCloseCombat().getImage());
+        } else {
+            secondPlayerCloseCombatBoost.setImage(null);
         }
+
         if (game.getGamePlayer2().getMarCoRangedCombat() != null) {
             secondPlayerRangedBoost.setImage(game.getGamePlayer2().getMarCoRangedCombat().getImage());
+        } else {
+            secondPlayerRangedBoost.setImage(null);
         }
+
         if (game.getGamePlayer2().getMarCoSiege() != null) {
             secondPlayerSiegeBoost.setImage(game.getGamePlayer2().getMarCoSiege().getImage());
+        } else {
+            secondPlayerSiegeBoost.setImage(null);
         }
+
         if (game.getWeatherCard() == null || game.getWeatherCard().equals(Card.getCardByName("Clear Weather"))) {
             firstPlayerTotalBoardStrength.setText(String.valueOf(game.getGamePlayer1().getTotalBoardPower()));
             secondPlayerTotalBoardStrength.setText(String.valueOf(game.getGamePlayer2().getTotalBoardPower()));
@@ -494,7 +518,7 @@ public class GameMenuController {
                 secondaryListView.getItems().addAll(selectableCards);
                 secondaryListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
-                secondaryListView.setCellFactory(new CardListCellFactory(100, 75)); // Adjust image dimensions as needed
+                secondaryListView.setCellFactory(new CardListCellFactory(100, 75));
 
                 Stage secondaryStage = new Stage();
                 secondaryStage.setTitle("Select a Card");
@@ -847,7 +871,6 @@ public class GameMenuController {
         EachPlayerGame secondPlayerGame = game.getGamePlayer2();
         firstPlayerGame.setPassedTheGame(false);
         secondPlayerGame.setPassedTheGame(false);
-//        clearWeather();
 
         switch (game.getRoundNo()) {
             case 1:
@@ -924,6 +947,7 @@ public class GameMenuController {
                 clearBoard();
         }
 
+
         isThereCow(firstPlayerGame, isThereCow1);
         isThereCow(secondPlayerGame, isThereCow2);
         isThereKambi(firstPlayerGame, isThereKambi1);
@@ -931,11 +955,33 @@ public class GameMenuController {
         ObservableList discard = firstPlayerGame.getBurnedCards();
         discard.remove(Card.getCardByID(110));
         discard.remove(Card.getCardByID(610));
+        discard = addCardIfNotNull(discard,firstPlayerGame.getMarCoSiege());
+        discard = addCardIfNotNull(discard,firstPlayerGame.getMarCoCloseCombat());
+        discard = addCardIfNotNull(discard,firstPlayerGame.getMarCoRangedCombat());
         firstPlayerGame.setBurnedCards(discard);
         discard = secondPlayerGame.getBurnedCards();
         discard.remove(Card.getCardByID(110));
         discard.remove(Card.getCardByID(610));
+        discard = addCardIfNotNull(discard,secondPlayerGame.getMarCoSiege());
+        discard = addCardIfNotNull(discard,secondPlayerGame.getMarCoCloseCombat());
+        discard = addCardIfNotNull(discard,secondPlayerGame.getMarCoRangedCombat());
         secondPlayerGame.setBurnedCards(discard);
+        game.setWeatherCard(null);
+        System.out.println(":kjdjshfjkasd");
+        firstPlayerGame.setMarCoSiege(null);
+        firstPlayerGame.setMarCoRangedCombat(null);
+        firstPlayerGame.setMarCoCloseCombat(null);
+        secondPlayerGame.setMarCoSiege(null);
+        secondPlayerGame.setMarCoRangedCombat(null);
+        secondPlayerGame.setMarCoCloseCombat(null);
+    }
+
+
+    private ObservableList<Card> addCardIfNotNull(ObservableList<Card> discard, Card card) {
+        if (card != null) {
+            discard.add(card);
+        }
+        return discard;
     }
 
     private void isThereKambi(EachPlayerGame playerGame, boolean isThereKambi) {
@@ -1327,11 +1373,13 @@ public class GameMenuController {
     private void moveTwoRandomCardsFromDiscardToHand(EachPlayerGame playerGame) {
         ObservableList<Card> discard = playerGame.getBurnedCards();
         ObservableList<Card> hand = playerGame.getHand();
+        Random random = new Random();
+
         if (discard.size() < 2) return;
 
-        Collections.shuffle(discard);
         for (int i = 0; i < 2; i++) {
-            Card card = discard.remove(0);
+            int index = random.nextInt(discard.size());
+            Card card = discard.remove(index);
             hand.add(card);
         }
 
@@ -1503,6 +1551,7 @@ public class GameMenuController {
     }
 
     public void secondPlayerLeaderCardClicked(MouseEvent mouseEvent) {
+
     }
 
     public void firstPlayerLeaderCardClicked(MouseEvent mouseEvent) {
