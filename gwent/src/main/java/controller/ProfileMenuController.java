@@ -3,8 +3,10 @@ package controller;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import model.User;
+import view.GameHistory;
 import view.MainMenu;
 import view.ProfileMenu;
+import view.UserInfo;
 
 import java.util.regex.Matcher;
 
@@ -44,9 +46,23 @@ public class ProfileMenuController {
         setUsernameLabel();
     }
 
-    public void centralmenu(MouseEvent mouseEvent) {
+    public void mainMenu(MouseEvent mouseEvent) {
         try {
             new MainMenu().start(ProfileMenu.stage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void GameHistory(MouseEvent mouseEvent) {
+        try {
+            new GameHistory().start(ProfileMenu.stage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void useInfo(MouseEvent mouseEvent) {
+        try {
+            new UserInfo().start(ProfileMenu.stage);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -108,7 +124,14 @@ public class ProfileMenuController {
             alert.show();
             return;
         }
+
+        if (username.equals(User.getLoggedInUser().getUsername())) {
+            LoginRegisterMenuController.showAlert("Invalid username", "This username is the same as the previous username");
+            return;
+        }
         User.getLoggedInUser().setUsername(username);
+        LoginRegisterMenuController.showAlert("done" , "username changed");
+
     }
 
     public static void editPassword(PasswordField passwordField, PasswordField oldPass) {
@@ -128,6 +151,11 @@ public class ProfileMenuController {
             alert.show();
             return;
         }
+
+        if (password.equals(User.getLoggedInUser().getPassword())) {
+            LoginRegisterMenuController.showAlert("Invalid password", "This password is the same as the previous password");
+            return;
+        }
         User.getLoggedInUser().setPassword(password);
         LoginRegisterMenuController.showAlert("done" , "password changed");
 
@@ -135,7 +163,14 @@ public class ProfileMenuController {
 
     public static void editNickname(TextField textField) {
         String nickname = textField.getText();
+
+        if (nickname.equals(User.getLoggedInUser().getNickname())) {
+            LoginRegisterMenuController.showAlert("Invalid Nickname", "This nickname is the same as the previous nickname");
+            return;
+        }
         User.getLoggedInUser().setNickname(nickname);
+        LoginRegisterMenuController.showAlert("done", "nickname changed");
+
     }
 
     public static void editEmail(TextField textField) {
@@ -144,7 +179,13 @@ public class ProfileMenuController {
             LoginRegisterMenuController.showAlert("Invalid email", "The email entered is invalid.");
             return;
         }
+        if (email.equals(User.getLoggedInUser().getEmail())) {
+            LoginRegisterMenuController.showAlert("Invalid email", "This email is the same as the previous email");
+            return;
+        }
         User.getLoggedInUser().setEmail(email);
+        LoginRegisterMenuController.showAlert("done", "email changed");
+
 
     }
 
