@@ -7,14 +7,19 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import model.*;
 import view.CardListCellFactory;
 import view.EndOfTheGame;
@@ -106,9 +111,9 @@ public class GameMenuController {
     @FXML
     public ImageView firstPlayerFactionImage;
     @FXML
-    public static ImageView secondPlayerLeaderActive;
+    public  ImageView secondPlayerLeaderActive;
     @FXML
-    public static ImageView firstPlayerLeaderActive;
+    public  ImageView firstPlayerLeaderActive;
     @FXML
     public Label firstPlayerCountOfCards;
     @FXML
@@ -138,6 +143,13 @@ public class GameMenuController {
     public Rectangle turnInfo2;
     public Rectangle turnInfo1;
 
+
+    private Popup leaderCard1Popup;
+    private boolean isPopupShowing1 = false;
+
+    private Popup leaderCard2Popup;
+    private boolean isPopupShowing2 = false;
+
     private Card selectedCard;
 
     private Random random = new Random();
@@ -159,6 +171,13 @@ public class GameMenuController {
         secondPlayerLeaderCard.setImage(game.getPlayer2().getLeaderCard().getImage());
         firstPlayerCards.setImage(factionPlayer1.getImage());
         secondPlayerCards.setImage(factionPlayer2.getImage());
+        if (game.getActivePlayer().equals(game.getPlayer1())) {
+            firstPlayerLeaderActive.setVisible(true);
+            secondPlayerLeaderActive.setVisible(false);
+        } else {
+            secondPlayerLeaderActive.setVisible(true);
+            firstPlayerLeaderActive.setVisible(false);
+        }
         firstPlayerCrystal1.setVisible(true);
         secondPlayerCrystal1.setVisible(true);
         firstPlayerCrystal2.setVisible(true);
@@ -351,6 +370,8 @@ public class GameMenuController {
         if (game.getPlayer1().equals(game.getActivePlayer())) {
             currentPlayerHand.setItems(firstPlayerGame.getSortedHand());
             if (firstPlayerGame.isLeaderCardUsed()) firstPlayerLeaderActive.setVisible(false);
+            else firstPlayerLeaderActive.setVisible(true);
+            secondPlayerLeaderActive.setVisible(false);
             secondPlayerPass.setVisible(false);
             firstPlayerPass.setVisible(!firstPlayerGame.isPassedTheGame());
             turnInfo1.setVisible(!firstPlayerGame.isPassedTheGame());
@@ -358,6 +379,8 @@ public class GameMenuController {
         } else {
             currentPlayerHand.setItems(secondPlayerGame.getSortedHand());
             if (secondPlayerGame.isLeaderCardUsed()) secondPlayerLeaderActive.setVisible(false);
+            else secondPlayerLeaderActive.setVisible(true);
+            firstPlayerLeaderActive.setVisible(false);
             firstPlayerPass.setVisible(false);
             secondPlayerPass.setVisible(!secondPlayerGame.isPassedTheGame());
             turnInfo1.setVisible(false);
@@ -733,7 +756,7 @@ public class GameMenuController {
     public void currentPlayerHandClicked(MouseEvent event) {
         ListView<?> listView = currentPlayerHand;
         Card selectedCard = this.selectedCard;
-        System.out.println("currentPlayerHandClicked: " + selectedCard.getName());
+        if (selectedCard != null) System.out.println("currentPlayerHandClicked: " + selectedCard.getName());
         if (selectedCard != null) handleListViewClick(listView, selectedCard);
     }
 
@@ -741,7 +764,7 @@ public class GameMenuController {
     public void firstPlayerCloseCombatListClicked(MouseEvent event) {
         ListView<?> listView = firstPlayerCloseCombatList;
         Card selectedCard = this.selectedCard;
-        System.out.println("firstPlayerCloseCombatListClicked: " + selectedCard.getName());
+        if (selectedCard != null) System.out.println("firstPlayerCloseCombatListClicked: " + selectedCard.getName());
         if (selectedCard != null) handleListViewClick(listView, selectedCard);
     }
 
@@ -749,7 +772,7 @@ public class GameMenuController {
     public void firstPlayerRangedListClicked(MouseEvent event) {
         ListView<?> listView = firstPlayerRangedList;
         Card selectedCard = this.selectedCard;
-        System.out.println("firstPlayerRangedListClicked: " + selectedCard.getName());
+        if (selectedCard != null) System.out.println("firstPlayerRangedListClicked: " + selectedCard.getName());
         if (selectedCard != null) handleListViewClick(listView, selectedCard);
     }
 
@@ -757,7 +780,7 @@ public class GameMenuController {
     public void firstPlayerSiegeListClicked(MouseEvent event) {
         ListView<?> listView = firstPlayerSiegeList;
         Card selectedCard = this.selectedCard;
-        System.out.println("firstPlayerSiegeListClicked: " + selectedCard.getName());
+        if (selectedCard != null) System.out.println("firstPlayerSiegeListClicked: " + selectedCard.getName());
         if (selectedCard != null) handleListViewClick(listView, selectedCard);
     }
 
@@ -765,7 +788,7 @@ public class GameMenuController {
     public void secondPlayerCloseCombatListClicked(MouseEvent event) {
         ListView<?> listView = secondPlayerCloseCombatList;
         Card selectedCard = this.selectedCard;
-        System.out.println("secondPlayerCloseCombatListClicked: " + selectedCard.getName());
+        if (selectedCard != null) System.out.println("secondPlayerCloseCombatListClicked: " + selectedCard.getName());
         if (selectedCard != null) handleListViewClick(listView, selectedCard);
     }
 
@@ -773,7 +796,7 @@ public class GameMenuController {
     public void secondPlayerRangedListClicked(MouseEvent event) {
         ListView<?> listView = secondPlayerRangedList;
         Card selectedCard = this.selectedCard;
-        System.out.println("secondPlayerRangedListClicked: " + selectedCard.getName());
+        if (selectedCard != null) System.out.println("secondPlayerRangedListClicked: " + selectedCard.getName());
         if (selectedCard != null) handleListViewClick(listView, selectedCard);
     }
 
@@ -781,7 +804,7 @@ public class GameMenuController {
     public void secondPlayerSiegeListClicked(MouseEvent event) {
         ListView<?> listView = secondPlayerSiegeList;
         Card selectedCard = this.selectedCard;
-        System.out.println("secondPlayerSiegeListClicked: " + selectedCard.getName());
+        if (selectedCard != null) System.out.println("secondPlayerSiegeListClicked: " + selectedCard.getName());
         if (selectedCard != null) handleListViewClick(listView, selectedCard);
     }
 
@@ -797,42 +820,42 @@ public class GameMenuController {
     @FXML
     public void firstPlayerSiegeBoostClicked(MouseEvent event) {
         ImageView imageView = firstPlayerSiegeBoost;
-        System.out.println("firstPlayerSiegeBoostClicked: " + selectedCard.getName());
+        if (selectedCard != null) System.out.println("firstPlayerSiegeBoostClicked: " + selectedCard.getName());
         if (selectedCard != null) handleImageViewClick(imageView, selectedCard);
     }
 
     @FXML
     public void firstPlayerRangedBoostClicked(MouseEvent event) {
         ImageView imageView = firstPlayerRangedBoost;
-        System.out.println("firstPlayerRangedBoostClicked: " + selectedCard.getName());
+        if (selectedCard != null) System.out.println("firstPlayerRangedBoostClicked: " + selectedCard.getName());
         if (selectedCard != null) handleImageViewClick(imageView, selectedCard);
     }
 
     @FXML
     public void firstPlayerCloseCombatBoostClicked(MouseEvent event) {
         ImageView imageView = firstPlayerCloseCombatBoost;
-        System.out.println("firstPlayerCloseCombatBoostClicked: " + selectedCard.getName());
+        if (selectedCard != null) System.out.println("firstPlayerCloseCombatBoostClicked: " + selectedCard.getName());
         if (selectedCard != null) handleImageViewClick(imageView, selectedCard);
     }
 
     @FXML
     public void secondPlayerCloseCombatBoostClicked(MouseEvent event) {
         ImageView imageView = secondPlayerCloseCombatBoost;
-        System.out.println("secondPlayerCloseCombatBoostClicked: " + selectedCard.getName());
+        if (selectedCard != null) System.out.println("secondPlayerCloseCombatBoostClicked: " + selectedCard.getName());
         if (selectedCard != null) handleImageViewClick(imageView, selectedCard);
     }
 
     @FXML
     public void secondPlayerRangedBoostClicked(MouseEvent event) {
         ImageView imageView = secondPlayerRangedBoost;
-        System.out.println("secondPlayerRangedBoostClicked: " + selectedCard.getName());
+        if (selectedCard != null) System.out.println("secondPlayerRangedBoostClicked: " + selectedCard.getName());
         if (selectedCard != null) handleImageViewClick(imageView, selectedCard);
     }
 
     @FXML
     public void secondPlayerSiegeBoostClicked(MouseEvent event) {
         ImageView imageView = secondPlayerSiegeBoost;
-        System.out.println("secondPlayerSiegeBoostClicked: " + selectedCard.getName());
+        if (selectedCard != null) System.out.println("secondPlayerSiegeBoostClicked: " + selectedCard.getName());
         if (selectedCard != null) handleImageViewClick(imageView, selectedCard);
     }
 
@@ -1550,16 +1573,6 @@ public class GameMenuController {
         }
     }
 
-    public void secondPlayerLeaderCardClicked(MouseEvent mouseEvent) {
-
-    }
-
-    public void firstPlayerLeaderCardClicked(MouseEvent mouseEvent) {
-    }
-
-    private void showWeatherCardInfo() {
-    }
-
     private void clearWeather() {
         secondPlayerSiegeWeather.setVisible(false);
         secondPlayerRangedWeather.setVisible(false);
@@ -1569,4 +1582,80 @@ public class GameMenuController {
         firstPlayerSiegeWeather.setVisible(false);
     }
 
+
+    public void secondPlayerLeaderCardClicked(MouseEvent mouseEvent) {
+        Game game = User.getLoggedInUser().getCurrentGame();
+        if (game.getGamePlayer2().equals(game.getActivePlayer()) && !game.getGamePlayer2().isLeaderCardUsed()){
+            System.out.println("hihihihi");
+            if (leaderCard1Popup == null) {
+                leaderCard1Popup = new Popup();
+                StackPane popupContent = new StackPane();
+                popupContent.setStyle("-fx-background-color: white; -fx-padding: 10px;");
+                ImageView leaderCardImageView = new ImageView();
+                Label leaderCardLabel = new Label("Leader Card Name");
+                leaderCardLabel.setStyle("-fx-font-weight: bold;");
+                VBox popupContentBox = new VBox(10);
+                popupContentBox.getChildren().addAll(leaderCardLabel, leaderCardImageView);
+                popupContent.getChildren().add(popupContentBox);
+                popupContent.setOnMouseClicked(event -> leaderCard1Popup.hide());
+                leaderCard1Popup.getContent().add(popupContent);
+            }
+            Image leaderCardImage = User.getLoggedInUser().getLeaderCard().getImage();
+            String leaderCardName = "Leader Card Name";
+
+            if (!isPopupShowing1) {
+                System.out.println("hoho");
+                ImageView leaderCardImageView = (ImageView) ((VBox) leaderCard1Popup.getContent().get(0)).getChildren().get(1);
+                leaderCardImageView.setImage(leaderCardImage);
+                Label leaderCardLabel = (Label) ((VBox) leaderCard1Popup.getContent().get(0)).getChildren().get(0);
+                leaderCardLabel.setText(leaderCardName);
+                Node source = (Node) mouseEvent.getSource();
+                Window ownerWindow = source.getScene().getWindow();
+                leaderCard1Popup.show(ownerWindow);
+                isPopupShowing1 = true;
+            } else {
+                leaderCard1Popup.hide();
+                isPopupShowing1 = false;
+            }
+        }
+    }
+
+    public void firstPlayerLeaderCardClicked(MouseEvent mouseEvent) {
+        System.out.println("jsdhfkja");
+        Game game = User.getLoggedInUser().getCurrentGame();
+        if (game.getGamePlayer1().equals(game.getActivePlayer()) && !game.getGamePlayer1().isLeaderCardUsed()){
+            if (leaderCard1Popup == null) {
+                leaderCard1Popup = new Popup();
+                StackPane popupContent = new StackPane();
+                popupContent.setStyle("-fx-background-color: white; -fx-padding: 10px;");
+                ImageView leaderCardImageView = new ImageView();
+                Label leaderCardLabel = new Label("Leader Card Name");
+                leaderCardLabel.setStyle("-fx-font-weight: bold;");
+                VBox popupContentBox = new VBox(10);
+                popupContentBox.getChildren().addAll(leaderCardLabel, leaderCardImageView);
+                popupContent.getChildren().add(popupContentBox);
+                popupContent.setOnMouseClicked(event -> leaderCard1Popup.hide());
+                leaderCard1Popup.getContent().add(popupContent);
+            }
+            Image leaderCardImage = User.getLoggedInUser().getLeaderCard().getImage();
+            String leaderCardName = "Leader Card Name";
+
+            if (!isPopupShowing1) {
+                ImageView leaderCardImageView = (ImageView) ((VBox) leaderCard1Popup.getContent().get(0)).getChildren().get(1);
+                leaderCardImageView.setImage(leaderCardImage);
+                Label leaderCardLabel = (Label) ((VBox) leaderCard1Popup.getContent().get(0)).getChildren().get(0);
+                leaderCardLabel.setText(leaderCardName);
+                Node source = (Node) mouseEvent.getSource();
+                Window ownerWindow = source.getScene().getWindow();
+                leaderCard1Popup.show(ownerWindow);
+                isPopupShowing1 = true;
+            } else {
+                leaderCard1Popup.hide();
+                isPopupShowing1 = false;
+            }
+        }
+    }
+
+    private void showWeatherCardInfo() {
+    }
 }
