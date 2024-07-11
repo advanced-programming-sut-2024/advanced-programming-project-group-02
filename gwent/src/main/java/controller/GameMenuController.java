@@ -13,6 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import model.*;
 import view.CardListCellFactory;
@@ -134,6 +135,8 @@ public class GameMenuController {
     public ImageView firstPlayerCloseCombatWeather;
     public ImageView firstPlayerRangedWeather;
     public ImageView firstPlayerSiegeWeather;
+    public Rectangle turnInfo2;
+    public Rectangle turnInfo1;
 
     private Card selectedCard;
 
@@ -327,11 +330,15 @@ public class GameMenuController {
             if (firstPlayerGame.isLeaderCardUsed()) firstPlayerLeaderActive.setVisible(false);
             secondPlayerPass.setVisible(false);
             firstPlayerPass.setVisible(!firstPlayerGame.isPassedTheGame());
+            turnInfo1.setVisible(!firstPlayerGame.isPassedTheGame());
+            turnInfo2.setVisible(false);
         } else {
             currentPlayerHand.setItems(secondPlayerGame.getSortedHand());
             if (secondPlayerGame.isLeaderCardUsed()) secondPlayerLeaderActive.setVisible(false);
             firstPlayerPass.setVisible(false);
             secondPlayerPass.setVisible(!secondPlayerGame.isPassedTheGame());
+            turnInfo1.setVisible(false);
+            turnInfo2.setVisible(!secondPlayerGame.isPassedTheGame());
         }
 
         currentPlayerHand.setCellFactory(new CardListCellFactory(74, 39));

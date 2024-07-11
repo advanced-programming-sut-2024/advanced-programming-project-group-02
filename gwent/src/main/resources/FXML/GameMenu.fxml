@@ -8,6 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.TextFlow?>
 
@@ -217,6 +218,8 @@
                <image>
                   <Image url="@../images/GameBoard/overlay_rain.png" />
                </image></ImageView>
+            <Rectangle fx:id="turnInfo2" arcHeight="5.0" arcWidth="5.0" fill="#ffdd0000" height="97.0" layoutX="-6.0" layoutY="187.0" stroke="#fdff00e5" strokeType="INSIDE" strokeWidth="6.0" width="240.0" />
+            <Rectangle fx:id="turnInfo1" arcHeight="5.0" arcWidth="5.0" fill="#ffdd0000" height="97.0" layoutX="-6.0" layoutY="463.0" stroke="#fdff00e5" strokeType="INSIDE" strokeWidth="6.0" width="240.0" />
          </children>
       </AnchorPane>
    </children>
