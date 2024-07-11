@@ -1530,6 +1530,7 @@ public class GameMenuController {
     }
 
     public void firstPlayerLeaderCardClicked(MouseEvent mouseEvent) {
+
     }
 
     private void showWeatherCardInfo() {
