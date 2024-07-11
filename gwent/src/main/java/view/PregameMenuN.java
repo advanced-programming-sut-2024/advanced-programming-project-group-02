@@ -20,7 +20,6 @@ public class PregameMenuN extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        SetDefaults.run();
 
         Button closeButton = new Button("Close Application");
         closeButton.setOnAction(e -> closeApplication(stage));

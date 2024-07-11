@@ -12,6 +12,7 @@ import model.Faction;
 import model.User;
 import view.CardListCellFactory;
 import java.util.Comparator;
+import java.util.Map;
 
 public class PregameMenuSController extends BasePregameController {
 
@@ -28,57 +29,57 @@ public class PregameMenuSController extends BasePregameController {
 
     @Override
     protected void initializeController() {
-//        User user = User.getLoggedInUser();
-//
-//        ObservableList<String> leaderNames = FXCollections.observableArrayList();
-//        for (Card leader : Faction.getFactionByName("Skellige").getLeaderCards()) {
-//            leaderNames.add(leader.getName());
-//        }
-//        leaderChoiceBox.setItems(leaderNames);
-//        leaderChoiceBox.setValue(user.getLeaderCard().getName());
-//        leaderChoiceBox.setOnAction(event -> handleLeaderChange());
-//
-//        leaderImage.setImage(user.getLeaderCard().getImage());
-//
-//        skelligeCards = FXCollections.observableArrayList();
-//        userDeck = FXCollections.observableArrayList();
-//
-//        for (Map.Entry<Card, Integer> entry : user.getDeck().entrySet()) {
-//            Card card = entry.getKey();
-//            int count = entry.getValue();
-//            for (int i = 0; i < count; i++) {
-//                userDeck.add(card);
-//            }
-//        }
-//
-//        for (Card card : Faction.getFactionByName("Skellige").getCards()) {
-//            int cardInDeck = 0;
-//            if (userDeck.contains(card)) cardInDeck = user.getDeck().get(card);
-//            for (int i = 0; i < card.getCountOfCard()-cardInDeck ; i++) {
-//                skelligeCards.add(card);
-//            }
-//        }
-                                User user = User.getLoggedInUser();
-                                ObservableList<String> leaderNames = FXCollections.observableArrayList();
-                                for (Card leader : Faction.getFactionByName("Skellige").getLeaderCards()) {
-                                    leaderNames.add(leader.getName());
-                                }
-                                leaderChoiceBox.setItems(leaderNames);
-                                leaderChoiceBox.setValue(user.getLeaderCard().getName());
-                                leaderChoiceBox.setOnAction(event -> handleLeaderChange());
+        User user = User.getLoggedInUser();
 
-                                leaderImage.setImage(user.getLeaderCard().getImage());
+        ObservableList<String> leaderNames = FXCollections.observableArrayList();
+        for (Card leader : Faction.getFactionByName("Skellige").getLeaderCards()) {
+            leaderNames.add(leader.getName());
+        }
+        leaderChoiceBox.setItems(leaderNames);
+        leaderChoiceBox.setValue(user.getLeaderCard().getName());
+        leaderChoiceBox.setOnAction(event -> handleLeaderChange());
 
-                                skelligeCards = FXCollections.observableArrayList();
-                                userDeck = FXCollections.observableArrayList();
+        leaderImage.setImage(user.getLeaderCard().getImage());
 
-                                for (Card card : Faction.getFactionByName("Skellige").getCards()) {
-                                    for (int i = 0; i < card.getCountOfCard() ; i++) {
-                                        userDeck.add(card);
-                                        User.getLoggedInUser().addToDeck(card);
-                                    }
-                                }
-                                updateLabels();
+        skelligeCards = FXCollections.observableArrayList();
+        userDeck = FXCollections.observableArrayList();
+
+        for (Map.Entry<Card, Integer> entry : user.getDeck().entrySet()) {
+            Card card = entry.getKey();
+            int count = entry.getValue();
+            for (int i = 0; i < count; i++) {
+                userDeck.add(card);
+            }
+        }
+
+        for (Card card : Faction.getFactionByName("Skellige").getCards()) {
+            int cardInDeck = 0;
+            if (userDeck.contains(card)) cardInDeck = user.getDeck().get(card);
+            for (int i = 0; i < card.getCountOfCard()-cardInDeck ; i++) {
+                skelligeCards.add(card);
+            }
+        }
+//                                User user = User.getLoggedInUser();
+//                                ObservableList<String> leaderNames = FXCollections.observableArrayList();
+//                                for (Card leader : Faction.getFactionByName("Skellige").getLeaderCards()) {
+//                                    leaderNames.add(leader.getName());
+//                                }
+//                                leaderChoiceBox.setItems(leaderNames);
+//                                leaderChoiceBox.setValue(user.getLeaderCard().getName());
+//                                leaderChoiceBox.setOnAction(event -> handleLeaderChange());
+//
+//                                leaderImage.setImage(user.getLeaderCard().getImage());
+//
+//                                skelligeCards = FXCollections.observableArrayList();
+//                                userDeck = FXCollections.observableArrayList();
+//
+//                                for (Card card : Faction.getFactionByName("Skellige").getCards()) {
+//                                    for (int i = 0; i < card.getCountOfCard() ; i++) {
+//                                        userDeck.add(card);
+//                                        User.getLoggedInUser().addToDeck(card);
+//                                    }
+//                                }
+//                                updateLabels();
         SortedList<Card> sortedSkelligeCards = new SortedList<>(skelligeCards, Comparator.comparingInt(Card::getID));
         SortedList<Card> sortedUserDeck = new SortedList<>(userDeck, Comparator.comparingInt(Card::getID));
 
