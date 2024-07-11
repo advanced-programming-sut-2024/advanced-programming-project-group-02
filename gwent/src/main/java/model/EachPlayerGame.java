@@ -68,6 +68,12 @@ public class EachPlayerGame {
 
             handSize--;
         }
+//                        for (Card card : deck.keySet()) {
+//                            for (int i = 0; i < deck.get(card); i++) {
+//                                hand.add(card);
+//                            }
+//                        }
+//                        deck.clear();
     }
 
     private Card getRandomCardFromDeck() {
